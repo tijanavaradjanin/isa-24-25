@@ -1,8 +1,6 @@
 package com.developer.onlybuns.entity;
 
 
-import com.developer.onlybuns.enums.KategorijaKorisnika;
-
 import javax.persistence.*;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
@@ -10,19 +8,8 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 @Entity
 @Table(name = "korisnik")
 @Inheritance(strategy=TABLE_PER_CLASS)
-public abstract class Korisnik {
+public class Korisnik {
 
-    public Korisnik(String email, String password, String ime, String prezime, String grad, String drzava, String broj, String info) {
-        this.email = email;
-        this.password = password;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.grad = grad;
-        this.drzava = drzava;
-        this.broj = broj;
-        this.info = info;
-        this.kategorijaKorisnika = KategorijaKorisnika.REGULAR;
-    }
     @Id
     @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
@@ -44,11 +31,25 @@ public abstract class Korisnik {
     private String  broj;
     @Column(name="info", unique=false, nullable=false)
     private String  info;
+    @Enumerated(EnumType.STRING)
+    @Column(name="uloga", nullable = false)
+    private Uloga uloga;
 
-    @Column(name="kategorijaKorisnika", unique=false, nullable=false)
-    private KategorijaKorisnika kategorijaKorisnika;
     public Korisnik() {
-        this.kategorijaKorisnika = KategorijaKorisnika.REGULAR;
+
+    }
+
+    public Korisnik(Integer id, String email, String password, String ime, String prezime, String grad, String drzava, String broj, String info, Uloga uloga) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.grad = grad;
+        this.drzava = drzava;
+        this.broj = broj;
+        this.info = info;
+        this.uloga=uloga;
     }
 
     public Integer getId() {
@@ -122,4 +123,8 @@ public abstract class Korisnik {
     public void setInfo(String info) {
         this.info = info;
     }
+
+    public Uloga getUloga() { return uloga; }
+
+    public void setUloga(Uloga uloga) { this.uloga = uloga; }
 }

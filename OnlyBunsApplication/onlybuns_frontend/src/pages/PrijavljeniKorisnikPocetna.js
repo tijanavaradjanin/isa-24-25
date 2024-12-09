@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; // Importujemo useNavigate za navigaciju
 import { Button, Box, Typography } from '@mui/material';
 
-const AdminSistemPocetna = () => {
+const PrijavljeniKorisnikPocetna = () => {
   const location = useLocation();
   const navigate = useNavigate(); // Koristimo useNavigate za navigaciju
   const [korisnik, setKorisnik] = useState(null);
@@ -28,14 +28,6 @@ const AdminSistemPocetna = () => {
     }
   }, [location.state, navigate]);
 
-  const adminRegister = () => {
-    navigate('/'); // Preusmeravanje na početnu stranicu
-  };
-
-  const changePassword = () => {
-    navigate('/'); // Preusmeravanje na početnu stranicu
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('token'); // Brisanje tokena iz localStorage
     setKorisnik(null); // Očisti korisničke podatke iz stanja
@@ -46,27 +38,11 @@ const AdminSistemPocetna = () => {
     <div>
       {korisnik ? (
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4">Dobrodošli admine, {korisnik.ime}!</Typography>
+          <Typography variant="h4">Dobrodošli, {korisnik.ime}!</Typography>
           <Button
             variant="contained"
             color="secondary"
-            onClick={adminRegister} 
-            sx={{ height: '40px', marginLeft: 'auto' }}
-          >
-            Registruj admina
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={changePassword} 
-            sx={{ height: '40px', marginLeft: 'auto' }}
-          >
-            Promena lozinke
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleLogout} 
+            onClick={handleLogout} // Kada se klikne dugme, poziva se handleLogout
             sx={{ height: '40px', marginLeft: 'auto' }}
           >
             Odjavi se
@@ -79,4 +55,4 @@ const AdminSistemPocetna = () => {
   );
 };
 
-export default AdminSistemPocetna;
+export default PrijavljeniKorisnikPocetna;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegistrovaniKorisnikRepository extends JpaRepository<RegistrovaniKorisnik, Integer> {
+    RegistrovaniKorisnik findByEmailAndPassword(String email, String password);
     @Query("SELECT email FROM RegistrovaniKorisnik")
     List<String> findAllEmails();
-    RegistrovaniKorisnik findByEmailAndPassword(String email, String password);
 }

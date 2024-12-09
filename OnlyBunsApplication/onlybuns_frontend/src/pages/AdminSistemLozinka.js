@@ -1,22 +1,27 @@
-// Importuj potrebne biblioteke
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import {
+  MDBContainer
+} from 'mdb-react-ui-kit';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import { Link, useNavigate } from 'react-router-dom'; // Dodaj useNavigate
+import { useNavigate } from 'react-router-dom'; // Dodaj useNavigate
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
-export default function AdminSistemLogin() {
-  const [email, setEmail] = useState('');
+const AdminSistemLozinka = () => {
+  const location = useLocation();
+  const { korisnik } = location.state || {};
+  const [email] = useState(korisnik?.email || ''); // Set the initial value of email
   const [password, setPassword] = useState('');
-
+  const [password2, setPassword2] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -24,7 +29,7 @@ export default function AdminSistemLogin() {
     const korisnik = { email, password };
     console.log(korisnik);
 
-    fetch("http://localhost:8080/adminsistem/login", {
+    fetch("http://localhost:8080/adminsistem/updatepassword", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(korisnik),
@@ -37,14 +42,26 @@ export default function AdminSistemLogin() {
       })
       .then((data) => {
         console.log(data.message);
-        navigate('/adminSistemPocetna', { state: { korisnik: data } }); // Prosledi podatke kroz rutiranje
+        navigate('/adminSistemLozinka', { state: { korisnik: data } }); // Prosledi podatke kroz rutiranje
       })
       .catch((error) => {
         console.error("Error logging in:", error);
       });
   };
-
   return (
+    <MDBContainer fluid>
+      <div>
+        {korisnik ? (
+          <>
+            <h1>
+              Dobrodošli, AdminSistem {korisnik.ime} {korisnik.prezime}!
+            </h1>
+          </>
+        ) : (
+          <p>Nije pronađen prijavljeni korisnik.</p>
+        )}
+      </div>
+
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -60,45 +77,54 @@ export default function AdminSistemLogin() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            AdminSistemLogin
+            Promena lozinke
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
               name="password"
-              label="password"
+              label="Nova lozinka"
               type="password"
               id="password"
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Nova lozinka"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
+            />
+            {password !== password2 && (
+            <Typography variant="body2" color="error">
+              Passwords do not match
+            </Typography>
+          )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={password !== password2}
             >
-              Prijavi se
+              Sacuvaj
             </Button>
-            <Link to="/registracijaAdminSistem"> Registruj se </Link>
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
+    </MDBContainer>
+    
   );
-}
+};
+
+export default AdminSistemLozinka;

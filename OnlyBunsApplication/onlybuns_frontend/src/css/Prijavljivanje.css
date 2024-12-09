@@ -1,0 +1,67 @@
+.prijavljivanje-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Forma će biti centrirana vertikalno */
+    height: 100vh; /* Zauzima celu visinu ekrana */
+    background-color: #f0f8ff; /* Svetloplava pozadina */
+    padding-top: 100px; /* Dodaje razmak od vrha */
+  }
+  
+  .prijavljivanje-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; /* Maksimalna širina forme */
+    padding: 30px;
+    background-color: #ffffff; /* Bela pozadina forme */
+    border-radius: 10px; /* Zaobljeni uglovi */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Senka za izgled kartice */
+  }
+  
+  .prijavljivanje-title {
+    font-size: 24px;
+    color: #0056b3; /* Tamnoplava boja naslova */
+    margin-bottom: 20px;
+  }
+  
+  .prijavljivanje-input {
+    width: 90%;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #0056b3; /* Tamnoplavi okvir */
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .prijavljivanje-input:focus {
+    outline: none;
+    border-color: #007bff; /* Svetlije plava na fokus */
+  }
+  
+  .prijavljivanje-button {
+    width: 90%;
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #0056b3; /* Tamnoplavo dugme */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .prijavljivanje-button:hover {
+    background-color: #003f7f; /* Još tamnija plava na hover */
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  

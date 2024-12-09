@@ -1,30 +1,32 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Pocetna from "./pages/Pocetna";
-import Prijava from "./pages/Prijava";
-import Registracija from "./pages/Registracija";
-import RegistracijaAdmin from "./pages/RegistracijaAdmin";
-import PrijavljeniKorisnikPregled from "./pages/PrijavljeniKorisnikPregled";
-import AdminSistemLogin from "./pages/AdminSistemLogin";
+import Prijava from "./nav/Prijava";
+import Navigacija from "./pages/Navigacija";
+import Registracija from "./nav/Registracija";
+import RegistracijaAdmin from "./nav/RegistracijaAdmin";
+import PrijavljeniKorisnikPregled from "./pages/PrijavljeniKorisnikPocetna";
+import AdminSistemLozinka from "./pages/AdminSistemLozinka";
 import AdminSistemPocetna from "./pages/AdminSistemPocetna";
-import AdminSistemView from "./pages/AdminSistemView";
-import RegistracijaAdminSistem from "./pages/RegistracijaAdminSistem";
+import RegistracijaAdminSistem from "./nav/RegistracijaAdminSistem";
+import logo from './pics/bunnycircle.webp'
+import Header from './Header'; 
 
 
 function App() {
   return (
     <div className="App">
+      <Header logoSrc={logo} pageTitle="OnlyBuns" /> {/* Header uvek prisutan */}
       <Router>
         <Routes>
-          <Route path="/" element={<Pocetna />} />
+          <Route path="/" element={<Navigacija />} />
           <Route path="/prijava" element={<Prijava />} />
           <Route path="/registracija" element={<Registracija />} />
           <Route path="/registrovanjeAdmina" element={<RegistracijaAdmin />} />
-          <Route path="/prijavljeniKorisnikPregled" element={<PrijavljeniKorisnikPregled/>} />
-          <Route path="/adminSistemLogin" element={<AdminSistemLogin/>} />
+          <Route path="/prijavljeniKorisnikPocetna" element={<PrijavljeniKorisnikPregled/>} />
+          <Route path="/adminSistemLozinka" element={<AdminSistemLozinka/>} />
           <Route path="/adminSistemPocetna" element={<AdminSistemPocetna/>} />
-          <Route path="/adminSistemView" element={<AdminSistemView/>} />
           <Route path="/registracijaAdminSistem" element={<RegistracijaAdminSistem/>} />
+          
 
         </Routes>
       </Router>

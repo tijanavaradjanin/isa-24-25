@@ -2,23 +2,15 @@ package com.developer.onlybuns.entity;
 
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Entity
 @Table(name="adminSistema")
-public class AdminSistem extends Korisnik {
+public class AdminSistem extends Korisnik implements UserDetails {
 
-    public AdminSistem() {
-        this.glavni = false;
-    }
 
-    @Column(name = "glavni")
-    private Boolean glavni;
 
-    public Boolean getGlavni() {
-        return glavni;
-    }
 
-    public void setGlavni(Boolean glavni) {
-        this.glavni = glavni;
-    }
 }

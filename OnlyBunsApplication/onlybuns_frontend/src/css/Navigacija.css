@@ -1,0 +1,30 @@
+/* Centriranje sadržaja na ekranu */
+.navigacija-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh; /* Visina zauzima ceo ekran */
+    background-color: #f0f0f0; /* Blaga pozadina */
+    padding-top: 50px; /* Dodajte razmak od vrha */
+  }
+  
+  /* Stil za linkove */
+  .navigacija-link {
+    display: inline-block;
+    margin: 10px 0; /* Razmak između linkova */
+    padding: 15px 30px; /* Dodavanje prostora unutar linkova */
+    font-size: 18px;
+    color: #fff;
+    background-color: #007BFF; /* Plava boja */
+    text-decoration: none; /* Uklanja podvlačenje */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    text-align: center; /* Tekst centriran unutar linka */
+    transition: background-color 0.3s ease; /* Animacija za hover */
+  }
+  
+  /* Hover efekat za linkove */
+  .navigacija-link:hover {
+    background-color: #0056b3; /* Tamnija plava pri prelasku miša */
+  }
+  

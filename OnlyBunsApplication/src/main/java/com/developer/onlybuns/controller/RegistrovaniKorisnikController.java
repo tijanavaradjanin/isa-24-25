@@ -34,11 +34,11 @@ public class RegistrovaniKorisnikController {
 
     @PostMapping("/login")
     public ResponseEntity<String> prijaviKorisnika(@RequestBody RegistrovaniKorisnik korisnik) {
-        RegistrovaniKorisnik validCredentials = registrovaniKorisnikService.proveriKorisnika(korisnik.getEmail(), korisnik.getPassword());
-        if (validCredentials != null) {
-            return ResponseEntity.ok("{\"message\": \"Uspesna prijava.\"}");
+        RegistrovaniKorisnik userCredentials = registrovaniKorisnikService.proveriKredencijale(korisnik.getEmail(), korisnik.getPassword());
+        if (userCredentials != null) {
+            return ResponseEntity.ok("{\"message\": \"Prijava uspesna!\"}");
         } else {
-            return ResponseEntity.status(401).body("Neuspešna prijava. Proverite email i lozinku.");
+            return ResponseEntity.status(401).body("Neispravan mejl ili lozinka.");
         }
     }
 
@@ -58,16 +58,4 @@ public class RegistrovaniKorisnikController {
         return ResponseEntity.ok(emails);
     }
 
-/*    Using Request and Response with save and update employee
-
-    @PostMapping("/res")
-    public RegistrovaniKorisnikResponse saveEmpResponse(@RequestBody RegistrovaniKorisnikRequest employeeRequest) {
-        return registrovaniKorisnikService.saveRegistrovaniKorisnik(employeeRequest);
-    }
-
-    @PutMapping("/res/{id}")
-    public RegistrovaniKorisnikResponse updateEmpResponse(@RequestBody RegistrovaniKorisnikRequest employeeRequest, @PathVariable("id") Long id) {
-        return registrovaniKorisnikService.updateRegistrovaniKorisnik(employeeRequest, id);
-    }
-*/
 }

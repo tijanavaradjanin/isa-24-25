@@ -1,5 +1,5 @@
 import React from "react";
-import RegistrovanjeAdminSistem from "./RegistrovanjeAdminSistem";
+import RegistrovanjeAdminSistem from "../pages/RegistrovanjeAdminSistem";
 
 function RegistracijaAdminSistem() {
   return (

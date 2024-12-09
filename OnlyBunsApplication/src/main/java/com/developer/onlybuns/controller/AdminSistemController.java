@@ -1,7 +1,7 @@
 package com.developer.onlybuns.controller;
 
-import com.developer.onlybuns.dto.request.AdminSistemDTO;
-import com.developer.onlybuns.dto.request.LoginDTO;
+import com.developer.onlybuns.dto.AdminSistemDTO;
+import com.developer.onlybuns.dto.LoginDTO;
 import com.developer.onlybuns.entity.AdminSistem;
 import com.developer.onlybuns.service.AdminSistemService;
 import org.springframework.http.ResponseEntity;
@@ -39,13 +39,11 @@ public class AdminSistemController {
     @PostMapping("/updatepassword")
     public ResponseEntity<String> updatePassword(@RequestBody LoginDTO loginDTO) {
         if (adminSistemService.updatePassword(loginDTO)) {
-            return ResponseEntity.ok("{\"message\": \"Uspesna promena lozinke.\"}");
+            return ResponseEntity.ok("{\"message\": \"Uspesno ste promenili lozinku.\"}");
         } else {
-            return ResponseEntity.status(401).body("Proverite email i lozinku.");
+            return ResponseEntity.status(401).body("Unesite ispravnu lozinku ponovo.");
         }
     }
-
-
 
     @PostMapping("/login")
     public ResponseEntity<Object> loginAdminSistem(@RequestBody LoginDTO loginDTO) {
@@ -58,9 +56,8 @@ public class AdminSistemController {
             adminSistemDTO.setEmail(adminSistem.getEmail());
 
             return ResponseEntity.ok(adminSistemDTO);
-            //return ResponseEntity.ok("{\"message\": \"Uspesna prijava.\"}");
         } else {
-            return ResponseEntity.status(401).body("Neuspesna prijava. Proverite email i lozinku.");
+            return ResponseEntity.status(401).body("Neispravan mejl ili lozinka.");
         }
     }
 

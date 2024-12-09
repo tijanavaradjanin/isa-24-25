@@ -1,6 +1,6 @@
 import React from "react";
-import Prijavljivanje from "./Prijavljivanje";
-import Navigacija from "./Navigacija";
+import Prijavljivanje from "../pages/Prijavljivanje";
+import Navigacija from "../pages/Navigacija";
 
 function Prijava() {
   return (
