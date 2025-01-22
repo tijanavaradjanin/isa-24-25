@@ -1,4 +1,4 @@
-package com.developer.onlybuns.config;
+/*package com.developer.onlybuns.config;
 
 
 
@@ -39,12 +39,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/registrovaniKorisnik/add").permitAll()
-                .antMatchers("/adminKompanija/add").permitAll()
+                .antMatchers("/registrovaniKorisnik/profil").permitAll()
                 .antMatchers("/adminSistem/save").permitAll()
                 .antMatchers("/send-mail").permitAll()
-
+                .antMatchers("/objava/add").permitAll()
+                .antMatchers("/objava/mojeObjave").permitAll()
+                .antMatchers("/slika/uploads/**").permitAll()
                 .anyRequest().authenticated()  // Zahteva autentifikaciju za sve ostale zahteve
                 .and()
+                .cors().and()
                 .httpBasic();
     }
 
@@ -60,3 +63,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 }
+*/

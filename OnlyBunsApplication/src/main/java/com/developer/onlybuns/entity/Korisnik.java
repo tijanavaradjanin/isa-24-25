@@ -1,14 +1,22 @@
 package com.developer.onlybuns.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
 @Entity
 @Table(name = "korisnik")
 @Inheritance(strategy=TABLE_PER_CLASS)
-public class Korisnik {
+public class Korisnik implements UserDetails {
 
     @Id
     @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
@@ -23,6 +31,8 @@ public class Korisnik {
     private String ime;
     @Column(name="prezime", unique=false, nullable=false)
     private String prezime;
+    @Column(name="korisnickoIme", unique=true, nullable=false)
+    private String korisnickoIme;
     @Column(name="grad", unique=false, nullable=false)
     private String  grad;
     @Column(name="drzava", unique=false, nullable=false)
@@ -34,6 +44,9 @@ public class Korisnik {
     @Enumerated(EnumType.STRING)
     @Column(name="uloga", nullable = false)
     private Uloga uloga;
+    @Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
+
 
     public Korisnik() {
 
@@ -45,6 +58,7 @@ public class Korisnik {
         this.password = password;
         this.ime = ime;
         this.prezime = prezime;
+        this.korisnickoIme = korisnickoIme;
         this.grad = grad;
         this.drzava = drzava;
         this.broj = broj;
@@ -68,8 +82,39 @@ public class Korisnik {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public void setPassword(String password) {
@@ -127,4 +172,15 @@ public class Korisnik {
     public Uloga getUloga() { return uloga; }
 
     public void setUloga(Uloga uloga) { this.uloga = uloga; }
+
+    public String getKorisnickoIme() { return korisnickoIme; }
+
+    public void setKorisnickoIme(String korisnickoIme) { this.korisnickoIme = korisnickoIme; }
+
+    public Timestamp getLastPasswordResetDate() { return lastPasswordResetDate; }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) { this.lastPasswordResetDate=lastPasswordResetDate; }
+
+
+
 }

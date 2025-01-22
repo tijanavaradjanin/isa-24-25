@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Alert } from '@mui/material';
 
 
 
@@ -17,6 +18,7 @@ const defaultTheme = createTheme();
 export default function Registrovanje() {
   const[ime,setIme]=useState('')
   const[prezime,setPrezime]=useState('')
+  const[korisnickoIme ,setKorisnickoIme]=useState('')
   const[grad,setGrad]=useState('')
   const[drzava,setDrzava]=useState('')
   const[broj,setBroj]=useState('')
@@ -85,7 +87,7 @@ export default function Registrovanje() {
       return;
     }
 
-    if (!ime || !prezime || !grad || !drzava || !broj || !info || !email || !password || !repeatPassword) {
+    if (!ime || !prezime || !korisnickoIme || !grad || !drzava || !broj || !info || !email || !password || !repeatPassword) {
       setErrorMessage('Podaci nisu dobro popunjeni.');
       return;
     }
@@ -95,7 +97,7 @@ export default function Registrovanje() {
       setErrorMessage('Email adresa već postoji.');
       return;
     }
-    const korisnik = {ime, prezime, grad, drzava, broj, email, password, info}
+    const korisnik = {ime, prezime, korisnickoIme, grad, drzava, broj, email, password, info}
     console.log(korisnik);
     
     setErrorMessage('');
@@ -103,16 +105,31 @@ export default function Registrovanje() {
 
     fetch("http://localhost:8080/registrovaniKorisnik/add",{
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers:{"Content-Type":"application/json", 'Accept': 'application/json'},
       body:JSON.stringify(korisnik)
 
-     }).then(()=>{
-        console.log("Novi korisnik dodat")
+     }).then((response)=>{
+        console.log(response.json(), 'mau')
+        const parsedRespo = response.json();
+        if(parsedRespo.email) {
+          //redirekt na login stranicu
+        } else {
+          setErrorMessage(parsedRespo["Error"])
+          // {"Error": "Korisnik vec postoji"}
+        }
+        
+     }).catch((error)=>{
+        console.log(error)
      })
 };
 
+
   return (
     <ThemeProvider theme={defaultTheme}>
+      {/* {
+        error && <Alert>{error}</Alert>
+      } */}
+      
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -152,6 +169,17 @@ export default function Registrovanje() {
               autoComplete="prezime"
               value={prezime}
               onChange={(e)=>setPrezime(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="korisnickoIme"
+              label="Korisnicko ime"
+              name="korisnickoIme"
+              autoComplete="korisnickoIme"
+              value={korisnickoIme}
+              onChange={(e)=>setKorisnickoIme(e.target.value)}
             />
             <TextField
               margin="normal"

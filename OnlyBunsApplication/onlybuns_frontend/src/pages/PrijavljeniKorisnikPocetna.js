@@ -1,52 +1,100 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // Importujemo useNavigate za navigaciju
+import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography } from '@mui/material';
 
 const PrijavljeniKorisnikPocetna = () => {
-  const location = useLocation();
-  const navigate = useNavigate(); // Koristimo useNavigate za navigaciju
+  const navigate = useNavigate();
   const [korisnik, setKorisnik] = useState(null);
 
   useEffect(() => {
-    // Pokušavamo da učitamo korisnika iz lokalnog stanja (location.state)
-    const korisnikData = location.state?.korisnik;
-
-    if (korisnikData) {
-      setKorisnik(korisnikData);
-    } else {
-      // Ako nije pronađen korisnik u state, proveravamo token u localStorage
-      const token = localStorage.getItem('token');
-      if (!token) {
-        // Ako token nije prisutan, vraćamo korisnika na početnu stranicu
-        navigate('/');
-      } else {
-        // Ako token postoji, možemo uzeti korisničke podatke
-        // Možete dodati logiku za dekodiranje tokena i čitanje korisničkih podataka
-        const decodedUser = JSON.parse(atob(token.split('.')[1])); // Ovo je primer dekodiranja JWT tokena
-        setKorisnik(decodedUser); 
-      }
+    // Učitavamo token iz localStorage
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Ako token nije pronađen, preusmeravamo na početnu stranicu
+      navigate('/');
+      return;
     }
-  }, [location.state, navigate]);
+
+    try {
+      // Dekodiramo token da bismo dobili korisničke podatke
+      const decodedToken = JSON.parse(atob(token.split('.')[1])); // Parsiramo payload iz JWT-a
+      console.log('Decoded Token:', decodedToken);
+
+      // Proveravamo da li postoji "sub" ključ (korisničko ime)
+      const korisnickoIme = decodedToken.sub;
+      if (korisnickoIme) {
+        setKorisnik({ korisnickoIme, ...decodedToken });         
+        localStorage.setItem('korisnickoIme', korisnickoIme);        //Sacuvaj korisnicko ime u memoriju aplikacije
+      } else {
+        throw new Error('Korisničko ime nije pronađeno u tokenu');
+      }
+    } catch (error) {
+      console.error('Greška prilikom dekodiranja tokena:', error);
+      localStorage.removeItem('token'); // Ako postoji greška, uklanjamo token
+      navigate('/'); // Vraćamo korisnika na početnu
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Brisanje tokena iz localStorage
+    localStorage.removeItem('korisnickoIme');  //Brisanje korisnickog imena iz localStorage
     setKorisnik(null); // Očisti korisničke podatke iz stanja
     navigate('/'); // Preusmeravanje na početnu stranicu
+  };
+
+  const seeMyPosts = () => {
+    navigate('/mojeObjave');
+  };
+
+  const seeMyProfile = () => {
+    navigate('/mojProfil');
+  };
+
+  const makeAPost = () => {
+    navigate('/kreiranjeObjave');
   };
 
   return (
     <div>
       {korisnik ? (
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4">Dobrodošli, {korisnik.ime}!</Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleLogout} // Kada se klikne dugme, poziva se handleLogout
-            sx={{ height: '40px', marginLeft: 'auto' }}
-          >
-            Odjavi se
-          </Button>
+          <Typography variant="h4">
+            Dobrodošli, {korisnik.korisnickoIme}!
+          </Typography>
+          <Box sx={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={seeMyProfile}
+              sx={{ height: '40px' }}
+            >
+              Moj profil
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={seeMyPosts}
+              sx={{ height: '40px' }}
+            >
+              Moje objave
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={makeAPost}
+              sx={{ height: '40px' }}
+            >
+              +Objava
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={handleLogout}
+              sx={{ height: '40px' }}
+            >
+              Odjavi se
+            </Button>
+          </Box>
         </Box>
       ) : (
         <p>Nije pronađen prijavljeni korisnik.</p>

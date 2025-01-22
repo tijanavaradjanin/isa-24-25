@@ -124,8 +124,9 @@ export default function Prijavljivanje() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const korisnik = { email, password };
+    console.log("Korisnik:", korisnik); // Pre fetch-a
 
-    fetch("http://localhost:8080/api/auth/login", {
+    fetch("http://localhost:8080/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(korisnik),
@@ -137,7 +138,10 @@ export default function Prijavljivanje() {
         return response.json();
       })
       .then((data) => {
-        const jwtToken = data.token; // Pretpostavlja se da API vraća token pod ključem "token"
+        console.log("Pokrenuta funkcija handleLogin"); // Na početku
+        console.log("Sta vraca bekend: ", data);
+        console.log("Sta vraca bekend: ", data.accessToken);
+        const jwtToken = data.accessToken; // Pretpostavlja se da API vraća token pod ključem "token"
         if (jwtToken) {
           // Sačuvan token u localStorage
           localStorage.setItem('token', jwtToken);
@@ -155,7 +159,8 @@ export default function Prijavljivanje() {
             navigate('/prijavljeniKorisnikPocetna', { state: { token: jwtToken } });
           }
         }
-      })
+      }
+      )
       .catch((error) => {
         console.error("Error logging in:", error);
         setError('Pogrešan email ili lozinka'); // Postavite grešku kada prijava nije uspešna

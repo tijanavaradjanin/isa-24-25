@@ -1,4 +1,4 @@
-package com.developer.onlybuns;
+/*package com.developer.onlybuns;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -17,11 +17,11 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
-                .allowedHeaders(
-                        HttpHeaders.AUTHORIZATION,
-                        HttpHeaders.CONTENT_TYPE,
-                        HttpHeaders.ACCEPT
-                )
+//                .allowedHeaders(
+//                        HttpHeaders.AUTHORIZATION,
+//                        HttpHeaders.CONTENT_TYPE,
+//                        HttpHeaders.ACCEPT
+//                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
-}
+}*/
