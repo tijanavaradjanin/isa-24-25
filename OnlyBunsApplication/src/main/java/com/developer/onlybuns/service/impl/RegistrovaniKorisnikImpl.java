@@ -39,14 +39,24 @@ public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
     @Override
     public RegistrovaniKorisnik saveRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnikEntity) {
         //to do:
-        //da li vec postoji korisnik sa tim korisnickim imenom/mejlom (cim jedno pogresi, ne dozvoljava)
         //za grad i drzavu da ne sme biti broj, za ime i prezime ne sme biti broj ili znakovi
-        //mora da vrati gresku kad je isto korisnicko ime/mejl, u bazi je dobro napravljeno
         if(registrovaniKorisnikRepository.existsByEmail(registrovaniKorisnikEntity.getEmail())) {
-            throw new IllegalArgumentException("Email zauzet");
+            throw new RuntimeException("Email zauzet");
         }
         if(registrovaniKorisnikRepository.existsByKorisnickoIme(registrovaniKorisnikEntity.getKorisnickoIme())) {
-            throw new IllegalArgumentException("Korisnicko ime zauzeto");
+            throw new RuntimeException("Korisnicko ime zauzeto");
+        }
+        if (registrovaniKorisnikEntity.getGrad().isEmpty()) {
+            throw new IllegalArgumentException("Grad je obavezan.");
+        }
+        if (!registrovaniKorisnikEntity.getGrad().matches("^[a-zA-Z ]+$")) {
+            throw new RuntimeException("Naziv grada ne sme sadržati brojeve ili specijalne znakove");
+        }
+        if (!registrovaniKorisnikEntity.getDrzava().matches("^[a-zA-Z ]+$")) {
+            throw new RuntimeException("Naziv države ne sme sadržati brojeve ili specijalne znakove");
+        }
+        if (!registrovaniKorisnikEntity.getBroj().matches("^[0-9]{10}$")) {
+            throw new RuntimeException("Broj telefona mora sadržati tačno 10 cifara");
         }
         try {
             registrovaniKorisnikEntity.setUloga(Uloga.KORISNIK);

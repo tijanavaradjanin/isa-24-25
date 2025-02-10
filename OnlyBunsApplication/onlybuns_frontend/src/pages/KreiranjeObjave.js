@@ -1,40 +1,55 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import '../css/KreiranjeObjave.css';
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const customIcon = new L.Icon({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 export default function KreiranjeObjave() {
   const [opis, setOpis] = useState('');
+  const [grad, setGrad] = useState('');
+  const [drzava, setDrzava] = useState('');
   const [slika, setSlika] = useState(null);
-  const [latituda, setLatituda] = useState('');
-  const [longituda, setLongituda] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState(null); // Koordinate sa mape
+  const [mapEnabled, setMapEnabled] = useState(true); // Da li je mapa aktivna
+  const [preview, setPreview] = useState(null); // State za prikaz slike
+
   const navigate = useNavigate();
 
+   // Funkcija za reset lokacije
+   const resetLocation = () => {
+    setLocation(null);
+    setGrad('');
+    setDrzava('');
+  }; 
+
   const handleSlikaChange = (event) => {
-    setSlika(event.target.files[0]);  // Spremaj fajl direktno
+    //setSlika(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file) {
+      setSlika(file);
+      setPreview(URL.createObjectURL(file)); // Generiši privremeni URL za prikaz slike
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validacija unosa
-    if (!opis || !latituda || !longituda || !slika) {
-      setError('Sva polja moraju biti popunjena.');
-      return;
-    }
-
-    // Validacija da latituda bude između -90 i 90
-    const lat = parseFloat(latituda);
-    if (isNaN(lat) || lat < -90 || lat > 90) {
-      setError('Latituda mora biti broj između -90 i 90.');
-      return;
-    }
-
-    // Validacija da longituda bude između -180 i 180
-    const lon = parseFloat(longituda);
-    if (isNaN(lon) || lon < -180 || lon > 180) {
-      setError('Longituda mora biti broj između -180 i 180.');
+    if ((!opis || !slika) || (!grad && !drzava && !location)) {
+      setError('Morate popuniti opis i dodati sliku, uz ručni unos lokacije ili mapu.');
       return;
     }
 
@@ -49,48 +64,62 @@ export default function KreiranjeObjave() {
     }
 
     const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    const korisnickoIme = decodedToken.korisnickoIme; // Korisničko ime iz tokena
+    const korisnickoIme = decodedToken.korisnickoIme;
 
     const formData = new FormData();
     formData.append("opis", opis);
-    formData.append("slika", slika); // Dodajemo fajl
-    formData.append("latituda", latituda);
-    formData.append("longituda", longituda);
+    formData.append("slika", slika);
     formData.append("korisnickoIme", korisnickoIme);
+    if (grad && drzava) {
+      formData.append("grad", grad);
+      formData.append("drzava", drzava);
+  } else if (location) {
+      formData.append("latitude", parseFloat(location.lat.toFixed(7)));
+      formData.append("longitude", parseFloat(location.lng.toFixed(7)));
+  } else {
+    setError("Morate uneti grad i državu ili odabrati lokaciju na mapi.");
+    return;
+   }
 
     fetch("http://localhost:8080/objava/add", {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`
-      },
-      body: formData, // Postavljanje FormData u telo zahteva
+      headers: { "Authorization": `Bearer ${token}` },
+      body: formData,
     })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((data) => {
-            throw new Error(data.message || 'Greška sa serverom');
-          });
-        }
-        return response.json();
-      })
+      .then((response) => response.ok ? response.json() : response.json().then(data => { throw new Error(data.message || 'Greška pri kreiranju objave.'); }))
       .then((data) => {
         console.log('Objava uspešno kreirana:', data);
-        navigate('/prijavljeniKorisnikPocetna');
+        navigate('/mojeObjave');
       })
       .catch((error) => {
-        console.error("Greška pri kreiranju objave:", error);
-        setError(`Kreiranje objave nije uspelo. ${error.message}`);
+        setError(error.message || "Kreiranje objave nije uspelo. Proverite validnost unosa.");
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
+  // Omogućava korisniku da klikne na mapu i postavi lokaciju
+  function LocationMarker() {
+    useMapEvents({
+      click(e) {
+        if (!mapEnabled) return; // Ako je mapa isključena, ne dozvoljava klikove
+
+        setLocation(e.latlng);
+        setGrad('');
+        setDrzava('');
+      },
+    });
+
+    return location ? <Marker position={location} icon={customIcon} /> : null;
+  }
+
   return (
     <div className="kreiranje-objave-container">
       <form className="kreiranje-objave-form" onSubmit={handleSubmit}>
         <h1 className="kreiranje-objave-title">Kreiranje Objave</h1>
         {error && <p className="error-message">{error}</p>}
+        
         <textarea
           placeholder="Opis"
           className="kreiranje-objave-input"
@@ -102,25 +131,53 @@ export default function KreiranjeObjave() {
           className="kreiranje-objave-input"
           onChange={handleSlikaChange}
         />
+        {/* Prikaz izabrane slike */}
+        {preview && (
+         <div className="image-preview-container">
+            <img src={preview} alt="Preview" className="image-preview" />
+        </div>
+        )}
+
+        {/* Ručni unos grada i države */}
         <input
           type="text"
-          placeholder="Latituda"
+          placeholder="Grad"
           className="kreiranje-objave-input"
-          value={latituda}
-          onChange={(e) => setLatituda(e.target.value)}
+          value={grad}
+          onChange={(e) => {
+            setGrad(e.target.value);
+            setLocation(null);
+            setMapEnabled(e.target.value === '' && drzava === '');
+          }}
+          disabled={location !== null} // Ako korisnik koristi mapu, blokiraj polje
         />
         <input
           type="text"
-          placeholder="Longituda"
+          placeholder="Drzava"
           className="kreiranje-objave-input"
-          value={longituda}
-          onChange={(e) => setLongituda(e.target.value)}
+          value={drzava}
+          onChange={(e) => {
+            setDrzava(e.target.value);
+            setLocation(null);
+            setMapEnabled(grad === '' && e.target.value === '');
+          }}
+          disabled={location !== null} // Ako korisnik koristi mapu, blokiraj polje
         />
-        <button 
-          type="submit" 
-          className="kreiranje-objave-button"
-          disabled={loading} 
-        >
+
+        <p className="mapa-label">Ili odaberite lokaciju na mapi:</p>
+        <MapContainer center={[44.7866, 20.4489]} zoom={12} className={`map-container ${!mapEnabled ? 'disabled' : ''}`}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <LocationMarker />
+        </MapContainer>
+
+         {/* Dugme za resetovanje lokacije, prikazuje se samo ako je korisnik odabrao mapu */}
+         {location && (
+          <button type="button" onClick={resetLocation} style={{ marginTop: '10px', backgroundColor: 'red', color: 'white' }}>
+            Obriši lokaciju
+          </button>
+        )}
+
+        <button type="submit" className="kreiranje-objave-button" disabled={loading}>
           {loading ? 'Kreiranje...' : 'Kreiraj'}
         </button>
       </form>

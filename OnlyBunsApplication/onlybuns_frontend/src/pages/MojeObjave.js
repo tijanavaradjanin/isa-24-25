@@ -47,12 +47,12 @@ export default function MojeObjave() {
   }, [navigate]);
 
   const formatDate = (dateArray) => {
-    // Kreiraj Date objekat iz niza
+    // Kreira Date objekat iz niza
     const dateObj = new Date(...dateArray);
   
     // Proveri da li je datum validan
     if (dateObj.getTime()) {
-      return dateObj.toLocaleString(); // Formatiraj i vrati datum
+      return dateObj.toLocaleString(); // Formatira i vraca datum
     } else {
       return 'Nevalidan datum';
     }

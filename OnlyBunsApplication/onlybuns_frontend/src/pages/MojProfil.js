@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
+import { Box, Button, Typography, Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
 
 const MojProfil = () => {
   //const location = useLocation();
@@ -39,6 +39,7 @@ const MojProfil = () => {
       })
       .then((data) => {
         setKorisnik(data);
+        console.log(korisnik);
       })
       .catch((error) => {
         console.error('Greška:', error.message);
@@ -68,6 +69,10 @@ const MojProfil = () => {
     navigate('/kreiranjeObjave');
   };
 
+  const showMap = () => {
+    navigate('/prikazMape');
+  };
+
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };  
@@ -92,18 +97,17 @@ const MojProfil = () => {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <Box sx={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
-          <Button variant="contained" color="warning" onClick={seeMyProfile} sx={{ height: '40px' }}>
-            moj profil
-          </Button>
-          <Button variant="contained" color="warning" onClick={seeMyPosts} sx={{ height: '40px' }}>
-            moje objave
-          </Button>
-          <Button variant="contained" color="warning" onClick={makeAPost} sx={{ height: '40px' }}>
-            +objava
-          </Button>
-          <Button variant="contained" color="warning" onClick={handleLogout} sx={{ height: '40px' }}>
-            odjavi se
-          </Button>
+        <Toolbar sx={{ justifyContent: "flex-end" }}>
+             <Button color="primary" onClick={seeMyProfile}>Moj profil</Button>
+           <Typography>|</Typography>
+             <Button color="primary" onClick={seeMyPosts}>Moje objave</Button>
+            <Typography>|</Typography>
+             <Button color="primary" onClick={showMap}>Prikaz mape</Button>
+            <Typography>|</Typography>
+             <Button color="primary" onClick={makeAPost}>+Objava</Button>
+            <Typography>|</Typography>
+             <Button color="primary" onClick={handleLogout}>Odjavi se</Button>
+          </Toolbar>
         </Box>
       </Box>
 

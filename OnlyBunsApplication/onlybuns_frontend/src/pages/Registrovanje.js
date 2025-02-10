@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 import { Alert } from '@mui/material';
 
 
@@ -30,6 +31,9 @@ export default function Registrovanje() {
   const [repeatPassword, setRepeatPassword] = useState(''); // Dodato stanje za ponovljenu lozinku
   const [passwordMismatch, setPasswordMismatch] = useState(false); // Dodato stanje za praćenje neuspešnog podudaranja
   const [errorMessage, setErrorMessage] = useState('');
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
 
   const validateBroj = (inputBroj) => {
     const brojRegex = /^\d{10}$/; // Regex za desetocifren broj
@@ -56,6 +60,7 @@ export default function Registrovanje() {
     // Provera formata e-mail adrese
     setEmailError(!validateEmail(newEmail));
   };  
+
 
   const checkEmailExists = async () => {
     try {
@@ -88,13 +93,29 @@ export default function Registrovanje() {
     }
 
     if (!ime || !prezime || !korisnickoIme || !grad || !drzava || !broj || !info || !email || !password || !repeatPassword) {
-      setErrorMessage('Podaci nisu dobro popunjeni.');
+      let newErrors = {};
+      setErrorMessage('Podaci nisu kompletno popunjeni.');
+      if (!ime) newErrors.ime = 'Obavezno polje';
+      if (!prezime) newErrors.prezime = 'Obavezno polje';
+      if (!korisnickoIme) newErrors.korisnickoIme = 'Obavezno polje';
+      if (!grad) newErrors.grad = 'Obavezno polje';
+      if (!drzava) newErrors.drzava = 'Obavezno polje';
+      if (!broj) newErrors.broj = 'Obavezno polje';
+      if (!info) newErrors.info = 'Obavezno polje';
+      if (!email) newErrors.email = 'Obavezno polje';
+      if (!password) newErrors.password = 'Obavezno polje';
+      if (!repeatPassword) newErrors.repeatPassword = 'Obavezno polje';
+      setErrors(newErrors); // Ažuriraj greške
       return;
     }
+    setErrors({});
 
     const emailExists = await checkEmailExists();
+    //const usernameExists = await checkUsernameExists();
     if (emailExists) {
       setErrorMessage('Email adresa već postoji.');
+    //  if (usernameExists) {
+     //   setErrorMessage('Email adresa već postoji.');
       return;
     }
     const korisnik = {ime, prezime, korisnickoIme, grad, drzava, broj, email, password, info}
@@ -105,18 +126,26 @@ export default function Registrovanje() {
 
     fetch("http://localhost:8080/registrovaniKorisnik/add",{
       method:"POST",
-      headers:{"Content-Type":"application/json", 'Accept': 'application/json'},
+      headers:{"Content-Type":"application/json"},
       body:JSON.stringify(korisnik)
 
      }).then((response)=>{
-        console.log(response.json(), 'mau')
-        const parsedRespo = response.json();
-        if(parsedRespo.email) {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })  .then((data) => {
+      console.log("Uspešna registracija:", data); // Log za uspeh
+      alert("Registracija uspešna! Preusmeravamo vas na prijavljivanje...");
+      navigate("/prijava");
+        //console.log(response.json(), 'mau')
+        //const parsedRespo = response.json();
+        /*if(parsedRespo.email) {
           //redirekt na login stranicu
         } else {
           setErrorMessage(parsedRespo["Error"])
           // {"Error": "Korisnik vec postoji"}
-        }
+        }*/
         
      }).catch((error)=>{
         console.log(error)
@@ -158,7 +187,9 @@ export default function Registrovanje() {
               autoFocus
               value={ime}
               onChange={(e)=>setIme(e.target.value)}
-            />
+              error={!!errors.ime} 
+              helperText={errors.ime} 
+             />
             <TextField
               margin="normal"
               required
@@ -169,6 +200,8 @@ export default function Registrovanje() {
               autoComplete="prezime"
               value={prezime}
               onChange={(e)=>setPrezime(e.target.value)}
+              error={!!errors.prezime} 
+              helperText={errors.prezime} 
             />
             <TextField
               margin="normal"
@@ -180,6 +213,8 @@ export default function Registrovanje() {
               autoComplete="korisnickoIme"
               value={korisnickoIme}
               onChange={(e)=>setKorisnickoIme(e.target.value)}
+              error={!!errors.korisnickoIme} 
+              helperText={errors.korisnickoIme} 
             />
             <TextField
               margin="normal"
@@ -192,7 +227,7 @@ export default function Registrovanje() {
               value={email}
               onChange={handleEmailChange}
               error={emailError}
-              helperText={emailError ? 'Unesite validnu e-mail adresu' : ''}
+              helperText={emailError ? 'Unesite validnu e-mail adresu' : ''} 
             />
             <TextField
               margin="normal"
@@ -205,6 +240,8 @@ export default function Registrovanje() {
               autoComplete="current-password"
               value={password}
             onChange={(e)=>setPassword(e.target.value)}
+            error={!!errors.password} 
+            helperText={errors.password} 
             />
             <TextField
               margin="normal"
@@ -236,6 +273,8 @@ export default function Registrovanje() {
               autoComplete="grad"
               value={grad}
               onChange={(e)=>setGrad(e.target.value)}
+              error={!!errors.grad} 
+              helperText={errors.grad} 
             />
             <TextField
               margin="normal"
@@ -247,6 +286,8 @@ export default function Registrovanje() {
               autoComplete="drzava"
               value={drzava}
               onChange={(e)=>setDrzava(e.target.value)}
+              error={!!errors.drzava} 
+              helperText={errors.drzava} 
             />
             <TextField
               margin="normal"
@@ -266,11 +307,13 @@ export default function Registrovanje() {
               required
               fullWidth
               id="info"
-              label="Dodatne infomracije"
+              label="Dodatne informacije"
               name="info"
               autoComplete="info"
               value={info}
               onChange={(e)=>setInfo(e.target.value)}
+              error={!!errors.info} 
+              helperText={errors.info} 
             />
             <Button
               type="submit"

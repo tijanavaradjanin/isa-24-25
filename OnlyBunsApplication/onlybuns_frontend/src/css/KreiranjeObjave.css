@@ -77,3 +77,37 @@
     margin-bottom: 15px;
     text-align: center;
 }
+
+.mapa-label {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  .map-container {
+    height: 300px;
+    width: 100%;
+    margin-top: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .image-preview-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    max-width: 300px; /* Ograniči širinu */
+    max-height: 300px; /* Ograniči visinu */
+    overflow: hidden;
+  }
+  
+  .image-preview {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  

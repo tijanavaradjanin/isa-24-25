@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Typography, Toolbar } from '@mui/material';
 
 const PrijavljeniKorisnikPocetna = () => {
   const navigate = useNavigate();
@@ -54,6 +54,14 @@ const PrijavljeniKorisnikPocetna = () => {
     navigate('/kreiranjeObjave');
   };
 
+  const seeMap = () => {
+    navigate('/mapaObjava');
+  };
+
+  const showMap = () => {
+    navigate('/prikazMape');
+  };
+
   return (
     <div>
       {korisnik ? (
@@ -62,38 +70,17 @@ const PrijavljeniKorisnikPocetna = () => {
             Dobrodošli, {korisnik.korisnickoIme}!
           </Typography>
           <Box sx={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
-            <Button
-              variant="contained"
-              color="warning"
-              onClick={seeMyProfile}
-              sx={{ height: '40px' }}
-            >
-              Moj profil
-            </Button>
-            <Button
-              variant="contained"
-              color="warning"
-              onClick={seeMyPosts}
-              sx={{ height: '40px' }}
-            >
-              Moje objave
-            </Button>
-            <Button
-              variant="contained"
-              color="warning"
-              onClick={makeAPost}
-              sx={{ height: '40px' }}
-            >
-              +Objava
-            </Button>
-            <Button
-              variant="contained"
-              color="warning"
-              onClick={handleLogout}
-              sx={{ height: '40px' }}
-            >
-              Odjavi se
-            </Button>
+          <Toolbar sx={{ justifyContent: "flex-end" }}>
+             <Button color="primary" onClick={seeMyProfile}>Moj profil</Button>
+           <Typography>|</Typography>
+             <Button color="primary" onClick={seeMyPosts}>Moje objave</Button>
+            <Typography>|</Typography>
+             <Button color="primary" onClick={showMap}>Prikaz mape</Button>
+            <Typography>|</Typography>
+             <Button color="primary" onClick={makeAPost}>+Objava</Button>
+            <Typography>|</Typography>
+             <Button color="primary" onClick={handleLogout}>Odjavi se</Button>
+          </Toolbar>
           </Box>
         </Box>
       ) : (

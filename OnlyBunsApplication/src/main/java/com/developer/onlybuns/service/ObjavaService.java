@@ -1,8 +1,10 @@
 package com.developer.onlybuns.service;
 
+import com.developer.onlybuns.dto.ObjavaDTO;
 import com.developer.onlybuns.entity.Komentar;
 import com.developer.onlybuns.entity.Lajk;
 import com.developer.onlybuns.entity.Objava;
+import com.developer.onlybuns.entity.RegistrovaniKorisnik;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +14,8 @@ public interface ObjavaService {
     //List<Objava> findAllObjava();
 
     //Objava findById(Integer id);
+
+    List<Objava> getAllObjave();
 
     List<Objava> findByKorisnikId(Integer korisnikId);
 
@@ -26,6 +30,10 @@ public interface ObjavaService {
     List<Lajk> getAllLajkovi(Integer id);
 
     List<Komentar> getAllKomentari(Integer id);
+
+    double[] validateLocation(String grad, String drzava);
+
+    public List<ObjavaDTO> findNearbyPosts(RegistrovaniKorisnik korisnik);
 
     // List<Objava> findAllObjavaByUsername(String username);
 

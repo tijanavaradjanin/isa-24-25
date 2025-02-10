@@ -1,5 +1,8 @@
 package com.developer.onlybuns.dto;
 
+import com.developer.onlybuns.entity.Komentar;
+import com.developer.onlybuns.entity.Lajk;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,9 +19,9 @@ public class ObjavaDTO {
 
     private LocalDateTime vremeKreiranja;
 
-    private List<KomentarDTO> komentari;
+    private List<Komentar> komentari;
 
-    private List<LajkDTO> lajkovi;
+    private List<Lajk> lajkovi;
 
     private String korisnickoIme;
 
@@ -29,7 +32,7 @@ public class ObjavaDTO {
     public ObjavaDTO() {
     }
 
-    public ObjavaDTO(Integer id, String opis, String slika, Double latituda, Double longituda, LocalDateTime vremeKreiranja, List<KomentarDTO> komentari, List<LajkDTO> lajkovi, String korisnickoIme, Integer brojLajkova, Integer brojKomentara) {
+    public ObjavaDTO(Integer id, String opis, String slika, Double latituda, Double longituda, LocalDateTime vremeKreiranja, List<Komentar> komentari, List<Lajk> lajkovi, String korisnickoIme, Integer brojLajkova, Integer brojKomentara) {
         this.id = id;
         this.opis = opis;
         this.slika = slika;
@@ -91,19 +94,19 @@ public class ObjavaDTO {
         this.vremeKreiranja = vremeKreiranja;
     }
 
-    public List<KomentarDTO> getKomentari() {
+    public List<Komentar> getKomentari() {
         return komentari;
     }
 
-    public void setKomentari(List<KomentarDTO> komentari) {
+    public void setKomentari(List<Komentar> komentari) {
         this.komentari = komentari;
     }
 
-    public List<LajkDTO> getLajkovi() {
+    public List<Lajk> getLajkovi() {
         return lajkovi;
     }
 
-    public void setLajkovi(List<LajkDTO> lajkovi) {
+    public void setLajkovi(List<Lajk> lajkovi) {
         this.lajkovi = lajkovi;
     }
 

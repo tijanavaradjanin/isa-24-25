@@ -89,8 +89,8 @@ public class WebSecurityConfig {
         // sve neautentifikovane zahteve obradi uniformno i posalji 401 gresku
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
 		http.authorizeRequests().antMatchers("/**").permitAll()		// /auth/**
-			.antMatchers("/h2-console/**").permitAll()	// /h2-console/** ako se koristi H2 baza)
-			.antMatchers("/auth/login").permitAll()		// /api/foo.antMatchers("/api/foo").permitAll()
+			.antMatchers("/h2-console/**").permitAll().antMatchers("/registrovaniKorisnik/{korisnickoIme}").permitAll()	// /h2-console/** ako se koristi H2 baza)
+			.antMatchers("/auth/login").permitAll().antMatchers("/registrovaniKorisnik/add").permitAll().antMatchers("/objava/sveobjave").permitAll()
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
 			// samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin:

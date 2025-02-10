@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface ObjavaRepository extends JpaRepository<Objava, Integer> {
     @Query("SELECT o FROM Objava o WHERE o.registrovaniKorisnik.id = :korisnikId")
     List<Objava> findByKorisnikId(Integer korisnikId);
+
+    @Query("SELECT o FROM Objava o ORDER BY o.vremeKreiranja DESC")
+    List<Objava> findAllObjave();
 }

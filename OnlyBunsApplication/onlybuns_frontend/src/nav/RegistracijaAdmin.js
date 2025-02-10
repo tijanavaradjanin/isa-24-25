@@ -1,5 +1,5 @@
 import React from "react";
-import Navigacija from "../pages/Navigacija";
+import Navigacija from "../pages/PocetnaStranica";
 import RegistrovanjeAdmina from "../pages/RegistrovanjeAdmina";
 
 function RegistracijaAdmin() {

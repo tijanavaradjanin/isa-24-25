@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -23,27 +24,47 @@ public class Korisnik implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
     private Integer id;
 
+    @NotBlank(message = "Email je obavezan.")
+    @Email(message = "Unesite validnu email adresu.")
     @Column(name="email", unique=true, nullable=false)
     private String email;
+
     @Column(name="password", unique=false, nullable=false)
     private String password;
+
     @Column(name="ime", unique=false, nullable=false)
+    @NotBlank(message = "Ime je obavezno.")
     private String ime;
+
+    @NotBlank(message = "Prezime je obavezno.")
     @Column(name="prezime", unique=false, nullable=false)
     private String prezime;
+
+    @NotBlank(message = "Korisničko ime je obavezno.")
     @Column(name="korisnickoIme", unique=true, nullable=false)
     private String korisnickoIme;
+
+    @NotBlank(message = "Grad je obavezan.")
+    @Pattern(regexp = "^[a-zA-ZčćžšđČĆŽŠĐ\\s]+$", message = "Grad može sadržati samo slova.")
     @Column(name="grad", unique=false, nullable=false)
     private String  grad;
+
+    @NotBlank(message = "Drzava je obavezna.")
     @Column(name="drzava", unique=false, nullable=false)
     private String  drzava;
+
+    @NotBlank(message = "Broj telefona je obavezan.")
+    @Pattern(regexp = "\\d{10}", message = "Broj telefona mora sadržati tačno 10 cifara.")
     @Column(name="broj", unique=false, nullable=false)
     private String  broj;
+
     @Column(name="info", unique=false, nullable=false)
     private String  info;
+
     @Enumerated(EnumType.STRING)
     @Column(name="uloga", nullable = false)
     private Uloga uloga;
+
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
 

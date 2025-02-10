@@ -1,5 +1,5 @@
 package com.developer.onlybuns.controller;
-import com.developer.onlybuns.repository.ObjavaRepository;
+import com.developer.onlybuns.dto.ObjavaRequestDTO;
 import com.developer.onlybuns.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +34,13 @@ public class ObjavaController {
     private final ObjavaService objavaService;
 
     private final RegistrovaniKorisnikService registrovaniKorisnikService;
-    private final ObjavaRepository objavaRepository;
 
     @Autowired
     TokenUtils tokenUtils;
 
-    public ObjavaController(ObjavaService objavaService, RegistrovaniKorisnikService registrovaniKorisnikService, ObjavaRepository objavaRepository) {
+    public ObjavaController(ObjavaService objavaService, RegistrovaniKorisnikService registrovaniKorisnikService) {
         this.objavaService = objavaService;
         this.registrovaniKorisnikService = registrovaniKorisnikService;
-        this.objavaRepository = objavaRepository;
     }
 /*
     @PostMapping("/add")
@@ -62,7 +60,7 @@ public class ObjavaController {
     }
 */
 
-    @PostMapping("/add")
+   /* @PostMapping("/add")
     public ResponseEntity<?> save(
             @RequestParam("opis") String opis,
             @RequestParam("slika") MultipartFile slika,
@@ -118,6 +116,7 @@ public class ObjavaController {
                     .body("Greška pri čuvanju slike: " + e.getMessage());
         }
     }
+    */
 
 /*
     @GetMapping("/mojeObjave")
@@ -160,6 +159,102 @@ public class ObjavaController {
     }
     */
 
+   /* @PostMapping("/add")
+    public ResponseEntity<?> save(
+            @RequestBody ObjavaRequestDTO objavaRequestDTO,
+            Principal principal) {
+
+        try {
+            // Proveri validnost lokacije
+            double[] koordinate = objavaService.validateLocation(objavaRequestDTO.getGrad(), objavaRequestDTO.getDrzava());
+            if (koordinate == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Greška: Nevalidna lokacija! Molimo unesite ispravan grad i državu.");
+            }
+
+            double latituda = koordinate[0];
+            double longituda = koordinate[1];
+            String slikaPutanja="";
+
+            // Kreiranje direktorijuma ako ne postoji
+            Path uploadPath = Paths.get("uploads");
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+             if(objavaRequestDTO.getSlika() != null && !objavaRequestDTO.getSlika().isEmpty()) {
+                 slikaPutanja = "uploads/" + objavaRequestDTO.getSlika();
+             }
+
+            // Kreiranje i čuvanje objave
+            String korisnickoIme = principal.getName();
+            System.out.println("KORISNIK KOJI PRAVI OBJAVU JE: " + korisnickoIme);
+            RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
+            Objava novaObjava = new Objava(objavaRequestDTO.getOpis(), slikaPutanja, latituda, longituda, LocalDateTime.now(), registrovaniKorisnik, new ArrayList<>(), new ArrayList<>());
+
+            objavaService.saveObjava(novaObjava);
+            return ResponseEntity.ok(novaObjava);
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Greška pri čuvanju slike: " + e.getMessage());
+        }
+    }
+    */
+
+    @GetMapping("/sveobjave")
+    public ResponseEntity<List<Objava>> getSveObjave() {
+        List<Objava> objave = objavaService.getAllObjave();
+        return ResponseEntity.ok(objave);
+    }
+
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> save(
+            @RequestParam("opis") String opis,
+            @RequestParam(required = false) String grad,
+            @RequestParam(required = false) String drzava,
+            @RequestParam(required = false) Double latitude,
+            @RequestParam(required = false) Double longitude,
+            @RequestPart("slika") MultipartFile slikaFile,
+            Principal principal) {
+
+        try {
+            double[] koordinate = objavaService.validateLocation(grad, drzava);
+            if (koordinate == null) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Nevalidna lokacija! Molimo unesite ispravan grad i državu.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            }
+
+            if ((grad == null || grad.isEmpty()) && (drzava == null || drzava.isEmpty()) && (latitude == null || longitude == null)) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Morate uneti ili grad i državu ili odabrati lokaciju na mapi."));
+            }
+
+            double latituda = koordinate[0];
+            double longituda = koordinate[1];
+
+            Path uploadPath = Paths.get("uploads");
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            String originalFilename = slikaFile.getOriginalFilename();
+            String filePath = "uploads/" + originalFilename;
+            Path fileStoragePath = uploadPath.resolve(originalFilename);
+            Files.copy(slikaFile.getInputStream(), fileStoragePath, StandardCopyOption.REPLACE_EXISTING);
+
+            RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+            Objava novaObjava = new Objava(opis, filePath, latituda, longituda, LocalDateTime.now(), registrovaniKorisnik, new ArrayList<>(), new ArrayList<>());
+
+            objavaService.saveObjava(novaObjava);
+            return ResponseEntity.ok(novaObjava);
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Greška pri čuvanju slike: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/mojeObjave")
     public ResponseEntity<List<Objava>> getMyPosts(Principal principal) {
 
@@ -196,7 +291,17 @@ public class ObjavaController {
         return ResponseEntity.ok(komentari);
     }
 
+    @GetMapping("/obliznjeObjave")
+    public ResponseEntity<List<ObjavaDTO>> findNearbyPosts(Principal principal) {
+        RegistrovaniKorisnik korisnik =  registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+        List<ObjavaDTO> nearbyPosts = objavaService.findNearbyPosts(korisnik);
 
+        if (nearbyPosts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(nearbyPosts);
+    }
 
 
 
