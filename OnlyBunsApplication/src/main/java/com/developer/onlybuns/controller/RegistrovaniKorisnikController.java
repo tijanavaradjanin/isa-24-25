@@ -79,18 +79,6 @@ public class RegistrovaniKorisnikController {
         return ResponseEntity.ok(korisnikDTO);
     }
 
-
-    //prepoznaje securitycontextholder
-  /*  @GetMapping("/profil")
-    public ResponseEntity<RegistrovaniKorisnik> getUser() {
-        String korisnickoIme = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("KORISNIK KOJI GLEDA SVOJ PROFIL JE: " + korisnickoIme);
-        RegistrovaniKorisnik user = registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
-
-        return ResponseEntity.ok(user);
-    }
-*/
-
     //prepoznaje principal-radi u postmanu
     @GetMapping("/profil")
     public ResponseEntity<RegistrovaniKorisnik> getUser(Principal principal) {
@@ -142,12 +130,6 @@ public class RegistrovaniKorisnikController {
     }
 */
 
-
-
-
-
-
-
     //pocetni login, bez tokena, za autentifikaciju koristi se login iz authcontrollera
     @PostMapping("/login")
     public ResponseEntity<String> prijaviKorisnika(@RequestBody RegistrovaniKorisnik korisnik) {
@@ -159,9 +141,15 @@ public class RegistrovaniKorisnikController {
         }
     }
 
-    @PutMapping
-    public RegistrovaniKorisnik updateRegistrovaniKorisnik(@RequestBody RegistrovaniKorisnik employeeEntity) {
-        return registrovaniKorisnikService.updateRegistrovaniKorisnik(employeeEntity);
+    @PutMapping("/izmeni")
+    public ResponseEntity<?>  updateRegistrovaniKorisnik(@RequestBody RegistrovaniKorisnik registrovaniKorisnik, Principal principal) {
+        RegistrovaniKorisnik ulogovaniKorisnik=registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+        RegistrovaniKorisnik izmenjeniKorisnik=new RegistrovaniKorisnik(
+
+
+
+        );
+        return ResponseEntity.ok(izmenjeniKorisnik);
     }
 
     @DeleteMapping("/{id}")

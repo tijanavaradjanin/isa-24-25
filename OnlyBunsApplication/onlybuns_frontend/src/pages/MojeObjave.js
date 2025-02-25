@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, CircularProgress, Card, CardContent, CardMedia, Grid, Alert } from "@mui/material";
-import { useLocation, useNavigate } from 'react-router-dom';
+import {  } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
+import { ThumbUp, ChatBubbleOutline, Room as LocationIcon } from "@mui/icons-material";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { Toolbar, Button, CardHeader, CardMedia, CardActions, Avatar, IconButton, Typography, CircularProgress, Card, CardContent, Alert, Box, Modal } from "@mui/material";
+import "leaflet/dist/leaflet.css";
 import '../css/MojeObjave.css';
+import L from 'leaflet';
 
 export default function MojeObjave() {
   const [objave, setObjave] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [korisnik, setKorisnik] = useState(null);
+  const [openMap, setOpenMap] = useState(false);
 
   useEffect(() => {
      const token = localStorage.getItem('token');
@@ -36,7 +44,7 @@ export default function MojeObjave() {
       })
       .then((data) => {
         console.log(data);
-        setObjave(data.sort((a, b) => new Date(b.vremeKreiranja) - new Date(a.vremeKreiranja)));
+        setObjave(data);
       })
       .catch((error) => {
         setError(error.message);
@@ -46,16 +54,40 @@ export default function MojeObjave() {
       });
   }, [navigate]);
 
-  const formatDate = (dateArray) => {
-    // Kreira Date objekat iz niza
-    const dateObj = new Date(...dateArray);
-  
-    // Proveri da li je datum validan
-    if (dateObj.getTime()) {
-      return dateObj.toLocaleString(); // Formatira i vraca datum
-    } else {
-      return 'Nevalidan datum';
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Brisanje tokena iz localStorage
+    localStorage.removeItem('korisnickoIme');  //Brisanje korisnickog imena iz localStorage
+    setKorisnik(null); // Očisti korisničke podatke iz stanja
+    navigate('/'); // Preusmeravanje na početnu stranicu
+  };
+
+  const seeMyPosts = () => {
+    navigate('/mojeObjave');
+  };
+
+  const seeMyProfile = () => {
+    navigate('/mojProfil');
+  };
+
+  const makeAPost = () => {
+    navigate('/kreiranjeObjave');
+  };
+
+  const showMap = () => {
+    navigate('/prikazMape');
+  };
+
+  const goToUserProfile = (korisnickoIme) => {
+    navigate(`/korisnikProfil/${korisnickoIme}`);
+  };
+
+  const handleShowMap = (lat, lng) => {
+    setSelectedLocation({ lat, lng });
+    setOpenMap(true);
+  };
+
+  const handleCloseMap = () => {
+    setOpenMap(false);
   };
   
   if (loading) {
@@ -75,47 +107,152 @@ export default function MojeObjave() {
   }
 
   return (
-    <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" gutterBottom textAlign="center">
-        Moje objave
-      </Typography>
-      {objave.length === 0 ? (
-        <Typography textAlign="center" color="textSecondary">
-          Nemate kreiranih objava.
-        </Typography>
-      ) : (
-        <Grid container spacing={4}>
-          {objave.map((objava) => (
-            <Grid item xs={12} sm={6} md={4} key={objava.id}>
-              <Card sx={{ maxWidth: 345, margin: "auto" }}>
-                {objava.slika && (
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={`http://localhost:8080/slika/${objava.slika}`}
-                    alt="Slika objave"
-                    sx={{ objectFit: "cover" }}
-                  />
-                )}
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    {objava.opis}
+    <Box>
+      {/* Navigacija */}
+      <Toolbar sx={{ justifyContent: "flex-end" }}>
+        <Button color="primary" onClick={seeMyProfile}>Moj profil</Button>
+        <Typography>|</Typography>
+        <Button color="primary" onClick={seeMyPosts}>Moje objave</Button>
+        <Typography>|</Typography>
+        <Button color="primary" onClick={showMap}>Prikaz mape</Button>
+        <Typography>|</Typography>
+        <Button color="primary" onClick={makeAPost}>+objava</Button>
+        <Typography>|</Typography>
+        <Button color="primary" onClick={handleLogout}>Odjavi se</Button>
+      </Toolbar>
+
+      {/* Lista objava */}
+      <Box sx={{ maxWidth: 600, margin: "auto", mt: 4 }}>
+        {objave.length === 0 ? (
+          <Typography variant="h6" textAlign="center">
+            Nema objava za prikaz.
+          </Typography>
+        ) : (
+          objave.map((objava) => (
+            <Card key={objava.id} sx={{ mb: 3, boxShadow: 3 }}>
+              <CardHeader
+                avatar={<Avatar>{objava.registrovaniKorisnik.korisnickoIme[0]}</Avatar>}
+                title={
+                  <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => goToUserProfile(objava.registrovaniKorisnik.korisnickoIme)}
+                >
+                  {objava.registrovaniKorisnik.korisnickoIme}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Latituda: {objava.latituda}, Longituda: {objava.longituda}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Kreirano: {formatDate(objava.vremeKreiranja)}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Broj lajkova: {objava.brojLajkova || 0}, Broj komentara: {objava.brojKomentara || 0}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                }
+                subheader={
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant="body2" color="text.secondary">
+                      {new Date(
+                        objava.vremeKreiranja[0],
+                        objava.vremeKreiranja[1] - 1,
+                        objava.vremeKreiranja[2],
+                        objava.vremeKreiranja[3],
+                        objava.vremeKreiranja[4],
+                        objava.vremeKreiranja[5]
+                      ).toLocaleString()}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary"  sx={{ ml: 1 }}>
+                      , 
+                    </Typography>
+                    <Button
+                      variant="text"
+                      startIcon={<LocationIcon />}
+                      onClick={() => handleShowMap(objava.latituda, objava.longituda)}
+                      sx={{ color: "grey", textTransform: "none", ml:0, marginRight: 0.5,
+                        "& .MuiButton-startIcon": {
+                          marginRight: 0.5, // Razmak izmedju ikonice i teksta
+                        }
+                      }}
+                    >
+                      Lokacija
+                    </Button>
+                  </Box>
+                }
+              />
+
+              {/* Slika objave */}
+              {objava.slika && (
+                <CardMedia
+                  component="img"
+                  height="300"
+                  image={`http://localhost:8080/slika/${objava.slika}`}
+                  alt="Slika objave"
+                  sx={{ objectFit: "cover" }}
+                />
+              )}
+
+              {/* Opis objave */}
+              <CardContent>
+                <Typography variant="body1">{objava.opis}</Typography>
+
+                <Box sx={{ display: "flex", alignItems: "flex-start", mt: 0 }}></Box>
+              </CardContent>
+
+              {/* Dugmad za lajk, komentar i mapu */}
+              <CardActions disableSpacing>
+                <IconButton >
+                  <ThumbUp />
+                </IconButton>
+                <Typography variant="body2">{objava.lajkovi.length} Lajkova</Typography>
+
+                <IconButton >
+                  <ChatBubbleOutline />
+                </IconButton>
+                <Typography variant="body2">{objava.komentari.length} Komentara</Typography>
+              </CardActions>
+            </Card>
+          ))
+        )}
+      </Box>
+
+      {openMap && (
+        <Modal open={openMap} onClose={handleCloseMap}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 600,
+              height: 400,
+              bgcolor: "white",
+              boxShadow: 24,
+              p: 2,
+              borderRadius: 2
+            }}
+          >
+            <Typography variant="h6" mb={2}>Lokacija objave</Typography>
+            <div style={{ height: "100%", width: "100%" }}>
+              <MapContainer
+                center={[selectedLocation?.lat, selectedLocation?.lng]}
+                zoom={13}
+                style={{ height: "80%", width: "100%" }}
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
+                <Marker
+                  position={[selectedLocation?.lat, selectedLocation?.lng]}
+                  icon={new L.Icon({
+                    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41],
+                  })}
+                >
+                </Marker>
+              </MapContainer>
+            </div>
+          </Box>
+        </Modal>
       )}
+
+      
     </Box>
   );
 }

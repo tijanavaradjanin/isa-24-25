@@ -20,8 +20,8 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 public class Korisnik implements UserDetails {
 
     @Id
-    @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
+    @SequenceGenerator(name = "korisnikSeqGen", sequenceName = "korisnikSeq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "korisnikSeqGen")
     private Integer id;
 
     @NotBlank(message = "Email je obavezan.")
@@ -138,7 +138,7 @@ public class Korisnik implements UserDetails {
         return false;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) {       //OVDE STAVITI LASTPASSWORDRESETDATE KAO NA VEZBAMA DODATI
         this.password = password;
     }
 

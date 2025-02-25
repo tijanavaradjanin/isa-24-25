@@ -1,15 +1,18 @@
 package com.developer.onlybuns.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="komentar", uniqueConstraints = @UniqueConstraint(columnNames = {"korisnik_id", "objava_id"}))  //koji korisnik je komentarisao koju objavu
+@Table(name="komentar", uniqueConstraints = {})  //koji korisnik je komentarisao koju objavu
 public class Komentar {
     @Id
-    @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
+    @SequenceGenerator(name = "komentarSeqGen", sequenceName = "komentarSeq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "komentarSeqGen")
     private Integer id;
 
     @Column(name="sadrzaj", unique=true, nullable=false)
@@ -24,10 +27,10 @@ public class Komentar {
 
     @ManyToOne
     @JoinColumn(name = "objava_id", nullable = false)
+    @JsonBackReference
     private Objava objava;
 
-    public Komentar(Integer id, String sadrzaj, LocalDateTime vremeKomentarisanja, RegistrovaniKorisnik registrovaniKorisnik, Objava objava) {
-        this.id = id;
+    public Komentar(String sadrzaj, LocalDateTime vremeKomentarisanja, RegistrovaniKorisnik registrovaniKorisnik, Objava objava) {
         this.sadrzaj = sadrzaj;
         this.vremeKomentarisanja = vremeKomentarisanja;
         this.registrovaniKorisnik = registrovaniKorisnik;

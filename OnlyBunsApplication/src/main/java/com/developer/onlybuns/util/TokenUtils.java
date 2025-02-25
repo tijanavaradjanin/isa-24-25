@@ -242,6 +242,7 @@ public class TokenUtils {
 					&& username.equals(userDetails.getUsername())); // korisnicko ime iz tokena se podudara sa korisnickom imenom koje pise u bazi
 					//&& !isCreatedBeforeLastPasswordReset(created, korisnik.getLastPasswordResetDate()));
 		 // nakon kreiranja tokena korisnik nije menjao svoju lozinku
+		//nakon menjanja lozinke treba da se token promeni (nzm da li treba da mu trazi da se uloguje opet)
 	}
 	
 	/**

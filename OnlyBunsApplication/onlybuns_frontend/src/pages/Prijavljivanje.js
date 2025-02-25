@@ -20,41 +20,40 @@ export default function Prijavljivanje() {
       body: JSON.stringify(korisnik),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+        return response.text().then((text) => {
+          if (!response.ok) {
+            throw new Error(text); // Sada vraća backend poruku umesto samo HTTP statusa
+          }
+          return JSON.parse(text); // Ako je uspešno, parsira JSON
+        });
       })
       .then((data) => {
-        console.log("Pokrenuta funkcija handleLogin"); // Na početku
+        console.log("Pokrenuta funkcija handleLogin");
         console.log("Sta vraca bekend: ", data);
         console.log("Sta vraca bekend: ", data.accessToken);
-        const jwtToken = data.accessToken; // Pretpostavlja se da API vraća token pod ključem "token"
+        const jwtToken = data.accessToken;
         if (jwtToken) {
-          // Sačuvan token u localStorage
-          localStorage.setItem('token', jwtToken);
+          localStorage.setItem("token", jwtToken);
           const decodedToken = jwtDecode(jwtToken);
-          console.log('Decoded Token:', decodedToken);
-          // Prikaz tokena i dodatnih informacija u konzoli
-          console.log('Success login');
-          console.log('Token:', jwtToken);
-          console.log('User info:', data); // Ovo ispisuje sve podatke koje vraća API
-          const role=decodedToken.uloga;
-
-          if (role === 'ADMIN') {
-            navigate('/adminSistemPocetna', { state: { token: jwtToken } });
+          console.log("Decoded Token:", decodedToken);
+          console.log("Success login");
+          console.log("Token:", jwtToken);
+          console.log("User info:", data);
+          const role = decodedToken.uloga;
+    
+          if (role === "ADMIN") {
+            navigate("/adminSistemPocetna", { state: { token: jwtToken } });
           } else {
-            navigate('/prijavljeniKorisnikPocetna', { state: { token: jwtToken } });
+            navigate("/prijavljeniKorisnikPocetna", { state: { token: jwtToken } });
           }
         }
-      }
-      )
+      })
       .catch((error) => {
         console.error("Error logging in:", error);
-        setError('Pogrešan email ili lozinka'); // Postavite grešku kada prijava nije uspešna
-      });
-  };
-
+        setError(error.message); // Sada prikazuje backend poruku (npr. "Previše neuspešnih pokušaja. Pokušajte ponovo kasnije.")
+      })
+    }
+    
   return (
     <div className="prijavljivanje-container">
       <form className="prijavljivanje-form" onSubmit={handleSubmit}>

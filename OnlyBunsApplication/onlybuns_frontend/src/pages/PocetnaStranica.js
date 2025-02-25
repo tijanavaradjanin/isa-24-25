@@ -33,12 +33,15 @@ const PocetnaStranica = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openMap, setOpenMap] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [listaKomentara, setListaKomentara] = useState([]);
+  const [openKomentari, setOpenKomentari] = useState(false);
+  const [objavaId, setObjavaId]=useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:8080/objava/sveobjave")
       .then((response) => response.json())
-      .then((data) => setObjave(data))
+      .then((data) => setObjave(data), console.log(objave))
       .catch((error) => console.error("Greška pri dohvatanju objava:", error));
   }, []);
 
@@ -63,6 +66,23 @@ const PocetnaStranica = () => {
     navigate(`/korisnikProfil/${korisnickoIme}`);
   };
 
+  const handleOpenKomentari = async (objavaId) => {
+    try {
+      const url = `http://localhost:8080/objava/komentari?objavaId=${objavaId}`;
+      const response = await fetch(url);
+
+      if (!response.ok) throw new Error("Greška sa učitavanjem komentara.");
+
+      const data = await response.json();
+      setListaKomentara(data);
+      setOpenKomentari(true);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleCloseKomentari = () => setOpenKomentari(false);
+
   return (
     <Box>
       {/* Navigacija */}
@@ -82,15 +102,15 @@ const PocetnaStranica = () => {
           objave.map((objava) => (
             <Card key={objava.id} sx={{ mb: 3, boxShadow: 3 }}>
               <CardHeader
-                avatar={<Avatar>{objava.registrovaniKorisnik.ime[0]}</Avatar>}
+                avatar={<Avatar>{objava.korisnickoIme[0]}</Avatar>}
                 title={
                   <Typography
                   variant="body1"
                   color="text.primary"
                   sx={{ cursor: "pointer" }}
-                  onClick={() => goToUserProfile(objava.registrovaniKorisnik.korisnickoIme)}
+                  onClick={() => goToUserProfile(objava.korisnickoIme)}
                 >
-                  {objava.registrovaniKorisnik.korisnickoIme}
+                  {objava.korisnickoIme}
                   </Typography>
                 }
                 subheader={
@@ -147,12 +167,21 @@ const PocetnaStranica = () => {
                 <IconButton onClick={handleLikeClick}>
                   <ThumbUp />
                 </IconButton>
-                <Typography variant="body2">{objava.lajkovi.length} Lajkova</Typography>
+                <Typography variant="body2">{objava.lajkovi.length} lajkova</Typography>
 
                 <IconButton onClick={handleCommentClick}>
                   <ChatBubbleOutline />
                 </IconButton>
-                <Typography variant="body2">{objava.komentari.length} Komentara</Typography>
+                   <Typography
+                      variant="body2"
+                      sx={{ textDecoration: "underline", cursor: "pointer" }}
+                      onClick={() => {
+                        setObjavaId(objava.id); // Postavljamo ID objave pre otvaranja komentara
+                        handleOpenKomentari(objava.id); // Prosleđujemo ID objave
+                      }}
+                    >
+                      {objava.komentari.length} komentara
+                   </Typography>
               </CardActions>
             </Card>
           ))
@@ -199,9 +228,6 @@ const PocetnaStranica = () => {
                     shadowSize: [41, 41],
                   })}
                 >
-                  <Popup>
-                    Lokacija objave
-                  </Popup>
                 </Marker>
               </MapContainer>
             </div>
@@ -209,7 +235,60 @@ const PocetnaStranica = () => {
         </Modal>
       )}
 
-      
+      {/* Modal za prikaz komentara */}
+            <Modal open={openKomentari} onClose={handleCloseKomentari}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 400,
+                  maxHeight: 500,
+                  overflowY: "auto",
+                  bgcolor: "white",
+                  boxShadow: 24,
+                  p: 3,
+                  borderRadius: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
+                <Typography variant="h6">Komentari</Typography>
+                {listaKomentara.length > 0 ? (
+                  listaKomentara.map((komentar) => (
+                    <Box key={komentar.id} sx={{ borderBottom: "1px solid #ddd", pb: 1, mb: 1 }}>
+                      <Typography variant="body1">
+                        <Typography
+                          component="span"
+                          sx={{ fontWeight: "bold", cursor: "pointer", color: "blue" }}
+                          onClick={() => navigate(`/korisnikProfil/${komentar.korisnickoIme}`)}
+                        >
+                          {komentar.korisnickoIme}
+                        </Typography>
+                        : {komentar.sadrzaj}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {new Date(
+                          komentar.vremeKomentarisanja[0],
+                          komentar.vremeKomentarisanja[1] - 1,
+                          komentar.vremeKomentarisanja[2],
+                          komentar.vremeKomentarisanja[3],
+                          komentar.vremeKomentarisanja[4],
+                          komentar.vremeKomentarisanja[5]
+                        ).toLocaleString()}
+                      </Typography>
+                    </Box>
+                  ))
+                ) : (
+                  <Typography>Nema komentara.</Typography>
+                )}
+                <Button variant="outlined" onClick={handleCloseKomentari}>
+                  Zatvori
+                </Button>
+              </Box>
+            </Modal>
     </Box>
   );
 };

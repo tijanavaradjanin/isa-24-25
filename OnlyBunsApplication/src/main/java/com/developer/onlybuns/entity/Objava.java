@@ -1,5 +1,7 @@
 package com.developer.onlybuns.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -11,8 +13,8 @@ import java.util.List;
 @Table(name="objava")
 public class Objava {
     @Id
-    @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
+    @SequenceGenerator(name = "objavaSeqGen", sequenceName = "objavaSeq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "objavaSeqGen")
     private Integer id;
 
     @Column(name="opis", nullable=false)
@@ -36,10 +38,12 @@ public class Objava {
 
     @OneToMany(mappedBy = "objava", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
+    @JsonManagedReference
     private List<Komentar> komentari;
 
     @OneToMany(mappedBy = "objava", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
+    @JsonManagedReference
     private List<Lajk> lajkovi;
 
     public Objava(Integer id, String opis, String slika, Double latituda, Double longituda, LocalDateTime vremeKreiranja, RegistrovaniKorisnik registrovaniKorisnik, List<Komentar> komentari, List<Lajk> lajkovi) {

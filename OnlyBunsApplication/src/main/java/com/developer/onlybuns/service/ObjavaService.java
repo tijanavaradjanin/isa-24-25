@@ -13,13 +13,11 @@ import java.util.Optional;
 public interface ObjavaService {
     //List<Objava> findAllObjava();
 
-    //Objava findById(Integer id);
+    Optional<Objava> getById(Integer id);
 
     List<Objava> getAllObjave();
 
     List<Objava> findByKorisnikId(Integer korisnikId);
-
-    Optional<Objava> getById(Integer id);
 
     void saveObjava(Objava objava);
 

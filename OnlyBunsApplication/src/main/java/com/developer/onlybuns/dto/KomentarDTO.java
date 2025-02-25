@@ -2,7 +2,8 @@ package com.developer.onlybuns.dto;
 
 import java.time.LocalDateTime;
 
-public class KomentarDTO { private Integer id;
+public class KomentarDTO {
+    private Integer id;
 
     private String sadrzaj;
 
@@ -16,7 +17,7 @@ public class KomentarDTO { private Integer id;
     }
 
     public KomentarDTO(Integer id, String sadrzaj, String korisnickoIme, LocalDateTime vremeKomentarisanja, Integer idObjave) {
-        this.id = id;
+        this.id=id;
         this.sadrzaj = sadrzaj;
         this.korisnickoIme = korisnickoIme;
         this.vremeKomentarisanja = vremeKomentarisanja;

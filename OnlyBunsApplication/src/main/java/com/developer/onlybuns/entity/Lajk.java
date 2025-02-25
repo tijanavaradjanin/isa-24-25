@@ -1,4 +1,6 @@
 package com.developer.onlybuns.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,8 +11,8 @@ import java.time.LocalDateTime;
 @Table(name="lajk", uniqueConstraints = @UniqueConstraint(columnNames = {"korisnik_id", "objava_id"}))    //koji korisnik je lajkovao koju objavu
 public class Lajk {
     @Id
-    @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
+    @SequenceGenerator(name = "lajkSeqGen", sequenceName = "lajkSeq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lajkSeqGen")
     private Integer id;
 
     @ManyToOne
@@ -19,13 +21,13 @@ public class Lajk {
 
     @ManyToOne
     @JoinColumn(name = "objava_id", nullable = false)
+    @JsonBackReference
     private Objava objava;
 
     @Column(name="vremeLajkovanja", nullable=false)
     private LocalDateTime vremeLajkovanja;
 
-    public Lajk(Integer id, RegistrovaniKorisnik registrovaniKorisnik, Objava objava, LocalDateTime vremeLajkovanja) {
-        this.id = id;
+    public Lajk(RegistrovaniKorisnik registrovaniKorisnik, Objava objava, LocalDateTime vremeLajkovanja) {
         this.registrovaniKorisnik = registrovaniKorisnik;
         this.objava = objava;
         this.vremeLajkovanja = vremeLajkovanja;

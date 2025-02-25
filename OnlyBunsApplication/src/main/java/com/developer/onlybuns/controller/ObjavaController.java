@@ -1,5 +1,8 @@
 package com.developer.onlybuns.controller;
+import com.developer.onlybuns.dto.KomentarDTO;
+import com.developer.onlybuns.dto.LajkDTO;
 import com.developer.onlybuns.dto.ObjavaRequestDTO;
+import com.developer.onlybuns.service.*;
 import com.developer.onlybuns.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +21,10 @@ import com.developer.onlybuns.entity.Komentar;
 import com.developer.onlybuns.entity.Lajk;
 import com.developer.onlybuns.entity.Objava;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
-import com.developer.onlybuns.service.ObjavaService;
-import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
@@ -35,177 +37,43 @@ public class ObjavaController {
 
     private final RegistrovaniKorisnikService registrovaniKorisnikService;
 
+    private final PracenjeService pracenjeService;
+
+    private final LajkService lajkService;
+
+    private final KomentarService komentarService;
+
     @Autowired
     TokenUtils tokenUtils;
 
-    public ObjavaController(ObjavaService objavaService, RegistrovaniKorisnikService registrovaniKorisnikService) {
+    public ObjavaController(ObjavaService objavaService, RegistrovaniKorisnikService registrovaniKorisnikService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService) {
         this.objavaService = objavaService;
         this.registrovaniKorisnikService = registrovaniKorisnikService;
+        this.pracenjeService=pracenjeService;
+        this.lajkService=lajkService;
+        this.komentarService=komentarService;
     }
-/*
-    @PostMapping("/add")
-    public ResponseEntity<String> save(@RequestBody ObjavaDTO objavaDTO) {  //proveri je li okej preko objavaDTO a bez novaobjavaDTO
-        Optional<RegistrovaniKorisnik> registrovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(objavaDTO.getKorisnickoIme());
-        if (registrovaniKorisnik != null) {
-            List<Komentar> komentari = new ArrayList<Komentar>();
-            List<Lajk> lajkovi = new ArrayList<Lajk>();
-            Objava objava = new Objava(objavaDTO.getOpis(), objavaDTO.getSlika(), objavaDTO.getLatituda(), objavaDTO.getLongituda(), objavaDTO.getVremeKreiranja(), registrovaniKorisnik.get(), komentari, lajkovi);
-            objavaService.saveObjava(objava);
-
-            return ResponseEntity.ok("{\"message\": \"Uspesno ste kreirali objavu!\"}");
-        } else {
-            return ResponseEntity.status(401).body("Zao nam je, kreiranje objave nije uspelo, pokusajte ponovo sa ispravnim unosom.");
-        }
-
-    }
-*/
-
-   /* @PostMapping("/add")
-    public ResponseEntity<?> save(
-            @RequestParam("opis") String opis,
-            @RequestParam("slika") MultipartFile slika,
-            @RequestParam("latituda") Double latituda,
-            @RequestParam("longituda") Double longituda,
-            @RequestParam("korisnickoIme") String korisnickoIme) {
-
-        try {
-            // Kreiranje direktorijuma ako ne postoji
-            Path uploadPath = Paths.get("uploads");
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            // Generišemo jedinstveno ime za fajl
-            String fileName = UUID.randomUUID().toString() + "_" + slika.getOriginalFilename();
-            Path filePath = uploadPath.resolve(fileName);
-
-            // Zapisivanje slike na fajl sistem
-            slika.transferTo(filePath);
-
-            // Sačuvaj putanju do slike u bazi (ovde samo vraćamo putanju, u stvarnom slučaju treba koristiti Repository)
-            String slikaPutanja = filePath.toString();
-
-            // Kreiraj i sačuvaj objavu u bazi
-            // Pretpostavljamo da koristimo neki repository za upis u bazu
-            ObjavaDTO objava = new ObjavaDTO();
-            objava.setOpis(opis);
-            objava.setSlika(slikaPutanja);  // Putanja do slike se čuva
-            objava.setLatituda(latituda);
-            objava.setLongituda(longituda);
-            RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
-
-            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-           // System.out.println(vremeKreiranja); //string
-           // LocalDateTime modifikacija=LocalDateTime.parse(vremeKreiranja, formatter);
-            //System.out.println(modifikacija);
-           // System.out.println(LocalDateTime.now());
-           // OffsetDateTime odt=OffsetDateTime.parse(vremeKreiranja, formatter);
-            //String vremeModifikovano = vremeKreiranja.replace ( " " , "T" );
-            objava.setVremeKreiranja(LocalDateTime.now());
-
-
-            List<Komentar> komentari = new ArrayList<Komentar>();
-            List<Lajk> lajkovi = new ArrayList<Lajk>();
-            Objava novaObjava=new Objava(objava.getOpis(), objava.getSlika(), objava.getLatituda(), objava.getLongituda(), objava.getVremeKreiranja(), registrovaniKorisnik, komentari, lajkovi);
-            objavaService.saveObjava(novaObjava);
-            System.out.println(novaObjava);
-
-            return ResponseEntity.ok(novaObjava);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Greška pri čuvanju slike: " + e.getMessage());
-        }
-    }
-    */
-
-/*
-    @GetMapping("/mojeObjave")
-    public ResponseEntity<Optional<Objava>> getMYPosts(@RequestParam String korisnickoIme) {
-        Optional<RegistrovaniKorisnik> vlasnik=registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
-        Integer vlasnikId=vlasnik.get().getId();
-        Optional<Objava> mojeObjave = objavaService.findByKorisnikId(vlasnikId);
-        return ResponseEntity.ok(mojeObjave);
-    }
-    */
-
-/*
-    @GetMapping("/mojeObjave")
-    public ResponseEntity<List<Objava>> getMyPosts(@RequestHeader("Authorization") String authorizationHeader) {
-        try {
-            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401 Unauthorized
-            }
-            String token = authorizationHeader.substring(7);
-            String korisnickoIme = tokenUtils.getUsernameFromToken(token);
-
-            if (korisnickoIme == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-            RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
-            if (korisnik == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            System.out.println("Primljen zahtev za korisnika: " + korisnickoIme);
-            RegistrovaniKorisnik vlasnik = registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
-            if (vlasnik == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-            Integer vlasnikId = vlasnik.getId();
-            List<Objava> mojeObjave = objavaService.findByKorisnikId(vlasnikId);
-            return ResponseEntity.ok(mojeObjave);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-    */
-
-   /* @PostMapping("/add")
-    public ResponseEntity<?> save(
-            @RequestBody ObjavaRequestDTO objavaRequestDTO,
-            Principal principal) {
-
-        try {
-            // Proveri validnost lokacije
-            double[] koordinate = objavaService.validateLocation(objavaRequestDTO.getGrad(), objavaRequestDTO.getDrzava());
-            if (koordinate == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Greška: Nevalidna lokacija! Molimo unesite ispravan grad i državu.");
-            }
-
-            double latituda = koordinate[0];
-            double longituda = koordinate[1];
-            String slikaPutanja="";
-
-            // Kreiranje direktorijuma ako ne postoji
-            Path uploadPath = Paths.get("uploads");
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-             if(objavaRequestDTO.getSlika() != null && !objavaRequestDTO.getSlika().isEmpty()) {
-                 slikaPutanja = "uploads/" + objavaRequestDTO.getSlika();
-             }
-
-            // Kreiranje i čuvanje objave
-            String korisnickoIme = principal.getName();
-            System.out.println("KORISNIK KOJI PRAVI OBJAVU JE: " + korisnickoIme);
-            RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
-            Objava novaObjava = new Objava(objavaRequestDTO.getOpis(), slikaPutanja, latituda, longituda, LocalDateTime.now(), registrovaniKorisnik, new ArrayList<>(), new ArrayList<>());
-
-            objavaService.saveObjava(novaObjava);
-            return ResponseEntity.ok(novaObjava);
-
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Greška pri čuvanju slike: " + e.getMessage());
-        }
-    }
-    */
 
     @GetMapping("/sveobjave")
-    public ResponseEntity<List<Objava>> getSveObjave() {
+    public ResponseEntity<List<ObjavaDTO>> getSveObjave() {
         List<Objava> objave = objavaService.getAllObjave();
-        return ResponseEntity.ok(objave);
+        List<ObjavaDTO> objavePrikaz=new ArrayList<>();
+        for(Objava objava: objave){
+            objavePrikaz.add(new ObjavaDTO(
+                    objava.getId(),
+                    objava.getOpis(),
+                    objava.getSlika(),
+                    objava.getLatituda(),
+                    objava.getLongituda(),
+                    objava.getVremeKreiranja(),
+                    objava.getKomentari(),
+                    objava.getLajkovi(),
+                    objava.getRegistrovaniKorisnik().getKorisnickoIme(),
+                    objava.getLajkovi().size(),
+                    objava.getKomentari().size()
+            ));
+        }
+        return ResponseEntity.ok(objavePrikaz);
     }
 
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -219,20 +87,29 @@ public class ObjavaController {
             Principal principal) {
 
         try {
-            double[] koordinate = objavaService.validateLocation(grad, drzava);
-            if (koordinate == null) {
-                Map<String, String> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Nevalidna lokacija! Molimo unesite ispravan grad i državu.");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            // Provera da li su koordinate prosleđene sa fronta
+            double latituda;
+            double longituda;
+
+            if (latitude != null && longitude != null) {
+                // Ako su latitude i longitude prosleđeni, koristi ih
+                latituda = latitude;
+                longituda = longitude;
+            } else {
+                // Ako nisu, validiraj na osnovu grad/država
+                double[] koordinate = objavaService.validateLocation(grad, drzava);
+                if (koordinate == null) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(Map.of("error", "Nevalidna lokacija! Molimo unesite ispravan grad i državu."));
+                }
+                latituda = koordinate[0];
+                longituda = koordinate[1];
             }
 
-            if ((grad == null || grad.isEmpty()) && (drzava == null || drzava.isEmpty()) && (latitude == null || longitude == null)) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Morate uneti ili grad i državu ili odabrati lokaciju na mapi."));
-            }
+            // Loguj vrednosti da proveriš da li su dobre
+            System.out.println("Latitude: " + latituda + ", Longitude: " + longituda);
 
-            double latituda = koordinate[0];
-            double longituda = koordinate[1];
-
+            // Čuvanje slike
             Path uploadPath = Paths.get("uploads");
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
@@ -243,6 +120,7 @@ public class ObjavaController {
             Path fileStoragePath = uploadPath.resolve(originalFilename);
             Files.copy(slikaFile.getInputStream(), fileStoragePath, StandardCopyOption.REPLACE_EXISTING);
 
+            // Kreiranje objave
             RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
             Objava novaObjava = new Objava(opis, filePath, latituda, longituda, LocalDateTime.now(), registrovaniKorisnik, new ArrayList<>(), new ArrayList<>());
 
@@ -255,6 +133,7 @@ public class ObjavaController {
         }
     }
 
+
     @GetMapping("/mojeObjave")
     public ResponseEntity<List<Objava>> getMyPosts(Principal principal) {
 
@@ -266,6 +145,7 @@ public class ObjavaController {
             }
             Integer vlasnikId = vlasnik.getId();
             List<Objava> mojeObjave = objavaService.findByKorisnikId(vlasnikId);
+            Collections.sort(mojeObjave, (o1, o2) -> o2.getVremeKreiranja().compareTo(o1.getVremeKreiranja()));
             return ResponseEntity.ok(mojeObjave);
     }
 
@@ -279,16 +159,69 @@ public class ObjavaController {
         objavaService.deleteObjava(id);
     }
 
-    @GetMapping("/lajkovi")
-    public ResponseEntity<List<Lajk>> getAllLajkovi(Integer id) {
-        List<Lajk> lajkovi = objavaService.getAllLajkovi(id);
-        return ResponseEntity.ok(lajkovi);
+    @PostMapping("/lajkuj")
+    public ResponseEntity<?> likeAPost(@RequestParam("objavaId") Integer objavaId, Principal principal) {
+        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+        Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
+        boolean prati = pracenjeService.proveriDaLiPrati(korisnik.getId(), objava.getRegistrovaniKorisnik().getId());
+        if (!prati) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ne mozete lajkovati ovu objavu jer ne pratite korisnika.");
+        }
+        Lajk lajk = new Lajk(korisnik, objava, LocalDateTime.now());
+        lajkService.saveLajk(lajk);
+
+        return ResponseEntity.ok("Objava lajkovana uspesno!");
+    }
+
+    @PostMapping("/komentarisi")
+    public ResponseEntity<?> commentAPost(@RequestParam("objavaId") Integer objavaId, @RequestParam("sadrzaj") String sadrzaj, Principal principal) {
+        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+        Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
+        boolean prati = pracenjeService.proveriDaLiPrati(korisnik.getId(), objava.getRegistrovaniKorisnik().getId());
+        if (!prati) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ne mozete komentarisati ovu objavu jer ne pratite korisnika.");
+        }
+        Komentar komentar = new Komentar(sadrzaj, LocalDateTime.now(), korisnik, objava);
+        komentarService.saveKomentar(komentar);
+
+        return ResponseEntity.ok("Objava komentarisana uspesno!");
     }
 
     @GetMapping("/komentari")
-    public ResponseEntity<List<Komentar>> getAllKomentari(Integer id) {
-        List<Komentar> komentari = objavaService.getAllKomentari(id);
-        return ResponseEntity.ok(komentari);
+    public ResponseEntity<List<KomentarDTO>> seeComments(@RequestParam("objavaId") Integer objavaId) {
+        Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
+        List<Komentar> komentariObjave = new ArrayList<>();
+        komentariObjave = objavaService.getAllKomentari(objavaId);
+        List<KomentarDTO> komentariObjaveDTO= new ArrayList<>();
+        for(Komentar kom : komentariObjave){
+            komentariObjaveDTO.add(new KomentarDTO(
+                    kom.getId(),
+                    kom.getSadrzaj(),
+                    kom.getRegistrovaniKorisnik().getKorisnickoIme(),
+                    kom.getVremeKomentarisanja(),
+                    kom.getObjava().getId()
+            ));
+        }
+        Collections.sort(komentariObjaveDTO, (o1, o2) -> o2.getVremeKomentarisanja().compareTo(o1.getVremeKomentarisanja()));
+        return ResponseEntity.ok(komentariObjaveDTO);
+    }
+
+    @GetMapping("/lajkovi")
+    public ResponseEntity<List<LajkDTO>> seeLikes(@RequestParam("objavaId") Integer objavaId) {
+        Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
+        List<Lajk> lajkoviObjave = new ArrayList<>();
+        lajkoviObjave = objavaService.getAllLajkovi(objavaId);
+        List<LajkDTO> lajkoviObjaveDTO= new ArrayList<>();
+        for(Lajk lajk : lajkoviObjave){
+            lajkoviObjaveDTO.add(new LajkDTO(
+                    lajk.getId(),
+                    lajk.getRegistrovaniKorisnik().getKorisnickoIme(),
+                    lajk.getVremeLajkovanja(),
+                    lajk.getObjava().getId()
+            ));
+        }
+        Collections.sort(lajkoviObjaveDTO, (o1, o2) -> o2.getVremeLajkovanja().compareTo(o1.getVremeLajkovanja()));
+        return ResponseEntity.ok(lajkoviObjaveDTO);
     }
 
     @GetMapping("/obliznjeObjave")
@@ -303,30 +236,33 @@ public class ObjavaController {
         return ResponseEntity.ok(nearbyPosts);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @GetMapping("/feed")
+    public ResponseEntity<List<ObjavaDTO>> MyFeed(Principal principal) {
+        RegistrovaniKorisnik registrovaniKorisnik=registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+        System.out.println("Ulogovan je korisnik sa id-jem: " + registrovaniKorisnik.getId());
+        List<RegistrovaniKorisnik> zapraceniKorisnici=pracenjeService.zapraceniKorisnici(registrovaniKorisnik.getId());
+        System.out.println("Ovaj korisnik prati korisnike: " + zapraceniKorisnici);
+        List<Objava> objaveFeed=new ArrayList<>();
+        for(RegistrovaniKorisnik rk:zapraceniKorisnici) {
+            objaveFeed.addAll(objavaService.findByKorisnikId(rk.getId()));
+        }
+        Collections.sort(objaveFeed, (o1, o2) -> o2.getVremeKreiranja().compareTo(o1.getVremeKreiranja()));
+        List<ObjavaDTO> objaveFeed2=new ArrayList<>();
+        for(Objava objava:objaveFeed) {
+            objaveFeed2.add(new ObjavaDTO(
+                    objava.getId(),
+                    objava.getOpis(),
+                    objava.getSlika(),
+                    objava.getLatituda(),
+                    objava.getLongituda(),
+                    objava.getVremeKreiranja(),
+                    objava.getKomentari(),
+                    objava.getLajkovi(),
+                    objava.getRegistrovaniKorisnik().getKorisnickoIme(),
+                    objava.getLajkovi().size(),
+                    objava.getKomentari().size()
+            ));
+        }
+        return ResponseEntity.ok(objaveFeed2);
+    }
 }

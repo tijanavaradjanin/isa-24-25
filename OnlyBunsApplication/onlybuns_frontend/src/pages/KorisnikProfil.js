@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, CircularProgress, Alert, TableContainer, TableHead, TableRow, Paper} from "@mui/material";
+import { Box, Typography, Avatar, Table, Button, TableBody, TableCell, CircularProgress, Alert, TableContainer, TableHead, TableRow, Paper} from "@mui/material";
 
 const KorisnikProfil = () => {
   const { korisnickoIme } = useParams(); // Uzima korisničko ime iz URL-a
@@ -8,6 +8,23 @@ const KorisnikProfil = () => {
   const [korisnik, setKorisnik] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [prati, setPrati] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    // Provera da li korisnik već prati prikazanog korisnika
+    fetch(`http://localhost:8080/pracenje/provera?zapraceni=${korisnickoIme}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setPrati(data))
+      .catch((error) => console.error("Greška prilikom provere praćenja:", error));
+  }, [korisnickoIme]);
 
   useEffect(() => {
     // Poziv backend-a da preuzme podatke o korisniku
@@ -33,10 +50,6 @@ const KorisnikProfil = () => {
         });
     }, [korisnickoIme]);
 
-  if (!KorisnikProfil) {
-    return <div>Učitavanje...</div>; // Prikazuj poruku dok se učitava profil
-  }
-
   if (loading) {
       return (
         <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -53,18 +66,58 @@ const KorisnikProfil = () => {
       );
     }
 
+  const handlePracenje = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Morate biti prijavljeni da biste zapratili korisnika.");
+      return;
+    }
+
+    const url = prati
+      ? `http://localhost:8080/pracenje/delete?zapraceni=${encodeURIComponent(korisnickoIme)}`
+      : `http://localhost:8080/pracenje/add?zapraceni=${encodeURIComponent(korisnickoIme)}`;
+    
+    try {
+      const response = await fetch(url, {
+        method: prati ? "DELETE" : "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Došlo je do greške: ${errorMessage}`);
+      }
+
+      setPrati(!prati);
+      alert(prati ? "Uspešno ste otpratili korisnika!" : "Uspešno ste zapratili korisnika!");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <Box>
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', marginTop: '5vh' }}>
         <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
-          <Typography variant="h4" gutterBottom textAlign="center" sx={{ padding: '16px' }}>
-            Profil korisnika
-          </Typography>
+            <Button sx={{ marginLeft: '60vh', marginTop: '1vh', fontWeight: 'bold' }} 
+              onClick={handlePracenje}
+            >
+              {prati ? "Otprati" : "Zaprati"}
+            </Button>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
+            <Avatar 
+                src='/userrabbit.png' 
+                alt="Profilna slika korisnika" 
+                sx={{ width: 100, height: 100, mb: 1, borderRadius: 0, objectFit: "cover", marginTop: 0 }} 
+              />
+            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                {korisnik.korisnickoIme}
+              </Typography>
+          </Box>
           <Table>
             <TableHead>
-              <TableRow>
-                <TableCell colSpan={2} sx={{ fontWeight: 'bold', fontSize: '16px' }}>Podaci korisnika {korisnik.korisnickoIme}</TableCell>
-              </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>

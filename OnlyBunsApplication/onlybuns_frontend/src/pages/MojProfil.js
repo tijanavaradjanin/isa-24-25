@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, Typography, Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
+import { Avatar } from '@mui/material';
+import { Box, Button, Typography, Toolbar, Table, Modal, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
 
 const MojProfil = () => {
   //const location = useLocation();
@@ -10,6 +11,9 @@ const MojProfil = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [openLista, setOpenLista] = useState(false);
+  const [zapracen, setZapracen] = useState("");
+  const [listaZapracenih, setListaZapracenih] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -49,7 +53,34 @@ const MojProfil = () => {
         setLoading(false);
       });
   }, [navigate]);
-  
+
+  const handleOpenListaZapracenih = async () => {
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:8080/pracenje/listaZapracenih`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Greška prilikom preuzimanja korisnika.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setOpenLista(true);
+        setListaZapracenih(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleCloseLista= () => setOpenLista(false);
   
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -95,7 +126,7 @@ const MojProfil = () => {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
         <Box sx={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
         <Toolbar sx={{ justifyContent: "flex-end" }}>
              <Button color="primary" onClick={seeMyProfile}>Moj profil</Button>
@@ -111,17 +142,24 @@ const MojProfil = () => {
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
-          <Typography variant="h4" gutterBottom textAlign="center" sx={{ padding: '16px' }}>
-            Moj profil
-          </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '60vh', marginBottom: '20px' }}>
+        {/* Podaci korisnika */}
+        <TableContainer component={Paper} sx={{ maxWidth: 600}}>
+           <Button sx={{ marginLeft: '54vh', marginTop: '1vh', fontWeight: 'bold', display: 'right' }} 
+                        onClick={handleOpenListaZapracenih}>
+                        koga pratite
+                      </Button>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
+            <Avatar 
+              src='userrabbit.png' 
+              alt="Profilna slika" 
+              sx={{ width: 100, height: 100, mb: 1, borderRadius: 0, objectFit: "cover", marginTop: 0 }} 
+            />
+            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                {korisnik.korisnickoIme}
+              </Typography>
+          </Box>
           <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell colSpan={2} sx={{ fontWeight: 'bold', fontSize: '16px' }}>Podaci korisnika</TableCell>
-              </TableRow>
-            </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>Ime</TableCell>
@@ -158,18 +196,62 @@ const MojProfil = () => {
               <TableRow>
                 <TableCell>Lozinka</TableCell>
                 <TableCell>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                     {showPassword ? korisnik.password : '********'}
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {showPassword ? korisnik.password : '********'}
                     <Button onClick={togglePasswordVisibility} sx={{ minWidth: 'auto', ml: 1 }}>
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
                     </Button>
-                 </Box>
+                  </Box>
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
       </Box>
+
+      {/* Modal za prikaz zapracenih korisnika */}
+            <Modal open={openLista}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 400,
+                  maxHeight: 500,
+                  overflowY: "auto",
+                  bgcolor: "white",
+                  boxShadow: 24,
+                  p: 3,
+                  borderRadius: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
+                <Typography variant="h6">Zapraceni korisnici</Typography>
+                {listaZapracenih.length > 0 ? (
+                  listaZapracenih.map((zapracen) => (
+                    <Box key={zapracen.id} sx={{ borderBottom: "1px solid #ddd", pb: 1, mb: 1 }}>
+                      <Typography variant="body1">
+                        <Typography
+                          component="span"
+                          sx={{ fontWeight: "bold", cursor: "pointer", color: "blue" }}
+                          onClick={() => navigate(`/korisnikProfil/${zapracen.korisnickoIme}`)}
+                        >
+                          {zapracen.korisnickoIme}
+                          </Typography>
+                          </Typography>
+                    </Box>
+                  ))
+                ) : (
+                  <Typography>Nema zapracenih korisnika.</Typography>
+                )}
+                <Button variant="outlined" onClick={handleCloseLista}>
+                  Zatvori
+                </Button>
+              </Box>
+            </Modal>
     </Box>
   );
 };

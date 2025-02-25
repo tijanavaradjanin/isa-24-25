@@ -74,8 +74,9 @@ export default function KreiranjeObjave() {
       formData.append("grad", grad);
       formData.append("drzava", drzava);
   } else if (location) {
-      formData.append("latitude", parseFloat(location.lat.toFixed(7)));
-      formData.append("longitude", parseFloat(location.lng.toFixed(7)));
+    console.log("Koordinate pre slanja:", location.lat, location.lng);
+      formData.append("latitude", location.lat);
+      formData.append("longitude", location.lng);
   } else {
     setError("Morate uneti grad i državu ili odabrati lokaciju na mapi.");
     return;
@@ -105,6 +106,7 @@ export default function KreiranjeObjave() {
       click(e) {
         if (!mapEnabled) return; // Ako je mapa isključena, ne dozvoljava klikove
 
+        console.log("Kliknuto na koordinatama:", e.latlng);
         setLocation(e.latlng);
         setGrad('');
         setDrzava('');
@@ -116,7 +118,7 @@ export default function KreiranjeObjave() {
 
   return (
     <div className="kreiranje-objave-container">
-      <form className="kreiranje-objave-form" onSubmit={handleSubmit}>
+      <form className="kreiranje-objave-form" onSubmit={handleSubmit} sx={{marginTop: '5hv'}}>
         <h1 className="kreiranje-objave-title">Kreiranje Objave</h1>
         {error && <p className="error-message">{error}</p>}
         
@@ -161,7 +163,7 @@ export default function KreiranjeObjave() {
             setLocation(null);
             setMapEnabled(grad === '' && e.target.value === '');
           }}
-          disabled={location !== null} // Ako korisnik koristi mapu, blokiraj polje
+          disabled={location !== null}
         />
 
         <p className="mapa-label">Ili odaberite lokaciju na mapi:</p>
