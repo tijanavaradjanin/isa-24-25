@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/Prijavljivanje.css'; 
 import {jwtDecode} from 'jwt-decode';
+import { Typography} from '@mui/material';
 
 export default function Prijavljivanje() {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ export default function Prijavljivanje() {
       .then((response) => {
         return response.text().then((text) => {
           if (!response.ok) {
-            throw new Error(text); // Sada vraća backend poruku umesto samo HTTP statusa
+            throw new Error(text); // Vraća backend poruku umesto samo HTTP statusa
           }
           return JSON.parse(text); // Ako je uspešno, parsira JSON
         });
@@ -50,15 +51,18 @@ export default function Prijavljivanje() {
       })
       .catch((error) => {
         console.error("Error logging in:", error);
-        setError(error.message); // Sada prikazuje backend poruku (npr. "Previše neuspešnih pokušaja. Pokušajte ponovo kasnije.")
+        setError(error.message); // Prikazuje backend poruku
       })
     }
     
   return (
     <div className="prijavljivanje-container">
       <form className="prijavljivanje-form" onSubmit={handleSubmit}>
-        <h1 className="prijavljivanje-title">Prijavljivanje</h1>
-        {error && <p className="error-message">{error}</p>}
+        <h1 className="prijavljivanje-title">Dobrodošli nazad!</h1>
+        <div className={`error-container ${error ? "show" : ""}`}>
+          {error && <p className="error-message">{error}</p>}
+        </div>
+
         <input
           type="email"
           placeholder="Email"
@@ -74,7 +78,12 @@ export default function Prijavljivanje() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" className="prijavljivanje-button">Prijavi se</button>
-        <Link to="/registracija" className="prijavljivanje-link">Registruj se</Link>
+          <Typography component="div" style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
+            <span>Nemaš nalog?</span>
+              <Link to="/registracija" className="prijavljivanje-link" style={{ marginLeft: "5px" }}>
+                Registruj se
+              </Link>
+          </Typography>
       </form>
     </div>
   );

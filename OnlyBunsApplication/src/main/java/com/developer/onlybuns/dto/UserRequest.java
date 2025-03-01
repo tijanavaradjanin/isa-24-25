@@ -1,20 +1,36 @@
 package com.developer.onlybuns.dto;
 
-public class UserRequest {
-    private Long id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+public class UserRequest {
+
+    @NotBlank(message = "Obavezno polje")
     private String korisnickoIme;
 
-    private String lozinka;
+    @NotBlank(message = "Obavezno polje")
+    @Size(min = 6, message = "Lozinka mora imati min. 6 karaktera")
+    private String password;
 
+    @NotBlank(message = "Obavezno polje")
+    private String potvrdaLozinke;
+
+    @NotBlank(message = "Obavezno polje")
     private String ime;
 
+    @NotBlank(message = "Obavezno polje")
     private String prezime;
 
+    @NotBlank(message = "Obavezno polje")
+    @Email(message = "Neispravan format email adrese")
     private String email;
 
+    @NotBlank(message = "Obavezno polje")
     private String grad;
 
+    @NotBlank(message = "Obavezno polje")
     private String drzava;
 
     private String broj;
@@ -23,10 +39,10 @@ public class UserRequest {
 
     public UserRequest() {}
 
-    public UserRequest(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String email, String grad, String drzava, String broj, String info) {
-        this.id = id;
+    public UserRequest(String korisnickoIme, String lozinka, String potvrdaLozinke, String ime, String prezime, String email, String grad, String drzava, String broj, String info) {
         this.korisnickoIme = korisnickoIme;
-        this.lozinka = lozinka;
+        this.password = lozinka;
+        this.potvrdaLozinke = potvrdaLozinke;
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
@@ -34,14 +50,6 @@ public class UserRequest {
         this.drzava = drzava;
         this.broj = broj;
         this.info = info;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getKorisnickoIme() {
@@ -52,12 +60,12 @@ public class UserRequest {
         this.korisnickoIme = korisnickoIme;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public void setPassword(String lozinka) {
+        this.password = lozinka;
     }
 
     public String getIme() {
@@ -106,6 +114,14 @@ public class UserRequest {
 
     public void setBroj(String broj) {
         this.broj = broj;
+    }
+
+    public String getPotvrdaLozinke() {
+        return potvrdaLozinke;
+    }
+
+    public void setPotvrdaLozinke(String potvrdaLozinke) {
+        this.potvrdaLozinke = potvrdaLozinke;
     }
 
     public String getInfo() {

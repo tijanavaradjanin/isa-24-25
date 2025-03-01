@@ -1,0 +1,13 @@
+.pocetna-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    width: 100%;
+    background-image: url('sargarepe6.jpeg'); 
+    background-size: cover;
+    background-position: center 57%; /* Pomeranje slike na dole */
+    padding-left: 10px;
+    padding-right: 10px;
+  }

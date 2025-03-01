@@ -90,7 +90,7 @@ public class WebSecurityConfig {
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
 		http.authorizeRequests().antMatchers("/**").permitAll()		// /auth/**
 			.antMatchers("/h2-console/**").permitAll().antMatchers("/registrovaniKorisnik/{korisnickoIme}").permitAll()
-			.antMatchers("/objava/lajkovi").permitAll().antMatchers("/objava/komentari").permitAll()	// /h2-console/** ako se koristi H2 baza)
+			.antMatchers("/objava/lajkovi").permitAll().antMatchers("/objava/komentari").permitAll().antMatchers("/registrovaniKorisnik/signup").permitAll()	// /h2-console/** ako se koristi H2 baza)
 			.antMatchers("/auth/login").permitAll().antMatchers("/registrovaniKorisnik/add").permitAll().antMatchers("/objava/sveobjave").permitAll()
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi

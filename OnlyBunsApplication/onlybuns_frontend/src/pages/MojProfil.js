@@ -104,6 +104,10 @@ const MojProfil = () => {
     navigate('/prikazMape');
   };
 
+  const handleUpdateProfile = () => {
+    navigate('/azuriranjeProfila');
+  };
+
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };  
@@ -146,9 +150,9 @@ const MojProfil = () => {
         {/* Podaci korisnika */}
         <TableContainer component={Paper} sx={{ maxWidth: 600}}>
            <Button sx={{ marginLeft: '54vh', marginTop: '1vh', fontWeight: 'bold', display: 'right' }} 
-                        onClick={handleOpenListaZapracenih}>
-                        koga pratite
-                      </Button>
+                onClick={handleOpenListaZapracenih}>
+                koga pratite
+            </Button>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
             <Avatar 
               src='userrabbit.png' 
@@ -158,6 +162,7 @@ const MojProfil = () => {
             <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                 {korisnik.korisnickoIme}
               </Typography>
+              <Button onClick={handleUpdateProfile}> izmeni profil </Button>
           </Box>
           <Table>
             <TableBody>

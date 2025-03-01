@@ -17,6 +17,21 @@ public class RegistrovaniKorisnik extends Korisnik implements UserDetails {
         return claims;
     }
 
+    public RegistrovaniKorisnik(String email, String password, String ime, String prezime, String korisnickoIme, String grad, String drzava, String broj, String info) {
+        this.email = email;
+        this.password = password;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.korisnickoIme = korisnickoIme;
+        this.grad = grad;
+        this.drzava = drzava;
+        this.broj = broj;
+        this.info = info;
+    }
+
+    public RegistrovaniKorisnik() {
+    }
+
     public String getInfo() {
         return info;
     }

@@ -13,6 +13,7 @@ import MojProfil from "./pages/MojProfil";
 import MapaObjava from "./pages/MapaObjava";
 import PrikazMape from "./pages/PrikazMape";
 import KorisnikProfil from "./pages/KorisnikProfil";
+import AzuriranjeProfila from "./pages/AzuriranjeProfila";
 import RegistracijaAdminSistem from "./nav/RegistracijaAdminSistem";
 import logo from './pics/bunnycircle.webp'
 import Header from './Header'; 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/mapaObjava" element={<MapaObjava />} />
           <Route path="/prikazMape" element={<PrikazMape />} />
           <Route path="/korisnikProfil/:korisnickoIme" element={<KorisnikProfil />} />
+          <Route path="/azuriranjeProfila" element={<AzuriranjeProfila />} />
         </Routes>
       </div>
     </Router>

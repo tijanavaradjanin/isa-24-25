@@ -40,7 +40,7 @@ public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
     public RegistrovaniKorisnik saveRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnikEntity) {
         //to do:
         //za grad i drzavu da ne sme biti broj, za ime i prezime ne sme biti broj ili znakovi
-        if(registrovaniKorisnikRepository.existsByEmail(registrovaniKorisnikEntity.getEmail())) {
+       /* if(registrovaniKorisnikRepository.existsByEmail(registrovaniKorisnikEntity.getEmail())) {
             throw new RuntimeException("Email zauzet");
         }
         if(registrovaniKorisnikRepository.existsByKorisnickoIme(registrovaniKorisnikEntity.getKorisnickoIme())) {
@@ -57,14 +57,12 @@ public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
         }
         if (!registrovaniKorisnikEntity.getBroj().matches("^[0-9]{10}$")) {
             throw new RuntimeException("Broj telefona mora sadržati tačno 10 cifara");
-        }
-        try {
+        } */
             registrovaniKorisnikEntity.setUloga(Uloga.KORISNIK);
             return registrovaniKorisnikRepository.save(registrovaniKorisnikEntity);
-        } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Duplicate entry detected", e);
-        }
+
     }
+
 
     @Override
     public RegistrovaniKorisnik updateRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnikEntity) {

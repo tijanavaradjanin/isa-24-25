@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
+import '../css/PocetnaStranica.css'; 
 
 // Komponenta za modal prijavljivanja
 const PrijavaModal = ({ open, handleClose, navigate }) => {
@@ -84,16 +85,22 @@ const PocetnaStranica = () => {
   const handleCloseKomentari = () => setOpenKomentari(false);
 
   return (
-    <Box>
+  <div >
+    <Box sx={{
+    backgroundColor: 'rgba(157, 193, 222, 0.7);',
+    backgroundRepeat: "repeat",
+    backgroundSize: "contain",
+    height: "max-content",
+    }}>
       {/* Navigacija */}
       <Toolbar sx={{ justifyContent: "flex-end" }}>
-        <Button color="primary" onClick={() => navigate("/prijava")}>Prijavite se</Button>
+        <Button color="info" onClick={() => navigate("/prijava")}>Prijavite se</Button>
         <Typography>|</Typography>
         <Button color="primary" onClick={() => navigate("/registracija")}>Registrujte se</Button>
       </Toolbar>
 
       {/* Lista objava */}
-      <Box sx={{ maxWidth: 600, margin: "auto", mt: 4 }}>
+      <Box sx={{ width: "90%", maxWidth: "700px", margin: "auto", mt: 4 }}>
         {objave.length === 0 ? (
           <Typography variant="h6" textAlign="center">
             Nema objava za prikaz.
@@ -107,6 +114,7 @@ const PocetnaStranica = () => {
                   <Typography
                   variant="body1"
                   color="text.primary"
+                  font-family= "Helvetica"
                   sx={{ cursor: "pointer" }}
                   onClick={() => goToUserProfile(objava.korisnickoIme)}
                 >
@@ -115,7 +123,7 @@ const PocetnaStranica = () => {
                 }
                 subheader={
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" font-family= "Helvetica">
                       {new Date(
                         objava.vremeKreiranja[0],
                         objava.vremeKreiranja[1] - 1,
@@ -289,7 +297,8 @@ const PocetnaStranica = () => {
                 </Button>
               </Box>
             </Modal>
-    </Box>
+       </Box>
+    </div>
   );
 };
 
