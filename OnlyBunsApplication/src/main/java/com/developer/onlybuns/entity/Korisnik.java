@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
@@ -55,8 +56,14 @@ public class Korisnik implements UserDetails {
     @Column(name="uloga", nullable = false)
     public Uloga uloga;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @Column(name = "last_password_reset_date")
     public Timestamp lastPasswordResetDate;
+
+    @Column(name = "last_login")
+    private Timestamp lastLogin;
 
     public Korisnik() {
 
@@ -108,26 +115,13 @@ public class Korisnik implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 
-    public void setPassword(String password) {       //OVDE STAVITI LASTPASSWORDRESETDATE KAO NA VEZBAMA DODATI
+    public void setPassword(String password) {
+        Timestamp now = new Timestamp(new Date().getTime());
+        this.setLastPasswordResetDate(now);
         this.password = password;
     }
 
@@ -192,5 +186,33 @@ public class Korisnik implements UserDetails {
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) { this.lastPasswordResetDate=lastPasswordResetDate; }
 
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    public Timestamp getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
+    }
 }

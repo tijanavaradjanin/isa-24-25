@@ -35,7 +35,7 @@ public class WebSecurityConfig {
 
 	// Servis koji se koristi za citanje podataka o korisnicima aplikacije
 	@Bean
-    public UserDetailsService userDetailsService() {
+    public CustomUserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
     }
 

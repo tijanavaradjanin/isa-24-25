@@ -2,32 +2,22 @@ package com.developer.onlybuns.controller;
 import com.developer.onlybuns.dto.KorisnikProfilDTO;
 import com.developer.onlybuns.dto.UpdateProfile;
 import com.developer.onlybuns.dto.UserRequest;
-import com.developer.onlybuns.entity.Korisnik;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
-import com.developer.onlybuns.entity.Uloga;
-import com.developer.onlybuns.entity.UserDetails;
 import com.developer.onlybuns.service.ObjavaService;
 import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import com.developer.onlybuns.util.TokenUtils;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.sql.SQLException;
+import java.security.KeyStore;
 import java.util.*;
-import org.json.JSONObject;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
@@ -39,6 +29,9 @@ public class RegistrovaniKorisnikController {
     private final RegistrovaniKorisnikService registrovaniKorisnikService;
 
     private final ObjavaService objavaService;
+
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private TokenUtils tokenUtils;
@@ -89,29 +82,20 @@ public class RegistrovaniKorisnikController {
         return ResponseEntity.ok(korisnikDTO);
     }
 
-    //prepoznaje principal-radi u postmanu
     @GetMapping("/profil")
-    public ResponseEntity<RegistrovaniKorisnik> getUser(Principal principal) {
-        String korisnickoIme = principal.getName();
-        System.out.println("KORISNIK KOJI GLEDA SVOJ PROFIL JE: " + korisnickoIme);
-        System.out.println("Principal sadrzi: " + principal.getName());
-        RegistrovaniKorisnik user = registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
-
-        return ResponseEntity.ok(user);
+    public ResponseEntity<RegistrovaniKorisnik> getUser(Authentication authentication) {
+            RegistrovaniKorisnik user = (RegistrovaniKorisnik) authentication.getPrincipal();
+            return ResponseEntity.ok(user);
     }
+
 
     @PostMapping("/add")
     public ResponseEntity<?> saveRegistrovaniKorisnik(@Valid @RequestBody RegistrovaniKorisnik korisnikEntity) {
-        //try catch blok po uzoru na prijaviKorisnika
         try {
             RegistrovaniKorisnik response = registrovaniKorisnikService.saveRegistrovaniKorisnik(korisnikEntity);
             return ResponseEntity.ok(response);
 
-        }  //catch (IllegalArgumentException e) {
-        // String jsonString = "{\"Error\":" + "\"" + e.getMessage() + "\"" + "}";
-        // JSONObject json = new JSONObject(jsonString);
-        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
-        //  }
+        }
         catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
         } catch (RuntimeException e) {
@@ -176,8 +160,11 @@ public class RegistrovaniKorisnikController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?>  updateProfile(@RequestBody @Valid UpdateProfile dto, Principal principal) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<?>  updateProfile(@RequestBody @Valid UpdateProfile dto, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
+
+        boolean usernameChanged = false;
+        boolean passwordChanged = false;
 
         if (dto.getIme() != null) korisnik.setIme(dto.getIme());
         if (dto.getPrezime() != null) korisnik.setPrezime(dto.getPrezime());
@@ -190,10 +177,11 @@ public class RegistrovaniKorisnikController {
                         .body("Korisnicko ime je vec zauzeto.");
             }
             korisnik.setKorisnickoIme(dto.getKorisnickoIme());
+            usernameChanged = true;
         }
 
         if (dto.getGrad() != null && dto.getDrzava() != null) {
-            // Ako menja oba (grad i državu), validiramo kombinaciju
+            // Ako menja oba (grad i državu), validira kombinaciju
             if (objavaService.validateLocation(dto.getGrad(), dto.getDrzava()) == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Nevalidna lokacija.");
@@ -201,14 +189,14 @@ public class RegistrovaniKorisnikController {
             korisnik.setGrad(dto.getGrad());
             korisnik.setDrzava(dto.getDrzava());
         } else if (dto.getGrad() != null) {
-            // Ako menja samo grad, proveravamo da li pripada trenutnoj državi
+            // Ako menja samo grad, proverava da li pripada trenutnoj državi
             if (objavaService.validateLocation(dto.getGrad(), korisnik.getDrzava()) == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Izabrani grad ne pripada trenutnoj drzavi.");
             }
             korisnik.setGrad(dto.getGrad());
         } else if (dto.getDrzava() != null) {
-            // Ako menja samo državu, proveravamo da li trenutni grad pripada novoj državi
+            // Ako menja samo državu, proverava da li trenutni grad pripada novoj državi
             if (objavaService.validateLocation(korisnik.getGrad(), dto.getDrzava()) == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Trenutni grad ne pripada izabranoj novoj drzavi.");
@@ -217,7 +205,7 @@ public class RegistrovaniKorisnikController {
         }
 
         if (dto.getNovaLozinka() != null) {
-            if (!dto.getPassword().equals(korisnik.getPassword())) {
+            if (!passwordEncoder.matches(dto.getPassword(), korisnik.getPassword())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Stara lozinka nije tacna.");
             }
@@ -225,9 +213,13 @@ public class RegistrovaniKorisnikController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Nova lozinka i potvrda se ne poklapaju.");
             }
-            korisnik.setPassword(dto.getNovaLozinka());
+            korisnik.setPassword(passwordEncoder.encode(dto.getNovaLozinka()));
+            passwordChanged = true;
         }
         registrovaniKorisnikService.saveRegistrovaniKorisnik(korisnik);
+        if (usernameChanged || passwordChanged) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Profil azuriran. Ponovo se prijavite.");
+        }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Profil uspesno azuriran.");
     }
 

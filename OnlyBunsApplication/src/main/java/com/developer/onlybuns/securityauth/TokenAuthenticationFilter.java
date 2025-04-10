@@ -31,15 +31,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
 	private TokenUtils tokenUtils;
 
-	private UserDetailsService userDetailsService;
-
-    private CustomUserDetailsService customUserDetailsService;
+    private UserDetailsService userDetailsService;
 
 	protected final Log LOGGER = LogFactory.getLog(getClass());
 
-	public TokenAuthenticationFilter(TokenUtils tokenHelper, UserDetailsService userDetailsService) {
+	public TokenAuthenticationFilter(TokenUtils tokenHelper, UserDetailsService customUserDetailsService) {
 		this.tokenUtils = tokenHelper;
-		this.userDetailsService = userDetailsService;
+		this.userDetailsService=customUserDetailsService;
 	}
 
 	@Override
@@ -58,22 +56,29 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 				
 				// 2. Citanje korisnickog imena iz tokena
 				username = tokenUtils.getUsernameFromToken(authToken);
-				
+
 				if (username != null) {
 					
 					// 3. Preuzimanje korisnika na osnovu username-a
 					UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+					System.out.println("USERNAME IZ USERDETAILS JE: " + username);   //ispiee tacno
 					// 4. Provera da li je prosledjeni token validan
 					if (tokenUtils.validateToken(authToken, userDetails)) {
 						
 						// 5. Kreiraj autentifikaciju
-						//TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
-						//authentication.setToken(authToken);
+						TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
+						authentication.setDetails(authentication.getDetails());
+						SecurityContextHolder.getContext().setAuthentication(authentication);
+
+						//UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 						//SecurityContextHolder.getContext().setAuthentication(authentication);
+						System.out.println("SECURITY CONTEXT: " + SecurityContextHolder.getContext().getAuthentication());
+						System.out.println(authToken);
+						System.out.println(tokenUtils.getUsernameFromToken(authToken));
 
-
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                        SecurityContextHolder.getContext().setAuthentication(authentication);  // Postavi autentifikaciju
+						//UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+						//authentication.setDetails(authentication.getDetails());
+						//SecurityContextHolder.getContext().setAuthentication(authentication);  // Postavi autentifikaciju
 					}
 				}
 			}

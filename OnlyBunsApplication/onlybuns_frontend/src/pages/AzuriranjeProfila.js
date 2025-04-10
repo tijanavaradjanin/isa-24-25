@@ -59,14 +59,15 @@ const AzuriranjeProfila = () => {
           .then((response) => {
             return response.text().then((text) => {
               console.log("Odgovor sa backend-a:", text); // Debugging
+              if (text.includes("Ponovo se prijavite.")){
+                alert("Uspesno azuriranje, preusmeravamo vas na log in...");
+                navigate("/prijava");
+                localStorage.removeItem("token");
+              }
               if (!response.ok) {
                 throw new Error(text);
               }
             });
-          })
-          .then(() => {
-            alert("Azuriranje profila uspešno! Preusmeravamo vas na prijavu...");
-            navigate("/prijava");
           })
           .catch((error) => {
             try {
@@ -118,7 +119,7 @@ const AzuriranjeProfila = () => {
 
     useEffect(() => {
         if (korisnik) {
-            setIme(korisnik.ime);
+            setIme(korisnik.ime || "");
             setPrezime(korisnik.prezime || "");
             setKorisnickoIme(korisnik.korisnickoIme || "");
             setGrad(korisnik.grad || "");

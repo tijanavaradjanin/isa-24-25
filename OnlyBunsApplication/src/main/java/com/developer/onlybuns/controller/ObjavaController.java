@@ -1,29 +1,20 @@
 package com.developer.onlybuns.controller;
 import com.developer.onlybuns.dto.KomentarDTO;
 import com.developer.onlybuns.dto.LajkDTO;
-import com.developer.onlybuns.dto.ObjavaRequestDTO;
+import com.developer.onlybuns.entity.*;
 import com.developer.onlybuns.service.*;
 import com.developer.onlybuns.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.*;
-import java.io.*;
 import java.nio.file.*;
-import java.security.Principal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.developer.onlybuns.dto.ObjavaDTO;
-import com.developer.onlybuns.entity.Komentar;
-import com.developer.onlybuns.entity.Lajk;
-import com.developer.onlybuns.entity.Objava;
-import com.developer.onlybuns.entity.RegistrovaniKorisnik;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -35,8 +26,6 @@ public class ObjavaController {
 
     private final ObjavaService objavaService;
 
-    private final RegistrovaniKorisnikService registrovaniKorisnikService;
-
     private final PracenjeService pracenjeService;
 
     private final LajkService lajkService;
@@ -46,9 +35,8 @@ public class ObjavaController {
     @Autowired
     TokenUtils tokenUtils;
 
-    public ObjavaController(ObjavaService objavaService, RegistrovaniKorisnikService registrovaniKorisnikService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService) {
+    public ObjavaController(ObjavaService objavaService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService) {
         this.objavaService = objavaService;
-        this.registrovaniKorisnikService = registrovaniKorisnikService;
         this.pracenjeService=pracenjeService;
         this.lajkService=lajkService;
         this.komentarService=komentarService;
@@ -84,7 +72,7 @@ public class ObjavaController {
             @RequestParam(required = false) Double latitude,
             @RequestParam(required = false) Double longitude,
             @RequestPart("slika") MultipartFile slikaFile,
-            Principal principal) {
+            Authentication authentication) {
 
         try {
             // Provera da li su koordinate prosleđene sa fronta
@@ -121,8 +109,8 @@ public class ObjavaController {
             Files.copy(slikaFile.getInputStream(), fileStoragePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Kreiranje objave
-            RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
-            Objava novaObjava = new Objava(opis, filePath, latituda, longituda, LocalDateTime.now(), registrovaniKorisnik, new ArrayList<>(), new ArrayList<>());
+            RegistrovaniKorisnik user=(RegistrovaniKorisnik)authentication.getPrincipal();
+            Objava novaObjava = new Objava(opis, filePath, latituda, longituda, LocalDateTime.now(), user, new ArrayList<>(), new ArrayList<>());
 
             objavaService.saveObjava(novaObjava);
             return ResponseEntity.ok(novaObjava);
@@ -135,11 +123,9 @@ public class ObjavaController {
 
 
     @GetMapping("/mojeObjave")
-    public ResponseEntity<List<Objava>> getMyPosts(Principal principal) {
+    public ResponseEntity<List<Objava>> getMyPosts(Authentication authentication) {
 
-            System.out.println("Primljen zahtev za korisnika: " + principal.getName());
-
-            RegistrovaniKorisnik vlasnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+            RegistrovaniKorisnik vlasnik = (RegistrovaniKorisnik) authentication.getPrincipal();
             if (vlasnik == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
@@ -160,8 +146,8 @@ public class ObjavaController {
     }
 
     @PostMapping("/lajkuj")
-    public ResponseEntity<?> likeAPost(@RequestParam("objavaId") Integer objavaId, Principal principal) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<?> likeAPost(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
         boolean prati = pracenjeService.proveriDaLiPrati(korisnik.getId(), objava.getRegistrovaniKorisnik().getId());
         if (!prati) {
@@ -174,8 +160,8 @@ public class ObjavaController {
     }
 
     @PostMapping("/komentarisi")
-    public ResponseEntity<?> commentAPost(@RequestParam("objavaId") Integer objavaId, @RequestParam("sadrzaj") String sadrzaj, Principal principal) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<?> commentAPost(@RequestParam("objavaId") Integer objavaId, @RequestParam("sadrzaj") String sadrzaj, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
         boolean prati = pracenjeService.proveriDaLiPrati(korisnik.getId(), objava.getRegistrovaniKorisnik().getId());
         if (!prati) {
@@ -225,8 +211,8 @@ public class ObjavaController {
     }
 
     @GetMapping("/obliznjeObjave")
-    public ResponseEntity<List<ObjavaDTO>> findNearbyPosts(Principal principal) {
-        RegistrovaniKorisnik korisnik =  registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<List<ObjavaDTO>> findNearbyPosts(Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         List<ObjavaDTO> nearbyPosts = objavaService.findNearbyPosts(korisnik);
 
         if (nearbyPosts.isEmpty()) {
@@ -237,8 +223,8 @@ public class ObjavaController {
     }
 
     @GetMapping("/feed")
-    public ResponseEntity<List<ObjavaDTO>> MyFeed(Principal principal) {
-        RegistrovaniKorisnik registrovaniKorisnik=registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<List<ObjavaDTO>> MyFeed(Authentication authentication) {
+        RegistrovaniKorisnik registrovaniKorisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         System.out.println("Ulogovan je korisnik sa id-jem: " + registrovaniKorisnik.getId());
         List<RegistrovaniKorisnik> zapraceniKorisnici=pracenjeService.zapraceniKorisnici(registrovaniKorisnik.getId());
         System.out.println("Ovaj korisnik prati korisnike: " + zapraceniKorisnici);

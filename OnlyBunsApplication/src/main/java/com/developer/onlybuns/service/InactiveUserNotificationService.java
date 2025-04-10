@@ -1,0 +1,78 @@
+package com.developer.onlybuns.service;
+import com.developer.onlybuns.entity.Lajk;
+import com.developer.onlybuns.entity.Objava;
+import com.developer.onlybuns.entity.Pracenje;
+import com.developer.onlybuns.entity.RegistrovaniKorisnik;
+import com.developer.onlybuns.repository.LajkRepository;
+import com.developer.onlybuns.repository.ObjavaRepository;
+import com.developer.onlybuns.repository.PracenjeRepository;
+import com.developer.onlybuns.repository.RegistrovaniKorisnikRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class InactiveUserNotificationService {
+
+    @Autowired
+    private RegistrovaniKorisnikRepository korisnikRepository;
+
+    @Autowired
+    private PracenjeRepository pracenjeRepository;
+
+    @Autowired
+    private LajkRepository lajkRepository;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
+    @Autowired
+    private ObjavaRepository objavaRepository;
+
+    @Scheduled(cron = "0 5 20 * * ?")     //Svaki dan u 8 uvece
+    public void notifyInactiveUsers() {
+        Timestamp sevenDaysAgo = Timestamp.valueOf(LocalDateTime.now().minusDays(7));
+        List<RegistrovaniKorisnik> inactiveUsers = korisnikRepository.findByLastLoginBefore(sevenDaysAgo);
+
+        for (RegistrovaniKorisnik korisnik : inactiveUsers) {
+            String summary = generateUserSummary(korisnik);
+            emailSenderService.sendSummaryEmail(korisnik, summary);
+        }
+        emailSenderService.sendSummaryEmail(new RegistrovaniKorisnik(), "Ovo je testni email.");
+    }
+
+    //TO DO:
+    //istestirati dodatno kad budu dodati lajkovi, pracenja, objave itd.
+    private String generateUserSummary(RegistrovaniKorisnik korisnik) {
+        //filter za nove pratioce u poslednjih nedelju dana
+        LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
+        List<Pracenje> novaPracenja = pracenjeRepository.findByZapraceniIdAndDatumPracenja(korisnik.getId(), sevenDaysAgo);
+        int brojNovihPratilaca = novaPracenja.size();
+
+        //dodavanje svih lajkova u proteklih 7 dana u listu svih novih lajkova na objavama tog korisnika
+        List<Objava> objave=objavaRepository.findByKorisnikId(korisnik.getId());
+        List<Lajk> noviLajkovi= new ArrayList<>();
+        for(Objava objava:objave){
+            List<Lajk> lajkovi=lajkRepository.findByObjavaIdAndVremeLajkovanja(objava.getId(), sevenDaysAgo);
+            noviLajkovi.addAll(lajkovi);
+        }
+        int brojNovihLajkova=noviLajkovi.size();
+
+        //objave svih ljudi koje taj korisnik prati
+        List<Pracenje> pracenja=pracenjeRepository.findByPracenjeId(korisnik.getId());
+        List<Objava> noveObjave=new ArrayList<>();
+        for(Pracenje pracenje:pracenja){
+            List<Objava> objaveZapracenih=objavaRepository.findByKorisnikIdAndVremeKreiranja(pracenje.getZapraceni().getId(), sevenDaysAgo);
+            noveObjave.addAll(objaveZapracenih);
+        }
+        int brojNovihObjava=noveObjave.size();
+
+        return "U proteklih 7 dana dobili ste " + brojNovihPratilaca + " novih pratilaca, "
+                + brojNovihLajkova + " novih lajkova i " + brojNovihObjava + "novih objava.";
+    }
+}
+

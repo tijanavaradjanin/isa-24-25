@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.developer.onlybuns.entity.RegistrovaniKorisnik;
+import com.developer.onlybuns.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -234,13 +237,16 @@ public class TokenUtils {
 	 * @return Informacija da li je token validan ili ne.
 	 */
 	public Boolean validateToken(String token, UserDetails userDetails) {
+		System.out.println("Validacija za userDetails: " + ((Korisnik) userDetails).getKorisnickoIme());     //ispise tacno
+		    Korisnik korisnik = (Korisnik) userDetails;
 			final String username = getUsernameFromToken(token);
+			System.out.println("Username iz tokena: "+username);    //ispise tacno
 			final Date created = getIssuedAtDateFromToken(token);
 
 			// Token je validan kada:
 			return (username != null // korisnicko ime nije null
-					&& username.equals(userDetails.getUsername())); // korisnicko ime iz tokena se podudara sa korisnickom imenom koje pise u bazi
-					//&& !isCreatedBeforeLastPasswordReset(created, korisnik.getLastPasswordResetDate()));
+					&& username.equals(((Korisnik) userDetails).getKorisnickoIme()) // korisnicko ime iz tokena se podudara sa korisnickom imenom koje pise u bazi
+					&& !isCreatedBeforeLastPasswordReset(created, korisnik.getLastPasswordResetDate()));
 		 // nakon kreiranja tokena korisnik nije menjao svoju lozinku
 		//nakon menjanja lozinke treba da se token promeni (nzm da li treba da mu trazi da se uloguje opet)
 	}

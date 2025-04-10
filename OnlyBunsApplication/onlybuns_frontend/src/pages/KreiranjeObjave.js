@@ -118,7 +118,7 @@ export default function KreiranjeObjave() {
 
   return (
     <div className="kreiranje-objave-container">
-      <form className="kreiranje-objave-form" onSubmit={handleSubmit} sx={{marginTop: '5hv'}}>
+      <form className="kreiranje-objave-form" onSubmit={handleSubmit}>
         <h1 className="kreiranje-objave-title">Kreiranje Objave</h1>
         {error && <p className="error-message">{error}</p>}
         

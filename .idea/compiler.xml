@@ -10,14 +10,10 @@
         <module name="OnlyBunsApplication" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="onlybuns" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="OnlyBunsApplication" options="-parameters" />
-      <module name="onlybuns" options="-parameters --add-modules java.base" />
     </option>
   </component>
 </project>

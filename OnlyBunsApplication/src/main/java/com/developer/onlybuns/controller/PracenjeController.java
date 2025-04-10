@@ -7,9 +7,9 @@ import com.developer.onlybuns.service.PracenjeService;
 import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,8 @@ public class PracenjeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addPracenje(@RequestParam("zapraceni")  String zapraceni, Principal principal) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<?> addPracenje(@RequestParam("zapraceni")  String zapraceni, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         RegistrovaniKorisnik zapraceniKorisnik=registrovaniKorisnikService.findByKorisnickoIme(zapraceni);
         if(zapraceniKorisnik==null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Korisnik sa tim korisnickim imenom nije pronadjen.");
@@ -47,8 +47,8 @@ public class PracenjeController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> removePracenje(@RequestParam("zapraceni")  String zapraceni, Principal principal) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<?> removePracenje(@RequestParam("zapraceni")  String zapraceni, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         RegistrovaniKorisnik zapraceniKorisnik=registrovaniKorisnikService.findByKorisnickoIme(zapraceni);
         if(zapraceniKorisnik==null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Korisnik sa tim korisnickim imenom nije pronadjen.");
@@ -63,8 +63,8 @@ public class PracenjeController {
     }
 
     @GetMapping("/provera")
-    public ResponseEntity<Map<String, Boolean>> proveraPracenja(@RequestParam("zapraceni") String zapraceni, Principal principal) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<Map<String, Boolean>> proveraPracenja(@RequestParam("zapraceni") String zapraceni, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         RegistrovaniKorisnik zapraceniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(zapraceni);
 
         if (zapraceniKorisnik == null) {
@@ -76,8 +76,8 @@ public class PracenjeController {
     }
     
     @GetMapping("/listaZapracenih")
-    public ResponseEntity<List<KorisnikProfilDTO>> seeFollowingList(Principal principal) {
-        RegistrovaniKorisnik ulogovaniKorisnik = registrovaniKorisnikService.findByKorisnickoIme(principal.getName());
+    public ResponseEntity<List<KorisnikProfilDTO>> seeFollowingList(Authentication authentication) {
+        RegistrovaniKorisnik ulogovaniKorisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         List<RegistrovaniKorisnik> zapraceniKorisnici= pracenjeService.zapraceniKorisnici(ulogovaniKorisnik.getId());
         List<KorisnikProfilDTO> zapraceniKorisniciPrikaz=new ArrayList<>();
         for(RegistrovaniKorisnik korisnik: zapraceniKorisnici){

@@ -11,6 +11,8 @@ public interface UserDetails {
 
     String getEmail();
 
+    String getKorisnickoIme();
+
     String getIme();
 
     String getPrezime();

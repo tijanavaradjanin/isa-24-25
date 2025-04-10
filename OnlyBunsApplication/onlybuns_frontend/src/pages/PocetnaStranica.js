@@ -42,7 +42,10 @@ const PocetnaStranica = () => {
   useEffect(() => {
     fetch("http://localhost:8080/objava/sveobjave")
       .then((response) => response.json())
-      .then((data) => setObjave(data), console.log(objave))
+      .then((data) => {
+      setObjave(data);
+      console.log("Dobijene objave: ", data);
+    })
       .catch((error) => console.error("Greška pri dohvatanju objava:", error));
   }, []);
 
