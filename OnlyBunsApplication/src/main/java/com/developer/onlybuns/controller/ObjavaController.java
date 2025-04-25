@@ -35,6 +35,9 @@ public class ObjavaController {
     @Autowired
     TokenUtils tokenUtils;
 
+    @Autowired
+    private RateLimiterService rateLimiterService;
+
     public ObjavaController(ObjavaService objavaService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService) {
         this.objavaService = objavaService;
         this.pracenjeService=pracenjeService;
@@ -162,15 +165,21 @@ public class ObjavaController {
     @PostMapping("/komentarisi")
     public ResponseEntity<?> commentAPost(@RequestParam("objavaId") Integer objavaId, @RequestParam("sadrzaj") String sadrzaj, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
-        Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
-        boolean prati = pracenjeService.proveriDaLiPrati(korisnik.getId(), objava.getRegistrovaniKorisnik().getId());
-        if (!prati) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ne mozete komentarisati ovu objavu jer ne pratite korisnika.");
-        }
-        Komentar komentar = new Komentar(sadrzaj, LocalDateTime.now(), korisnik, objava);
-        komentarService.saveKomentar(komentar);
+        if (!rateLimiterService.isAllowed(korisnik.getId())) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body("Previse zahteva u minuti. Pokusajte ponovo kasnije.");
+        } else {
+            Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
+            //ispod zakomentarisano to da proverava da li prati korisnika
+            /*boolean prati = pracenjeService.proveriDaLiPrati(korisnik.getId(), objava.getRegistrovaniKorisnik().getId());
+            if (!prati) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ne mozete komentarisati ovu objavu jer ne pratite korisnika.");
+            }*/
+            Komentar komentar = new Komentar(sadrzaj, LocalDateTime.now(), korisnik, objava);
+            komentarService.saveKomentar(komentar);
 
-        return ResponseEntity.ok("Objava komentarisana uspesno!");
+            return ResponseEntity.ok("Objava komentarisana uspesno!");
+        }
     }
 
     @GetMapping("/komentari")
