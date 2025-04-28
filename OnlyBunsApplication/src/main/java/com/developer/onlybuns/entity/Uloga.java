@@ -1,5 +1,2 @@
-package com.developer.onlybuns.entity;
-
-public enum Uloga {
-    ADMIN, KORISNIK
+package com.developer.onlybuns.entity;public class Uloga {
 }
