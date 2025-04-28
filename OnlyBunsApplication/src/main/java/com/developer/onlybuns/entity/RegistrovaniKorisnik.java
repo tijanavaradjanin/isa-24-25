@@ -8,7 +8,7 @@ import java.util.Map;
 @Entity
 @Table(name="registrovaniKorisnik")
 public class RegistrovaniKorisnik extends Korisnik implements UserDetails {
-    @Column(name="info", nullable = false)
+    @Column(name="info")
     private String info;
 
     public Map<String, Object> getAdditionalClaims() {

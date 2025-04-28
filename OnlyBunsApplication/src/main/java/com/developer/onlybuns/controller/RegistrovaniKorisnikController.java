@@ -9,6 +9,7 @@ import com.developer.onlybuns.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,7 +52,8 @@ public class RegistrovaniKorisnikController {
         return registrovaniKorisnikService.findById(id);
     }
 
-    //prikaz profila za admine koji mogu videti sifre
+    //prikaz profila za admine
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/korisnickoIme/{korisnickoIme}")
     public RegistrovaniKorisnik findRegistrovaniKorisnikByKorisnickoIme(@PathVariable("korisnickoIme") String korisnickoIme) {
         return registrovaniKorisnikService.findByKorisnickoIme(korisnickoIme);
@@ -82,12 +84,12 @@ public class RegistrovaniKorisnikController {
         return ResponseEntity.ok(korisnikDTO);
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/profil")
     public ResponseEntity<RegistrovaniKorisnik> getUser(Authentication authentication) {
             RegistrovaniKorisnik user = (RegistrovaniKorisnik) authentication.getPrincipal();
             return ResponseEntity.ok(user);
     }
-
 
     @PostMapping("/add")
     public ResponseEntity<?> saveRegistrovaniKorisnik(@Valid @RequestBody RegistrovaniKorisnik korisnikEntity) {
@@ -106,6 +108,7 @@ public class RegistrovaniKorisnikController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> addUser(@Valid @RequestBody UserRequest userRequest, BindingResult result) {
+        System.out.println(userRequest.getDrzava() + userRequest.getPrezime() + userRequest.getInfo());
         if (result.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             for (FieldError error : result.getFieldErrors()) {
@@ -147,7 +150,6 @@ public class RegistrovaniKorisnikController {
         }
     }
 
-
     //pocetni login, bez tokena, za autentifikaciju koristi se login iz authcontrollera
     @PostMapping("/login")
     public ResponseEntity<String> prijaviKorisnika(@RequestBody RegistrovaniKorisnik korisnik) {
@@ -159,6 +161,7 @@ public class RegistrovaniKorisnikController {
         }
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @PutMapping("/update")
     public ResponseEntity<?>  updateProfile(@RequestBody @Valid UpdateProfile dto, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -228,6 +231,7 @@ public class RegistrovaniKorisnikController {
         registrovaniKorisnikService.deleteRegistrovaniKorisnik(id);
     }
 
+    //test get metode
     @GetMapping("/emails")
     public ResponseEntity<List<String>> getAllEmails() {
         List<String> emails = registrovaniKorisnikService.getAllEmails();

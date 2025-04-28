@@ -5,6 +5,7 @@ import com.developer.onlybuns.entity.*;
 import com.developer.onlybuns.service.*;
 import com.developer.onlybuns.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,6 +46,7 @@ public class ObjavaController {
         this.komentarService=komentarService;
     }
 
+    @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
     @GetMapping("/sveobjave")
     public ResponseEntity<List<ObjavaDTO>> getSveObjave() {
         List<Objava> objave = objavaService.getAllObjave();
@@ -67,6 +69,7 @@ public class ObjavaController {
         return ResponseEntity.ok(objavePrikaz);
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(
             @RequestParam("opis") String opis,
@@ -124,7 +127,7 @@ public class ObjavaController {
         }
     }
 
-
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/mojeObjave")
     public ResponseEntity<List<Objava>> getMyPosts(Authentication authentication) {
 
@@ -132,6 +135,7 @@ public class ObjavaController {
             if (vlasnik == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
+
             Integer vlasnikId = vlasnik.getId();
             List<Objava> mojeObjave = objavaService.findByKorisnikId(vlasnikId);
             Collections.sort(mojeObjave, (o1, o2) -> o2.getVremeKreiranja().compareTo(o1.getVremeKreiranja()));
@@ -148,6 +152,7 @@ public class ObjavaController {
         objavaService.deleteObjava(id);
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @PostMapping("/lajkuj")
     public ResponseEntity<?> likeAPost(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -162,6 +167,7 @@ public class ObjavaController {
         return ResponseEntity.ok("Objava lajkovana uspesno!");
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @PostMapping("/komentarisi")
     public ResponseEntity<?> commentAPost(@RequestParam("objavaId") Integer objavaId, @RequestParam("sadrzaj") String sadrzaj, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -182,6 +188,7 @@ public class ObjavaController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
     @GetMapping("/komentari")
     public ResponseEntity<List<KomentarDTO>> seeComments(@RequestParam("objavaId") Integer objavaId) {
         Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
@@ -201,6 +208,7 @@ public class ObjavaController {
         return ResponseEntity.ok(komentariObjaveDTO);
     }
 
+    @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
     @GetMapping("/lajkovi")
     public ResponseEntity<List<LajkDTO>> seeLikes(@RequestParam("objavaId") Integer objavaId) {
         Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
@@ -219,6 +227,7 @@ public class ObjavaController {
         return ResponseEntity.ok(lajkoviObjaveDTO);
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/obliznjeObjave")
     public ResponseEntity<List<ObjavaDTO>> findNearbyPosts(Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -231,6 +240,7 @@ public class ObjavaController {
         return ResponseEntity.ok(nearbyPosts);
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/feed")
     public ResponseEntity<List<ObjavaDTO>> MyFeed(Authentication authentication) {
         RegistrovaniKorisnik registrovaniKorisnik = (RegistrovaniKorisnik) authentication.getPrincipal();

@@ -17,7 +17,7 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
 @Entity
 @Table(name = "korisnik")
-@Inheritance(strategy=TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Korisnik implements UserDetails {
 
     @Id
@@ -46,15 +46,12 @@ public class Korisnik implements UserDetails {
     @Column(name="drzava", unique=false, nullable=false)
     public String  drzava;
 
-    @Column(name="broj", unique=false, nullable=false)
+    @Column(name="broj", unique=false)
     public String  broj;
 
-    @Column(name="info", unique=false, nullable=false)
-    public String  info;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="uloga", nullable = false)
-    public Uloga uloga;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "uloga_id", nullable = false)
+    private Uloga uloga;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -69,7 +66,7 @@ public class Korisnik implements UserDetails {
 
     }
 
-    public Korisnik(Integer id, String email, String password, String ime, String prezime, String grad, String drzava, String broj, String info, Uloga uloga) {
+    public Korisnik(Integer id, String email, String password, String ime, String prezime, String grad, String drzava, String broj, Uloga uloga) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -79,7 +76,6 @@ public class Korisnik implements UserDetails {
         this.grad = grad;
         this.drzava = drzava;
         this.broj = broj;
-        this.info = info;
         this.uloga=uloga;
     }
 
@@ -101,9 +97,8 @@ public class Korisnik implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(uloga);
     }
-
 
     public String getPassword() {
         return password;
@@ -165,6 +160,7 @@ public class Korisnik implements UserDetails {
         this.broj = broj;
     }
 
+    /*
     public String getInfo() {
         return info;
     }
@@ -172,6 +168,7 @@ public class Korisnik implements UserDetails {
     public void setInfo(String info) {
         this.info = info;
     }
+    */
 
     public Uloga getUloga() { return uloga; }
 

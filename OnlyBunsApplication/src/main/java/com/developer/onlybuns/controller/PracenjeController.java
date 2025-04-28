@@ -7,6 +7,7 @@ import com.developer.onlybuns.service.PracenjeService;
 import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class PracenjeController {
         this.registrovaniKorisnikService=registrovaniKorisnikService;
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @PostMapping("/add")
     public ResponseEntity<?> addPracenje(@RequestParam("zapraceni")  String zapraceni, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -46,6 +48,7 @@ public class PracenjeController {
         }
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @DeleteMapping("/delete")
     public ResponseEntity<?> removePracenje(@RequestParam("zapraceni")  String zapraceni, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -62,6 +65,7 @@ public class PracenjeController {
         }
     }
 
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/provera")
     public ResponseEntity<Map<String, Boolean>> proveraPracenja(@RequestParam("zapraceni") String zapraceni, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -74,7 +78,8 @@ public class PracenjeController {
         boolean prati = pracenjeService.proveriDaLiPrati(korisnik.getId(), zapraceniKorisnik.getId());
         return ResponseEntity.ok(Map.of("prati", prati));
     }
-    
+
+    @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/listaZapracenih")
     public ResponseEntity<List<KorisnikProfilDTO>> seeFollowingList(Authentication authentication) {
         RegistrovaniKorisnik ulogovaniKorisnik = (RegistrovaniKorisnik) authentication.getPrincipal();

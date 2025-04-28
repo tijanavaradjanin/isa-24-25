@@ -2,7 +2,6 @@ package com.developer.onlybuns.service.impl;
 
 import com.developer.onlybuns.dto.LoginDTO;
 import com.developer.onlybuns.entity.AdminSistem;
-import com.developer.onlybuns.entity.Uloga;
 import com.developer.onlybuns.repository.AdminSistemRepository;
 import com.developer.onlybuns.service.AdminSistemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class AdminSistemServiceImpl implements AdminSistemService {
     }
 
     public AdminSistem saveAdminSistem(AdminSistem adminSistem) {
-        adminSistem.setUloga(Uloga.ADMIN);
+        //adminSistem.setUloga(Uloga.ADMIN);
         return adminSistemRepository.save(adminSistem);
     }
 
