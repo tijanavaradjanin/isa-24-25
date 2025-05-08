@@ -40,7 +40,8 @@ export default function Prijavljivanje() {
           console.log("Success login");
           console.log("Token:", jwtToken);
           console.log("User info:", data);
-          const role = decodedToken.uloga;
+          const role = decodedToken.uloga.naziv;
+          console.log("Uloga iz tokena:", role);
     
           if (role === "ADMIN") {
             navigate("/adminSistemPocetna", { state: { token: jwtToken } });

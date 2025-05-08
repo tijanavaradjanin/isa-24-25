@@ -1,11 +1,15 @@
 package com.developer.onlybuns.util;
 
 import java.util.Date;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
+import com.developer.onlybuns.entity.Uloga;
+import com.developer.onlybuns.repository.KorisnikRepository;
 import com.developer.onlybuns.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +40,9 @@ public class TokenUtils {
 	// Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
 	@Value("Authorization")
 	private String AUTH_HEADER;
+
+	@Autowired
+	public KorisnikRepository korisnikRepository;
 	
 	// Moguce je generisati JWT za razlicite klijente (npr. web i mobilni klijenti nece imati isto trajanje JWT, 
 	// JWT za mobilne klijente ce trajati duze jer se mozda aplikacija redje koristi na taj nacin)
@@ -59,12 +66,17 @@ public class TokenUtils {
 	 * @return JWT token
 	 */
 	public String generateToken(String korisnickoIme) {
+
+		Optional<Korisnik> korisnik = korisnikRepository.findByKorisnickoIme(korisnickoIme);
+		Uloga uloga = korisnik.get().getUloga();
+
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
 				.setSubject(korisnickoIme)
 				.setAudience(generateAudience())
 				.setIssuedAt(new Date())
 				.setExpiration(generateExpirationDate())
+				.claim("uloga", uloga)
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 		
 

@@ -46,6 +46,9 @@ public class AuthController {
     public AuthController() {
     }
 
+    //401 unauthorized-ne postoji validan token (nije stavljen ili je pogresan)
+    //403 forbidden-postoji validan token ali uloga korisnika nije odgovarajuca za taj zahtev
+
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletRequest request) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; // Importujemo useNavigate za navigaciju
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Toolbar } from '@mui/material';
 
 const AdminSistemPocetna = () => {
   const location = useLocation();
@@ -21,7 +21,6 @@ const AdminSistemPocetna = () => {
         navigate('/');
       } else {
         // Ako token postoji, možemo uzeti korisničke podatke
-        // Možete dodati logiku za dekodiranje tokena i čitanje korisničkih podataka
         const decodedUser = JSON.parse(atob(token.split('.')[1])); // Ovo je primer dekodiranja JWT tokena
         setKorisnik(decodedUser); 
       }
@@ -43,40 +42,13 @@ const AdminSistemPocetna = () => {
   };
 
   return (
-    <div>
-      {korisnik ? (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4">Dobrodošli admine, {korisnik.ime}!</Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={adminRegister} 
-            sx={{ height: '40px', marginLeft: 'auto' }}
-          >
-            Registruj admina
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={changePassword} 
-            sx={{ height: '40px', marginLeft: 'auto' }}
-          >
-            Promena lozinke
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleLogout} 
-            sx={{ height: '40px', marginLeft: 'auto' }}
-          >
-            Odjavi se
-          </Button>
+        <Box>
+          {/* Navigacija */}
+          <Toolbar sx={{ justifyContent: "flex-end" }}>
+            <Button color="primary" onClick={handleLogout}>Odjavi se</Button>
+          </Toolbar>
         </Box>
-      ) : (
-        <p>Nije pronađen prijavljeni korisnik.</p>
-      )}
-    </div>
-  );
+  )
 };
 
 export default AdminSistemPocetna;

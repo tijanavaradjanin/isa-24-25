@@ -46,7 +46,6 @@ public class ObjavaController {
         this.komentarService=komentarService;
     }
 
-    @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
     @GetMapping("/sveobjave")
     public ResponseEntity<List<ObjavaDTO>> getSveObjave() {
         List<Objava> objave = objavaService.getAllObjave();
