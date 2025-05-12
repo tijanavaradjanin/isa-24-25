@@ -33,17 +33,20 @@ public class ObjavaController {
 
     private final KomentarService komentarService;
 
+    private final LokacijaService lokacijaService;
+
     @Autowired
     TokenUtils tokenUtils;
 
     @Autowired
     private RateLimiterService rateLimiterService;
 
-    public ObjavaController(ObjavaService objavaService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService) {
+    public ObjavaController(ObjavaService objavaService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService, LokacijaService lokacijaService) {
         this.objavaService = objavaService;
         this.pracenjeService=pracenjeService;
         this.lajkService=lajkService;
         this.komentarService=komentarService;
+        this.lokacijaService=lokacijaService;
     }
 
     @GetMapping("/sveobjave")
@@ -55,8 +58,8 @@ public class ObjavaController {
                     objava.getId(),
                     objava.getOpis(),
                     objava.getSlika(),
-                    objava.getLatituda(),
-                    objava.getLongituda(),
+                    objava.getLokacija().getLatituda(),
+                    objava.getLokacija().getLongituda(),
                     objava.getVremeKreiranja(),
                     objava.getKomentari(),
                     objava.getLajkovi(),
@@ -72,6 +75,8 @@ public class ObjavaController {
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(
             @RequestParam("opis") String opis,
+            @RequestParam(required = false) String ulica,
+            @RequestParam(required = false) Integer broj,
             @RequestParam(required = false) String grad,
             @RequestParam(required = false) String drzava,
             @RequestParam(required = false) Double latitude,
@@ -80,27 +85,21 @@ public class ObjavaController {
             Authentication authentication) {
 
         try {
-            // Provera da li su koordinate prosleđene sa fronta
             double latituda;
             double longituda;
 
             if (latitude != null && longitude != null) {
-                // Ako su latitude i longitude prosleđeni, koristi ih
                 latituda = latitude;
                 longituda = longitude;
             } else {
-                // Ako nisu, validiraj na osnovu grad/država
-                double[] koordinate = objavaService.validateLocation(grad, drzava);
+                double[] koordinate = objavaService.validateLocation(grad, drzava, ulica, broj);
                 if (koordinate == null) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body(Map.of("error", "Nevalidna lokacija! Molimo unesite ispravan grad i državu."));
+                            .body(Map.of("error", "Nevalidna lokacija! Molimo unesite ispravne podatke."));
                 }
                 latituda = koordinate[0];
                 longituda = koordinate[1];
             }
-
-            // Loguj vrednosti da proveriš da li su dobre
-            System.out.println("Latitude: " + latituda + ", Longitude: " + longituda);
 
             // Čuvanje slike
             Path uploadPath = Paths.get("uploads");
@@ -113,11 +112,25 @@ public class ObjavaController {
             Path fileStoragePath = uploadPath.resolve(originalFilename);
             Files.copy(slikaFile.getInputStream(), fileStoragePath, StandardCopyOption.REPLACE_EXISTING);
 
+            // Priprema lokacije
+            Lokacija lokacija = new Lokacija();
+            lokacija.setLatituda(latituda);
+            lokacija.setLongituda(longituda);
+            lokacijaService.saveLokacija(lokacija);
+
             // Kreiranje objave
-            RegistrovaniKorisnik user=(RegistrovaniKorisnik)authentication.getPrincipal();
-            Objava novaObjava = new Objava(opis, filePath, latituda, longituda, LocalDateTime.now(), user, new ArrayList<>(), new ArrayList<>());
+            RegistrovaniKorisnik user = (RegistrovaniKorisnik) authentication.getPrincipal();
+            Objava novaObjava = new Objava();
+            novaObjava.setOpis(opis);
+            novaObjava.setSlika(filePath);
+            novaObjava.setVremeKreiranja(LocalDateTime.now());
+            novaObjava.setRegistrovaniKorisnik(user);
+            novaObjava.setLokacija(lokacija);
+            novaObjava.setKomentari(new ArrayList<>());
+            novaObjava.setLajkovi(new ArrayList<>());
 
             objavaService.saveObjava(novaObjava);
+
             return ResponseEntity.ok(novaObjava);
 
         } catch (IOException e) {
@@ -257,8 +270,8 @@ public class ObjavaController {
                     objava.getId(),
                     objava.getOpis(),
                     objava.getSlika(),
-                    objava.getLatituda(),
-                    objava.getLongituda(),
+                    objava.getLokacija().getLatituda(),
+                    objava.getLokacija().getLongituda(),
                     objava.getVremeKreiranja(),
                     objava.getKomentari(),
                     objava.getLajkovi(),

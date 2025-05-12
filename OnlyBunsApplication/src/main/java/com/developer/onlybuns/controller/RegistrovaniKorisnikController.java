@@ -127,7 +127,7 @@ public class RegistrovaniKorisnikController {
                     if (!Objects.equals(userRequest.getPassword(), userRequest.getPotvrdaLozinke())) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lozinka i njena potvrda se moraju poklapati.");
                     } else {
-                        if (objavaService.validateLocation(userRequest.getGrad(), userRequest.getDrzava()) == null) {
+                        if (objavaService.validateKorisnikLocation(userRequest.getGrad(), userRequest.getDrzava()) == null) {
                             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nevalidna lokacija.");
                         } else {
                             RegistrovaniKorisnik regKorisnik = new RegistrovaniKorisnik(
@@ -185,7 +185,7 @@ public class RegistrovaniKorisnikController {
 
         if (dto.getGrad() != null && dto.getDrzava() != null) {
             // Ako menja oba (grad i državu), validira kombinaciju
-            if (objavaService.validateLocation(dto.getGrad(), dto.getDrzava()) == null) {
+            if (objavaService.validateKorisnikLocation(dto.getGrad(), dto.getDrzava()) == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Nevalidna lokacija.");
             }
@@ -193,14 +193,14 @@ public class RegistrovaniKorisnikController {
             korisnik.setDrzava(dto.getDrzava());
         } else if (dto.getGrad() != null) {
             // Ako menja samo grad, proverava da li pripada trenutnoj državi
-            if (objavaService.validateLocation(dto.getGrad(), korisnik.getDrzava()) == null) {
+            if (objavaService.validateKorisnikLocation(dto.getGrad(), korisnik.getDrzava()) == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Izabrani grad ne pripada trenutnoj drzavi.");
             }
             korisnik.setGrad(dto.getGrad());
         } else if (dto.getDrzava() != null) {
             // Ako menja samo državu, proverava da li trenutni grad pripada novoj državi
-            if (objavaService.validateLocation(korisnik.getGrad(), dto.getDrzava()) == null) {
+            if (objavaService.validateKorisnikLocation(korisnik.getGrad(), dto.getDrzava()) == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Trenutni grad ne pripada izabranoj novoj drzavi.");
             }

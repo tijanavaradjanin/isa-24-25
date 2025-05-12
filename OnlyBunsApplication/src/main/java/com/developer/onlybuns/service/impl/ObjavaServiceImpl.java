@@ -9,9 +9,14 @@ import com.developer.onlybuns.service.ObjavaService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,7 +90,7 @@ public class ObjavaServiceImpl implements ObjavaService {
         return objavaRepository.findByKorisnikId(korisnikId);
     }
 
-    public double[] validateLocation(String grad, String drzava) {
+    public double[] validateKorisnikLocation(String grad, String drzava) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             String url = NOMINATIM_URL + grad + "," + drzava;
@@ -106,8 +111,51 @@ public class ObjavaServiceImpl implements ObjavaService {
         }
     }
 
+    public double[] validateLocation(String grad, String drzava, String ulica, Integer broj) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            if (ulica != null && !ulica.isBlank()) sb.append(ulica);
+            if (broj != null) sb.append(" ").append(broj);
+            if (grad != null && !grad.isBlank()) sb.append(", ").append(grad);
+            if (drzava != null && !drzava.isBlank()) sb.append(", ").append(drzava);
+
+            String adresa = URLEncoder.encode(sb.toString(), StandardCharsets.UTF_8);
+            String url = "https://nominatim.openstreetmap.org/search?q=" + adresa + "&format=json";
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .header("User-Agent", "OnlyBunsApp")
+                    .header("Referer", "https://onlybuns.com")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println("Raw response: " + response.body());
+
+            JSONArray jsonArray = new JSONArray(response.body());
+            if (jsonArray.isEmpty()) {
+                System.out.println("Nema rezultata za adresu: " + sb.toString());
+                return null;
+            }
+
+            JSONObject location = jsonArray.getJSONObject(0);
+            double lat = location.getDouble("lat");
+            double lon = location.getDouble("lon");
+
+            System.out.println("Latituda: " + lat);
+            System.out.println("Longituda: " + lon);
+
+            return new double[]{lat, lon};
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<ObjavaDTO> findNearbyPosts(RegistrovaniKorisnik korisnik) {
-        double[] koordinate = validateLocation(korisnik.getGrad(), korisnik.getDrzava());
+        double[] koordinate = validateKorisnikLocation(korisnik.getGrad(), korisnik.getDrzava());
 
         if (koordinate == null) {
             return new ArrayList<>(); // Ako koordinate nisu pronađene, vraćamo praznu listu
@@ -127,8 +175,8 @@ public class ObjavaServiceImpl implements ObjavaService {
             if (objava.getRegistrovaniKorisnik().getId().equals(korisnik.getId())) {
                 continue; // Preskoči svoje objave
             }
-            double latObjava = objava.getLatituda(); // Latitude objave
-            double lonObjava = objava.getLongituda(); // Longitude objave
+            double latObjava = objava.getLokacija().getLatituda(); // Latitude objave
+            double lonObjava = objava.getLokacija().getLongituda(); // Longitude objave
 
             double distance = calculateDistance(latKorisnik, lonKorisnik, latObjava, lonObjava);
 
@@ -137,8 +185,8 @@ public class ObjavaServiceImpl implements ObjavaService {
                         objava.getId(),
                         objava.getOpis(),
                         objava.getSlika(),
-                        objava.getLatituda(),
-                        objava.getLongituda(),
+                        objava.getLokacija().getLatituda(),
+                        objava.getLokacija().getLongituda(),
                         objava.getVremeKreiranja(),
                         objava.getKomentari(),
                         objava.getLajkovi(),

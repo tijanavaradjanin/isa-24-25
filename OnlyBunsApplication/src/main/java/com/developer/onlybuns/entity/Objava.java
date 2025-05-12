@@ -23,11 +23,9 @@ public class Objava {
     @Column(name="slika", nullable=false)
     private String slika;
 
-    @Column(name = "latituda", nullable = false)
-    private Double latituda;                              // geografska sirina-prva koordinata
-
-    @Column(name = "longituda", nullable = false)
-    private Double longituda;                             // geografska duzina-druga koordinata
+    @ManyToOne
+    @JoinColumn(name = "lokacija_id", nullable = false)
+    private Lokacija lokacija;
 
     @Column(name="vremeKreiranja", nullable=false)
     private LocalDateTime vremeKreiranja;
@@ -46,12 +44,11 @@ public class Objava {
     @JsonManagedReference
     private List<Lajk> lajkovi;
 
-    public Objava(Integer id, String opis, String slika, Double latituda, Double longituda, LocalDateTime vremeKreiranja, RegistrovaniKorisnik registrovaniKorisnik, List<Komentar> komentari, List<Lajk> lajkovi) {
+    public Objava(Integer id, String opis, String slika, Lokacija lokacija, LocalDateTime vremeKreiranja, RegistrovaniKorisnik registrovaniKorisnik, List<Komentar> komentari, List<Lajk> lajkovi) {
         this.id = id;
         this.opis = opis;
         this.slika = slika;
-        this.latituda = latituda;
-        this.longituda = longituda;
+        this.lokacija = lokacija;
         this.vremeKreiranja = vremeKreiranja;
         this.registrovaniKorisnik = registrovaniKorisnik;
         this.komentari = komentari;
@@ -61,11 +58,10 @@ public class Objava {
     public Objava() {
     }
 
-    public Objava(String opis, String slika, Double latituda, Double longituda, LocalDateTime vremeKreiranja, RegistrovaniKorisnik registrovaniKorisnik, List<Komentar> komentari, List<Lajk> lajkovi) {
+    public Objava(String opis, String slika, Lokacija lokacija, LocalDateTime vremeKreiranja, RegistrovaniKorisnik registrovaniKorisnik, List<Komentar> komentari, List<Lajk> lajkovi) {
         this.opis = opis;
         this.slika = slika;
-        this.latituda = latituda;
-        this.longituda = longituda;
+        this.lokacija=lokacija;
         this.vremeKreiranja = vremeKreiranja;
         this.registrovaniKorisnik = registrovaniKorisnik;
         this.komentari = komentari;
@@ -96,20 +92,12 @@ public class Objava {
         this.slika = slika;
     }
 
-    public Double getLatituda() {
-        return latituda;
+    public Lokacija getLokacija() {
+        return lokacija;
     }
 
-    public void setLatituda(Double latituda) {
-        this.latituda = latituda;
-    }
-
-    public Double getLongituda() {
-        return longituda;
-    }
-
-    public void setLongituda(Double longituda) {
-        this.longituda = longituda;
+    public void setLokacija(Lokacija lokacija) {
+        this.lokacija = lokacija;
     }
 
     public LocalDateTime getVremeKreiranja() {

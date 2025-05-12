@@ -19,6 +19,8 @@ const customIcon = new L.Icon({
 export default function KreiranjeObjave() {
   const [opis, setOpis] = useState('');
   const [grad, setGrad] = useState('');
+  const [ulica, setUlica]=useState('');
+  const [broj, setBroj]=useState('');
   const [drzava, setDrzava] = useState('');
   const [slika, setSlika] = useState(null);
   const [error, setError] = useState('');
@@ -34,6 +36,8 @@ export default function KreiranjeObjave() {
     setLocation(null);
     setGrad('');
     setDrzava('');
+    setUlica('');
+    setBroj('');
   }; 
 
   const handleSlikaChange = (event) => {
@@ -48,7 +52,7 @@ export default function KreiranjeObjave() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if ((!opis || !slika) || (!grad && !drzava && !location)) {
+    if ((!opis || !slika) || (!grad && !drzava && !ulica && !broj && !location)) {
       setError('Morate popuniti opis i dodati sliku, uz ručni unos lokacije ili mapu.');
       return;
     }
@@ -70,15 +74,17 @@ export default function KreiranjeObjave() {
     formData.append("opis", opis);
     formData.append("slika", slika);
     formData.append("korisnickoIme", korisnickoIme);
-    if (grad && drzava) {
+    if (grad && drzava && ulica && broj) {
       formData.append("grad", grad);
       formData.append("drzava", drzava);
+      formData.append("ulica", ulica);
+      formData.append("broj", broj);
   } else if (location) {
     console.log("Koordinate pre slanja:", location.lat, location.lng);
       formData.append("latitude", location.lat);
       formData.append("longitude", location.lng);
   } else {
-    setError("Morate uneti grad i državu ili odabrati lokaciju na mapi.");
+    setError("Morate uneti adresu ili odabrati lokaciju na mapi.");
     return;
    }
 
@@ -160,6 +166,30 @@ export default function KreiranjeObjave() {
           value={drzava}
           onChange={(e) => {
             setDrzava(e.target.value);
+            setLocation(null);
+            setMapEnabled(grad === '' && e.target.value === '');
+          }}
+          disabled={location !== null}
+        />
+        <input
+          type="text"
+          placeholder="Ulica"
+          className="kreiranje-objave-input"
+          value={ulica}
+          onChange={(e) => {
+            setUlica(e.target.value);
+            setLocation(null);
+            setMapEnabled(grad === '' && e.target.value === '');
+          }}
+          disabled={location !== null}
+        />
+        <input
+          type="number"
+          placeholder="Broj"
+          className="kreiranje-objave-input"
+          value={broj}
+          onChange={(e) => {
+            setBroj(e.target.value);
             setLocation(null);
             setMapEnabled(grad === '' && e.target.value === '');
           }}

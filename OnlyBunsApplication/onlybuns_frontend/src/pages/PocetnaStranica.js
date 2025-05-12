@@ -90,10 +90,9 @@ const PocetnaStranica = () => {
   return (
   <div >
     <Box sx={{
-    backgroundColor: 'rgba(157, 193, 222, 0.7);',
-    backgroundRepeat: "repeat",
-    backgroundSize: "contain",
-    height: "max-content",
+      background: "linear-gradient(to right,rgb(69, 185, 194), #e3f2fd)",
+      minHeight: "40vh",
+      py: 2
     }}>
       {/* Navigacija */}
       <Toolbar sx={{ justifyContent: "flex-end" }}>
@@ -110,9 +109,17 @@ const PocetnaStranica = () => {
           </Typography>
         ) : (
           objave.map((objava) => (
-            <Card key={objava.id} sx={{ mb: 3, boxShadow: 3 }}>
+            <Card 
+            key={objava.id} sx={{ 
+            mb: 4, 
+            borderRadius: 4,  
+            backdropFilter: "blur(8px)",
+            backgroundColor: "rgba(255, 255, 255, 0.75)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            overflow: "hidden",
+            boxShadow: 3 }}>
               <CardHeader
-                avatar={<Avatar>{objava.korisnickoIme[0]}</Avatar>}
+                avatar={<Avatar sx={{ bgcolor: "#1976d2" }}>{objava.korisnickoIme[0].toUpperCase()}</Avatar>}
                 title={
                   <Typography
                   variant="body1"
@@ -162,7 +169,9 @@ const PocetnaStranica = () => {
                   height="300"
                   image={`http://localhost:8080/slika/${objava.slika}`}
                   alt="Slika objave"
-                  sx={{ objectFit: "cover" }}
+                  sx={{
+                    objectFit: "cover"
+                  }}
                 />
               )}
 
@@ -194,57 +203,55 @@ const PocetnaStranica = () => {
                       {objava.komentari.length} komentara
                    </Typography>
               </CardActions>
+            {openMap && (
+              <Modal open={openMap} onClose={handleCloseMap}>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 600,
+                    height: 400,
+                    bgcolor: "white",
+                    boxShadow: 24,
+                    p: 2,
+                    borderRadius: 2
+                  }}
+                >
+                  <Typography variant="h6" mb={2}>Lokacija objave</Typography>
+                  <div style={{ height: "100%", width: "100%" }}>
+                    <MapContainer
+                      center={[selectedLocation?.lat, selectedLocation?.lng]}
+                      zoom={13}
+                      style={{ height: "80%", width: "100%" }}
+                    >
+                      <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      />
+                      <Marker
+                        position={[selectedLocation?.lat, selectedLocation?.lng]}
+                        icon={new L.Icon({
+                          iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                          iconSize: [25, 41],
+                          iconAnchor: [12, 41],
+                          popupAnchor: [1, -34],
+                          shadowSize: [41, 41],
+                        })}
+                      >
+                      </Marker>
+                    </MapContainer>
+                  </div>
+                </Box>
+              </Modal>
+             )}
             </Card>
           ))
         )}
       </Box>
-      
       {/* Modal za prijavu */}
       <PrijavaModal open={openModal} handleClose={() => setOpenModal(false)} navigate={navigate} />
-
-      {openMap && (
-        <Modal open={openMap} onClose={handleCloseMap}>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 600,
-              height: 400,
-              bgcolor: "white",
-              boxShadow: 24,
-              p: 2,
-              borderRadius: 2
-            }}
-          >
-            <Typography variant="h6" mb={2}>Lokacija objave</Typography>
-            <div style={{ height: "100%", width: "100%" }}>
-              <MapContainer
-                center={[selectedLocation?.lat, selectedLocation?.lng]}
-                zoom={13}
-                style={{ height: "80%", width: "100%" }}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <Marker
-                  position={[selectedLocation?.lat, selectedLocation?.lng]}
-                  icon={new L.Icon({
-                    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                    shadowSize: [41, 41],
-                  })}
-                >
-                </Marker>
-              </MapContainer>
-            </div>
-          </Box>
-        </Modal>
-      )}
 
       {/* Modal za prikaz komentara */}
             <Modal open={openKomentari} onClose={handleCloseKomentari}>
