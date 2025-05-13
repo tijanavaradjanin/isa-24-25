@@ -1,19 +1,13 @@
 package com.developer.onlybuns.entity;
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
-import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
 @Entity
 @Table(name = "korisnik")
@@ -40,11 +34,9 @@ public class Korisnik implements UserDetails {
     @Column(name="korisnickoIme", unique=true, nullable=false)
     public String korisnickoIme;
 
-    @Column(name="grad", unique=false, nullable=false)
-    public String  grad;
-
-    @Column(name="drzava", unique=false, nullable=false)
-    public String  drzava;
+    @ManyToOne
+    @JoinColumn(name = "lokacija_id", nullable = false)
+    public Lokacija lokacija;
 
     @Column(name="broj", unique=false)
     public String  broj;
@@ -66,15 +58,14 @@ public class Korisnik implements UserDetails {
 
     }
 
-    public Korisnik(Integer id, String email, String password, String ime, String prezime, String grad, String drzava, String broj, Uloga uloga) {
+    public Korisnik(Integer id, String email, String password, String ime, String prezime, Lokacija lokacija, String broj, Uloga uloga) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
-        this.grad = grad;
-        this.drzava = drzava;
+        this.lokacija=lokacija;
         this.broj = broj;
         this.uloga=uloga;
     }
@@ -136,20 +127,12 @@ public class Korisnik implements UserDetails {
         this.prezime = prezime;
     }
 
-    public String getGrad() {
-        return grad;
+    public Lokacija getLokacija() {
+        return lokacija;
     }
 
-    public void setGrad(String grad) {
-        this.grad = grad;
-    }
-
-    public String getDrzava() {
-        return drzava;
-    }
-
-    public void setDrzava(String drzava) {
-        this.drzava = drzava;
+    public void setLokacija(Lokacija lokacija) {
+        this.lokacija = lokacija;
     }
 
     public String getBroj() {
@@ -159,16 +142,6 @@ public class Korisnik implements UserDetails {
     public void setBroj(String broj) {
         this.broj = broj;
     }
-
-    /*
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-    */
 
     public Uloga getUloga() { return uloga; }
 

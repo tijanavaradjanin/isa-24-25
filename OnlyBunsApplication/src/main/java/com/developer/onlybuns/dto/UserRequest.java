@@ -1,4 +1,5 @@
 package com.developer.onlybuns.dto;
+import com.sun.istack.NotNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,13 +34,20 @@ public class UserRequest {
     @NotBlank(message = "Obavezno polje")
     private String drzava;
 
+    @NotBlank(message = "Obavezno polje")
+    private String ulica;
+
+    //broj je opciono polje kod registrovanja, validira se samo ako je popunjeno polje
+    @Pattern(regexp = "^[0-9a-zA-Z/\\- ]{0,15}$", message = "Broj adrese nije validan.")
+    private String brojKuce;
+
     private String broj;
 
     private String info;
 
     public UserRequest() {}
 
-    public UserRequest(String korisnickoIme, String lozinka, String potvrdaLozinke, String ime, String prezime, String email, String grad, String drzava, String broj, String info) {
+    public UserRequest(String korisnickoIme, String lozinka, String potvrdaLozinke, String ime, String prezime, String email, String grad, String drzava, String ulica, String brojKuce, String broj, String info) {
         this.korisnickoIme = korisnickoIme;
         this.password = lozinka;
         this.potvrdaLozinke = potvrdaLozinke;
@@ -48,6 +56,8 @@ public class UserRequest {
         this.email = email;
         this.grad = grad;
         this.drzava = drzava;
+        this.ulica=ulica;
+        this.brojKuce=brojKuce;
         this.broj = broj;
         this.info = info;
     }
@@ -106,6 +116,22 @@ public class UserRequest {
 
     public void setDrzava(String drzava) {
         this.drzava = drzava;
+    }
+
+    public String getUlica() {
+        return ulica;
+    }
+
+    public void setUlica(String ulica) {
+        this.ulica = ulica;
+    }
+
+    public String getBrojKuce() {
+        return brojKuce;
+    }
+
+    public void setBrojKuce(String brojKuce) {
+        this.brojKuce = brojKuce;
     }
 
     public String getBroj() {

@@ -1,6 +1,11 @@
 package com.developer.onlybuns.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "lokacija")
@@ -17,6 +22,16 @@ public class Lokacija {
     @Column(name = "longituda", nullable = false)
     private Double longituda;                             // geografska duzina-druga koordinata
 
+    @OneToMany(mappedBy = "lokacija", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    @JsonIgnore
+    private List<Objava> objave;
+
+    @OneToMany(mappedBy = "lokacija", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
+    @JsonIgnore
+    private List<Korisnik> korisnici;
+
     public Double getLatituda() {
         return latituda;
     }
@@ -31,6 +46,14 @@ public class Lokacija {
 
     public void setLongituda(Double longituda) {
         this.longituda = longituda;
+    }
+
+    public List<Objava> getObjave() {
+        return objave;
+    }
+
+    public void setObjave(List<Objava> objave) {
+        this.objave = objave;
     }
 
     public Lokacija(Integer id, Double latituda, Double longituda) {

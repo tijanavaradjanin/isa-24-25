@@ -2,7 +2,9 @@ package com.developer.onlybuns.controller;
 import com.developer.onlybuns.dto.KorisnikProfilDTO;
 import com.developer.onlybuns.dto.UpdateProfile;
 import com.developer.onlybuns.dto.UserRequest;
+import com.developer.onlybuns.entity.Lokacija;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
+import com.developer.onlybuns.service.LokacijaService;
 import com.developer.onlybuns.service.ObjavaService;
 import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import com.developer.onlybuns.util.TokenUtils;
@@ -12,12 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.KeyStore;
 import java.util.*;
 
 import javax.validation.Valid;
@@ -31,15 +30,18 @@ public class RegistrovaniKorisnikController {
 
     private final ObjavaService objavaService;
 
+    private final LokacijaService lokacijaService;
+
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private TokenUtils tokenUtils;
 
-    public RegistrovaniKorisnikController(RegistrovaniKorisnikService registrovaniKorisnikService, ObjavaService objavaService) {
+    public RegistrovaniKorisnikController(RegistrovaniKorisnikService registrovaniKorisnikService, ObjavaService objavaService, LokacijaService lokacijaService) {
         this.registrovaniKorisnikService = registrovaniKorisnikService;
         this.objavaService = objavaService;
+        this.lokacijaService=lokacijaService;
     }
 
     @GetMapping
@@ -70,12 +72,13 @@ public class RegistrovaniKorisnikController {
             return ResponseEntity.notFound().build();
         }
 
+        String adresaLokacije=lokacijaService.getAdresa(korisnik.getLokacija().getLatituda(), korisnik.getLokacija().getLongituda());
+
         KorisnikProfilDTO korisnikDTO = new KorisnikProfilDTO(
                 korisnik.getKorisnickoIme(),
                 korisnik.getIme(),
                 korisnik.getPrezime(),
-                korisnik.getGrad(),
-                korisnik.getDrzava(),
+                adresaLokacije,
                 korisnik.getBroj(),
                 korisnik.getEmail(),
                 korisnik.getInfo()
@@ -127,17 +130,21 @@ public class RegistrovaniKorisnikController {
                     if (!Objects.equals(userRequest.getPassword(), userRequest.getPotvrdaLozinke())) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lozinka i njena potvrda se moraju poklapati.");
                     } else {
-                        if (objavaService.validateKorisnikLocation(userRequest.getGrad(), userRequest.getDrzava()) == null) {
+                        if (objavaService.validateLocation(userRequest.getGrad(), userRequest.getDrzava(), userRequest.getUlica(), userRequest.getBrojKuce()) == null) {
                             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nevalidna lokacija.");
                         } else {
+                            double[] koordinate = objavaService.validateLocation(userRequest.getGrad(), userRequest.getDrzava(), userRequest.getUlica(), userRequest.getBrojKuce());
+                            Lokacija lokacija = new Lokacija();
+                            lokacija.setLatituda(koordinate[0]);
+                            lokacija.setLongituda(koordinate[1]);
+                            lokacijaService.saveLokacija(lokacija);
                             RegistrovaniKorisnik regKorisnik = new RegistrovaniKorisnik(
                                     userRequest.getEmail(),
                                     userRequest.getPassword(),
                                     userRequest.getIme(),
                                     userRequest.getPrezime(),
                                     userRequest.getKorisnickoIme(),
-                                    userRequest.getGrad(),
-                                    userRequest.getDrzava(),
+                                    lokacija,
                                     userRequest.getBroj(),
                                     userRequest.getInfo()
                             );
@@ -161,7 +168,7 @@ public class RegistrovaniKorisnikController {
         }
     }
 
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    /*@PreAuthorize("hasAuthority('KORISNIK')")
     @PutMapping("/update")
     public ResponseEntity<?>  updateProfile(@RequestBody @Valid UpdateProfile dto, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -225,6 +232,7 @@ public class RegistrovaniKorisnikController {
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Profil uspesno azuriran.");
     }
+     */
 
     @DeleteMapping("/{id}")
     public void deleteRegistrovaniKorisnik(@PathVariable("id") Integer id) {

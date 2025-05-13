@@ -4,8 +4,7 @@ public class KorisnikProfilDTO {
     private String korisnickoIme;
     private String ime;
     private String prezime;
-    private String grad;
-    private String drzava;
+    private String lokacija;
     private String broj;
     private String email;
     private String info;
@@ -34,20 +33,12 @@ public class KorisnikProfilDTO {
         this.prezime = prezime;
     }
 
-    public String getGrad() {
-        return grad;
+    public String getLokacija() {
+        return lokacija;
     }
 
-    public void setGrad(String grad) {
-        this.grad = grad;
-    }
-
-    public String getDrzava() {
-        return drzava;
-    }
-
-    public void setDrzava(String drzava) {
-        this.drzava = drzava;
+    public void setLokacija(String lokacija) {
+        this.lokacija = lokacija;
     }
 
     public String getBroj() {
@@ -74,12 +65,11 @@ public class KorisnikProfilDTO {
         this.info = info;
     }
 
-    public KorisnikProfilDTO(String korisnickoIme, String ime, String prezime, String grad, String drzava, String broj, String email, String info) {
+    public KorisnikProfilDTO(String korisnickoIme, String ime, String prezime, String lokacija, String broj, String email, String info) {
         this.korisnickoIme = korisnickoIme;
         this.ime = ime;
         this.prezime = prezime;
-        this.grad = grad;
-        this.drzava = drzava;
+        this.lokacija=lokacija;
         this.broj = broj;
         this.email = email;
         this.info = info;

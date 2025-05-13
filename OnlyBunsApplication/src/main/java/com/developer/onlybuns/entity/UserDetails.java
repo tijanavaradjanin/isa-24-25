@@ -17,10 +17,6 @@ public interface UserDetails {
 
     String getPrezime();
 
-    String getGrad();
-
-    String getDrzava();
-
     String getBroj();
 
    // Map<String, Object> getAdditionalClaims();

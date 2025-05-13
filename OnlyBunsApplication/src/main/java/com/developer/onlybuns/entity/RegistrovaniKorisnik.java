@@ -1,6 +1,4 @@
 package com.developer.onlybuns.entity;
-
-
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,14 +15,13 @@ public class RegistrovaniKorisnik extends Korisnik implements UserDetails {
         return claims;
     }
 
-    public RegistrovaniKorisnik(String email, String password, String ime, String prezime, String korisnickoIme, String grad, String drzava, String broj, String info) {
+    public RegistrovaniKorisnik(String email, String password, String ime, String prezime, String korisnickoIme, Lokacija lokacija, String broj, String info) {
         this.email = email;
         this.password = password;
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
-        this.grad = grad;
-        this.drzava = drzava;
+        this.lokacija=lokacija;
         this.broj = broj;
         this.info = info;
     }

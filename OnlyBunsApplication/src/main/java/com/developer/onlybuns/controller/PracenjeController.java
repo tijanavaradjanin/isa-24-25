@@ -90,8 +90,7 @@ public class PracenjeController {
                     korisnik.getKorisnickoIme(),
                     korisnik.getIme(),
                     korisnik.getPrezime(),
-                    korisnik.getGrad(),
-                    korisnik.getDrzava(),
+                    korisnik.getLokacija().toString(),
                     korisnik.getBroj(),
                     korisnik.getEmail(),
                     korisnik.getInfo()

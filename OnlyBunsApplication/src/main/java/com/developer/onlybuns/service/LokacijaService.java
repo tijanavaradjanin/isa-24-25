@@ -6,4 +6,6 @@ import com.developer.onlybuns.entity.Lokacija;
 public interface LokacijaService {
 
     void saveLokacija(Lokacija lokacija);
+
+    String getAdresa(double latituda, double longituda);
 }

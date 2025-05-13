@@ -76,7 +76,7 @@ public class ObjavaController {
     public ResponseEntity<?> save(
             @RequestParam("opis") String opis,
             @RequestParam(required = false) String ulica,
-            @RequestParam(required = false) Integer broj,
+            @RequestParam(required = false) String broj,
             @RequestParam(required = false) String grad,
             @RequestParam(required = false) String drzava,
             @RequestParam(required = false) Double latitude,
