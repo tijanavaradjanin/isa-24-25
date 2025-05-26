@@ -54,12 +54,14 @@ public class ObjavaController {
         List<Objava> objave = objavaService.getAllObjave();
         List<ObjavaDTO> objavePrikaz=new ArrayList<>();
         for(Objava objava: objave){
+            String adresa=lokacijaService.getAdresa(objava.getLokacija().getLatituda(), objava.getLokacija().getLongituda());
             objavePrikaz.add(new ObjavaDTO(
                     objava.getId(),
                     objava.getOpis(),
                     objava.getSlika(),
                     objava.getLokacija().getLatituda(),
                     objava.getLokacija().getLongituda(),
+                    adresa,
                     objava.getVremeKreiranja(),
                     objava.getKomentari(),
                     objava.getLajkovi(),
@@ -141,7 +143,7 @@ public class ObjavaController {
 
     @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/mojeObjave")
-    public ResponseEntity<List<Objava>> getMyPosts(Authentication authentication) {
+    public ResponseEntity<List<ObjavaDTO>> getMyPosts(Authentication authentication) {
 
             RegistrovaniKorisnik vlasnik = (RegistrovaniKorisnik) authentication.getPrincipal();
             if (vlasnik == null) {
@@ -151,7 +153,25 @@ public class ObjavaController {
             Integer vlasnikId = vlasnik.getId();
             List<Objava> mojeObjave = objavaService.findByKorisnikId(vlasnikId);
             Collections.sort(mojeObjave, (o1, o2) -> o2.getVremeKreiranja().compareTo(o1.getVremeKreiranja()));
-            return ResponseEntity.ok(mojeObjave);
+            List<ObjavaDTO> mojeObjavePrikaz=new ArrayList<>();
+            for(Objava objava: mojeObjave) {
+            String adresa=lokacijaService.getAdresa(objava.getLokacija().getLatituda(), objava.getLokacija().getLongituda());
+            mojeObjavePrikaz.add(new ObjavaDTO(
+                    objava.getId(),
+                    objava.getOpis(),
+                    objava.getSlika(),
+                    objava.getLokacija().getLatituda(),
+                    objava.getLokacija().getLongituda(),
+                    adresa,
+                    objava.getVremeKreiranja(),
+                    objava.getKomentari(),
+                    objava.getLajkovi(),
+                    objava.getRegistrovaniKorisnik().getKorisnickoIme(),
+                    objava.getLajkovi().size(),
+                    objava.getKomentari().size()
+            ));
+        }
+            return ResponseEntity.ok(mojeObjavePrikaz);
     }
 
     @PutMapping
@@ -266,12 +286,14 @@ public class ObjavaController {
         Collections.sort(objaveFeed, (o1, o2) -> o2.getVremeKreiranja().compareTo(o1.getVremeKreiranja()));
         List<ObjavaDTO> objaveFeed2=new ArrayList<>();
         for(Objava objava:objaveFeed) {
+            String adresa=lokacijaService.getAdresa(objava.getLokacija().getLatituda(), objava.getLokacija().getLongituda());
             objaveFeed2.add(new ObjavaDTO(
                     objava.getId(),
                     objava.getOpis(),
                     objava.getSlika(),
                     objava.getLokacija().getLatituda(),
                     objava.getLokacija().getLongituda(),
+                    adresa,
                     objava.getVremeKreiranja(),
                     objava.getKomentari(),
                     objava.getLajkovi(),

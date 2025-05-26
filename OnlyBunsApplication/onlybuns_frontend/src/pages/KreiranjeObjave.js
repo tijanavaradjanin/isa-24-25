@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { Box } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
 import '../css/KreiranjeObjave.css';
 import L from 'leaflet';
@@ -123,9 +124,18 @@ export default function KreiranjeObjave() {
   }
 
   return (
-    <div className="kreiranje-objave-container">
+    <div>
+      <Box sx={{
+        background: "linear-gradient(to right,rgb(69, 185, 194), #e3f2fd)",
+        width: "99vw",
+        minHeight: "100vh",
+        py: 4,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}>
       <form className="kreiranje-objave-form" onSubmit={handleSubmit}>
-        <h1 className="kreiranje-objave-title">Kreiranje Objave</h1>
+        <h1 className="kreiranje-objave-title">Kreiranje objave</h1>
         {error && <p className="error-message">{error}</p>}
         
         <textarea
@@ -141,10 +151,11 @@ export default function KreiranjeObjave() {
         />
         {/* Prikaz izabrane slike */}
         {preview && (
-         <div className="image-preview-container">
-            <img src={preview} alt="Preview" className="image-preview" />
+        <div className="image-preview-container" style={{ marginTop: '16px' }}>
+          <img src={preview} alt="Preview" className="image-preview" />
         </div>
         )}
+
 
         {/* Ručni unos grada i države */}
         <input
@@ -213,6 +224,7 @@ export default function KreiranjeObjave() {
           {loading ? 'Kreiranje...' : 'Kreiraj'}
         </button>
       </form>
+    </Box>
     </div>
   );
 }

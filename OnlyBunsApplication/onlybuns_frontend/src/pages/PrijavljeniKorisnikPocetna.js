@@ -106,7 +106,12 @@ const PrijavljeniKorisnikPocetna = () => {
   };
 
   return (
-      <Box>
+      <Box 
+      sx={{
+      background: "linear-gradient(to right,rgb(69, 185, 194), #e3f2fd)",
+      minHeight: "100vh",
+      py: 2
+      }}>
         {/* Navigacija */}
         <Toolbar sx={{ justifyContent: "flex-end" }}>
           <Button color="primary" onClick={seeMyProfile}>Moj profil</Button>

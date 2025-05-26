@@ -1,6 +1,5 @@
 package com.developer.onlybuns.controller;
 import com.developer.onlybuns.dto.KorisnikProfilDTO;
-import com.developer.onlybuns.dto.UpdateProfile;
 import com.developer.onlybuns.dto.UserRequest;
 import com.developer.onlybuns.entity.Lokacija;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
@@ -89,9 +88,19 @@ public class RegistrovaniKorisnikController {
 
     @PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping("/profil")
-    public ResponseEntity<RegistrovaniKorisnik> getUser(Authentication authentication) {
+    public ResponseEntity<KorisnikProfilDTO> getUser(Authentication authentication) {
             RegistrovaniKorisnik user = (RegistrovaniKorisnik) authentication.getPrincipal();
-            return ResponseEntity.ok(user);
+            String adresa=lokacijaService.getAdresa(user.getLokacija().getLatituda(), user.getLokacija().getLongituda());
+            KorisnikProfilDTO korisnik=new KorisnikProfilDTO(
+                    user.getKorisnickoIme(),
+                    user.getIme(),
+                    user.getPrezime(),
+                    adresa,
+                    user.getBroj(),
+                    user.getEmail(),
+                    user.getInfo()
+            );
+            return ResponseEntity.ok(korisnik);
     }
 
     @PostMapping("/add")

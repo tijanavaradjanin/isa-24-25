@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
+import { cirilicaULatinicu } from '../helpers/PismoKonverter.js';
 import { Box, Button, Typography, Toolbar, Table, Modal, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
 
 const MojProfil = () => {
@@ -129,7 +130,12 @@ const MojProfil = () => {
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+      background: "linear-gradient(to right,rgb(69, 185, 194), #e3f2fd)",
+      minHeight: "100vh",
+      py: 2
+      }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
         <Box sx={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
         <Toolbar sx={{ justifyContent: "flex-end" }}>
@@ -167,39 +173,39 @@ const MojProfil = () => {
           <Table>
             <TableBody>
               <TableRow>
-                <TableCell>Ime</TableCell>
+                <TableCell>Ime:</TableCell>
                 <TableCell>{korisnik.ime}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Prezime</TableCell>
+                <TableCell>Prezime:</TableCell>
                 <TableCell>{korisnik.prezime}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Korisničko ime</TableCell>
+                <TableCell>Korisničko ime:</TableCell>
                 <TableCell>{korisnik.korisnickoIme}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Email</TableCell>
+                <TableCell>Email:</TableCell>
                 <TableCell>{korisnik.email}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Grad</TableCell>
-                <TableCell>{korisnik.grad}</TableCell>
+                <TableCell
+                sx={{
+                  whiteSpace: "normal", // omogućava više redova
+                  wordBreak: "break-word", // prelama duge reči ako treba
+                }}>Adresa:</TableCell>
+                <TableCell>{cirilicaULatinicu(korisnik.adresa)}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Drzava</TableCell>
-                <TableCell>{korisnik.drzava}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Broj</TableCell>
+                <TableCell>Broj:</TableCell>
                 <TableCell>{korisnik.broj}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Info</TableCell>
+                <TableCell>Info:</TableCell>
                 <TableCell>{korisnik.info}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Lozinka</TableCell>
+                <TableCell>Lozinka:</TableCell>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     {showPassword ? korisnik.password : '********'}

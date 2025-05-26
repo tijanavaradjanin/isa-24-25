@@ -13,8 +13,8 @@ const PrikazMape = () => {
   const [nearbyPosts, setNearbyPosts] = useState([]); // Dodato: Držimo obližnje objave
   const mapRef = useRef(null);
 
-  const getCoordinates = async (city, country) => {
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?city=${city}&country=${country}&format=json`);
+  const getCoordinates = async (fullAddress) => {
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json`);
     const data = await response.json();
     return data?.[0] ? [parseFloat(data[0].lat), parseFloat(data[0].lon)] : null;
   };
@@ -35,9 +35,10 @@ const PrikazMape = () => {
       .then(response => response.ok ? response.json() : Promise.reject('Neuspešno dobijanje podataka'))
       .then(data => {
         setKorisnik(data);
+        console.log("Korisnik podaci:", data);
 
-        if (data.grad && data.drzava) {
-          getCoordinates(data.grad, data.drzava).then(coords => {
+        if (data.adresa) {
+          getCoordinates(data.adresa).then(coords => {
             if (coords) {
               setLocation(coords);
               setLocationMessage(null);
@@ -106,12 +107,12 @@ const PrikazMape = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           
-          {/* Korisnička lokacija */}
-          <Marker position={location} icon={userIcon}>
-            <Popup>
-              {korisnik?.grad && korisnik?.drzava ? `${korisnik.grad}, ${korisnik.drzava}` : "Nepoznata lokacija"}
-            </Popup>
-          </Marker>
+        <Marker position={location} icon={userIcon}>
+          <Popup>
+            {korisnik?.adresa ? korisnik.adresa : "Nepoznata lokacija"}
+          </Popup>
+        </Marker>
+
 
           {/* Obližnje objave */}
           {nearbyPosts.map((post, index) => (

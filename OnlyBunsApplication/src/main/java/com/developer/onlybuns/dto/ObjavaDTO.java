@@ -17,6 +17,8 @@ public class ObjavaDTO {
 
     private Double longituda;
 
+    private String lokacija;
+
     private LocalDateTime vremeKreiranja;
 
     private List<Komentar> komentari;
@@ -32,12 +34,13 @@ public class ObjavaDTO {
     public ObjavaDTO() {
     }
 
-    public ObjavaDTO(Integer id, String opis, String slika, Double latituda, Double longituda, LocalDateTime vremeKreiranja, List<Komentar> komentari, List<Lajk> lajkovi, String korisnickoIme, Integer brojLajkova, Integer brojKomentara) {
+    public ObjavaDTO(Integer id, String opis, String slika, Double latituda, Double longituda, String lokacija, LocalDateTime vremeKreiranja, List<Komentar> komentari, List<Lajk> lajkovi, String korisnickoIme, Integer brojLajkova, Integer brojKomentara) {
         this.id = id;
         this.opis = opis;
         this.slika = slika;
         this.latituda = latituda;
         this.longituda = longituda;
+        this.lokacija=lokacija;
         this.vremeKreiranja = vremeKreiranja;
         this.komentari = komentari;
         this.lajkovi = lajkovi;
@@ -85,6 +88,10 @@ public class ObjavaDTO {
     public void setLongituda(Double longituda) {
         this.longituda = longituda;
     }
+
+    public String getLokacija() { return lokacija; }
+
+    public void setLokacija(String lokacija) { this.lokacija = lokacija; }
 
     public LocalDateTime getVremeKreiranja() {
         return vremeKreiranja;

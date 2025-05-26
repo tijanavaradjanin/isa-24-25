@@ -42,11 +42,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 110vh;
+    height: 110hv;
     width: 100%;
     background-image: url('sargarepe5.jpeg'); 
     background-size: cover;
     background-position: center 80%; /* Pomeranje slike na dole */
-    padding-top: 86px;
+    padding-top: 70px;
+    padding-bottom: 50px;
   }
   

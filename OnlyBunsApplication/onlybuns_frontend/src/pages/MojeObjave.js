@@ -12,6 +12,7 @@ export default function MojeObjave() {
   const [objave, setObjave] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [adresaZaPrikaz, setAdresaZaPrikaz] = useState("");
   const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [korisnik, setKorisnik] = useState(null);
@@ -81,8 +82,9 @@ export default function MojeObjave() {
     navigate(`/korisnikProfil/${korisnickoIme}`);
   };
 
-  const handleShowMap = (lat, lng) => {
+  const handleShowMap = (lat, lng, lokacija) => {
     setSelectedLocation({ lat, lng });
+    setAdresaZaPrikaz(lokacija);
     setOpenMap(true);
   };
 
@@ -107,7 +109,13 @@ export default function MojeObjave() {
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+      background: "linear-gradient(to right,rgb(69, 185, 194), #e3f2fd)",
+      minHeight: "80vh",
+      py: 2
+    }}
+    >
       {/* Navigacija */}
       <Toolbar sx={{ justifyContent: "flex-end" }}>
         <Button color="primary" onClick={seeMyProfile}>Moj profil</Button>
@@ -122,24 +130,39 @@ export default function MojeObjave() {
       </Toolbar>
 
       {/* Lista objava */}
-      <Box sx={{ maxWidth: 600, margin: "auto", mt: 4 }}>
+      <Box sx={{ width: "90%", maxWidth: "700px", margin: "auto", mt: 4 }}>
         {objave.length === 0 ? (
           <Typography variant="h6" textAlign="center">
             Nema objava za prikaz.
           </Typography>
         ) : (
           objave.map((objava) => (
-            <Card key={objava.id} sx={{ mb: 3, boxShadow: 3 }}>
+            <Card key={objava.id}
+              sx={{ 
+              mb: 4, 
+              borderRadius: 4,  
+              backdropFilter: "blur(8px)",
+              backgroundColor: "rgba(255, 255, 255, 0.75)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              overflow: "hidden",
+              boxShadow: 3 }}
+            >
               <CardHeader
-                avatar={<Avatar>{objava.registrovaniKorisnik.korisnickoIme[0]}</Avatar>}
+                avatar={
+                  <Avatar sx={{bgcolor: "#1976d2"}}>
+                    {objava.korisnickoIme[0].toUpperCase()}
+                  </Avatar>
+                }
                 title={
                   <Typography
-                  variant="body1"
-                  color="text.primary"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => goToUserProfile(objava.registrovaniKorisnik.korisnickoIme)}
-                >
-                  {objava.registrovaniKorisnik.korisnickoIme}
+                    variant="body1"
+                    color="text.primary"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => {
+                        goToUserProfile(objava.korisnickoIme);
+                    }}
+                  >
+                    {objava.korisnickoIme}
                   </Typography>
                 }
                 subheader={
@@ -160,7 +183,7 @@ export default function MojeObjave() {
                     <Button
                       variant="text"
                       startIcon={<LocationIcon />}
-                      onClick={() => handleShowMap(objava.latituda, objava.longituda)}
+                      onClick={() => handleShowMap(objava.latituda, objava.longituda, objava.lokacija)}
                       sx={{ color: "grey", textTransform: "none", ml:0, marginRight: 0.5,
                         "& .MuiButton-startIcon": {
                           marginRight: 0.5, // Razmak izmedju ikonice i teksta
@@ -216,15 +239,15 @@ export default function MojeObjave() {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: 600,
-              height: 400,
+              width: 800,
+              height: 600,
               bgcolor: "white",
               boxShadow: 24,
               p: 2,
               borderRadius: 2
             }}
           >
-            <Typography variant="h6" mb={2}>Lokacija objave</Typography>
+            <Typography variant="h6" mb={2}>{adresaZaPrikaz}</Typography>
             <div style={{ height: "100%", width: "100%" }}>
               <MapContainer
                 center={[selectedLocation?.lat, selectedLocation?.lng]}

@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import { cirilicaULatinicu } from '../helpers/PismoKonverter';
 import { Box, Typography, Avatar, Table, Button, TableBody, TableCell, CircularProgress, Alert, TableContainer, TableHead, TableRow, Paper} from "@mui/material";
 
 const KorisnikProfil = () => {
@@ -98,10 +99,15 @@ const KorisnikProfil = () => {
   };
 
   return (
-    <Box>
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', marginTop: '5vh' }}>
+    <Box
+    sx={{
+      background: "linear-gradient(to right,rgb(69, 185, 194), #e3f2fd)",
+      minHeight: "80vh",
+      py: 2
+      }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', marginTop: '70px' }}>
         <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
-            <Button sx={{ marginLeft: '60vh', marginTop: '1vh', fontWeight: 'bold' }} 
+            <Button sx={{ marginLeft: '55vh', marginTop: '1vh', fontWeight: 'bold' }} 
               onClick={handlePracenje}
             >
               {prati ? "Otprati" : "Zaprati"}
@@ -121,31 +127,31 @@ const KorisnikProfil = () => {
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Ime</TableCell>
+                <TableCell>Ime:</TableCell>
                 <TableCell>{korisnik.ime}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Prezime</TableCell>
+                <TableCell>Prezime:</TableCell>
                 <TableCell>{korisnik.prezime}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Email</TableCell>
+                <TableCell>Email:</TableCell>
                 <TableCell>{korisnik.email}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Grad</TableCell>
-                <TableCell>{korisnik.grad}</TableCell>
+                <TableCell
+                sx={{
+                  whiteSpace: "normal", // omogućava više redova
+                  wordBreak: "break-word", // prelama duge reči ako treba
+                }}>Adresa:</TableCell>
+                <TableCell>{cirilicaULatinicu(korisnik.adresa)}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Drzava</TableCell>
-                <TableCell>{korisnik.drzava}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Broj</TableCell>
+                <TableCell>Broj:</TableCell>
                 <TableCell>{korisnik.broj}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Info</TableCell>
+                <TableCell>Info:</TableCell>
                 <TableCell>{korisnik.info}</TableCell>
               </TableRow>
             </TableBody>

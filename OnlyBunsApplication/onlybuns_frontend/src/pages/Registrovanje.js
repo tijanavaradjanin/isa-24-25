@@ -11,7 +11,9 @@ export default function Registrovanje() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [potvrdaLozinke, setPotvrdaLozinke] = useState("");
-  const [grad, setGrad] = useState("");
+  const [grad, setGrad] = useState(""); 
+  const [ulica, setUlica] = useState("");
+  const [brojKuce, setBrojKuce] = useState("");
   const [drzava, setDrzava] = useState("");
   const [broj, setBroj] = useState("");
   const [info, setInfo] = useState("");
@@ -20,7 +22,7 @@ export default function Registrovanje() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const korisnik = { ime, prezime, korisnickoIme, email, password, potvrdaLozinke, grad, drzava, broj, info };
+    const korisnik = { ime, prezime, korisnickoIme, email, password, potvrdaLozinke, grad, drzava, ulica, brojKuce, broj, info };
   
     fetch("http://localhost:8080/registrovaniKorisnik/signup", {
       method: "POST",
@@ -122,6 +124,28 @@ export default function Registrovanje() {
             onChange={(e) => setPotvrdaLozinke(e.target.value)}
           />
           {errors.potvrdaLozinke && <span className="error-text">{errors.potvrdaLozinke}</span>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Ulica"
+            className={`registrovanje-input ${errors.ulica ? "error-border" : ""}`}
+            value={ulica}
+            onChange={(e) => setUlica(e.target.value)}
+          />
+          {errors.ulica && <span className="error-text">{errors.ulica}</span>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Broj kuce/stana:"
+            className={`registrovanje-input ${errors.brojKuce ? "error-border" : ""}`}
+            value={brojKuce}
+            onChange={(e) => setBrojKuce(e.target.value)}
+          />
+          {errors.brojKuce && <span className="error-text">{errors.brojKuce}</span>}
         </div>
 
         <div className="input-group">

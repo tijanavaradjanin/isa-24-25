@@ -1,16 +1,8 @@
-.kreiranje-objave-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Forma će biti centrirana vertikalno */
-    height: 100vh; /* Zauzima celu visinu ekrana */
-    background-color: #f0f8ff; /* Svetloplava pozadina */
-    padding-top: 100px; /* Dodaje razmak od vrha */
-}
-
 .kreiranje-objave-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 50px;
     align-items: center;
     width: 100%;
     max-width: 500px; /* Maksimalna širina forme */
@@ -35,6 +27,7 @@
     border: 2px solid #0056b3; /* Tamnoplavi okvir */
     border-radius: 5px;
     box-sizing: border-box;
+    font-family: 'Helvetica';
 }
 
 .kreiranje-objave-input:focus {

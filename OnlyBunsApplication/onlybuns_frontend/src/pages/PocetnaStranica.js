@@ -31,6 +31,7 @@ const PrijavaModal = ({ open, handleClose, navigate }) => {
 
 const PocetnaStranica = () => {
   const [objave, setObjave] = useState([]);
+  const [adresaZaPrikaz, setAdresaZaPrikaz] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [openMap, setOpenMap] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -57,11 +58,12 @@ const PocetnaStranica = () => {
     setOpenModal(true);
   };
 
-  const handleShowMap = (lat, lng) => {
-    setSelectedLocation({ lat, lng });
-    setOpenMap(true);
+  const handleShowMap = (lat, lng, lokacija) => {
+  setSelectedLocation({ lat, lng });
+  setAdresaZaPrikaz(lokacija);
+  setOpenMap(true);
   };
-  
+
   const handleCloseMap = () => {
     setOpenMap(false);
   };
@@ -149,7 +151,7 @@ const PocetnaStranica = () => {
                     <Button
                       variant="text"
                       startIcon={<LocationIcon />}
-                      onClick={() => handleShowMap(objava.latituda, objava.longituda)}
+                      onClick={() => handleShowMap(objava.latituda, objava.longituda, objava.lokacija)}
                       sx={{ color: "grey", textTransform: "none", ml:0, marginRight: 0.5,
                         "& .MuiButton-startIcon": {
                           marginRight: 0.5, // Razmak izmedju ikonice i teksta
@@ -211,15 +213,15 @@ const PocetnaStranica = () => {
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: 600,
-                    height: 400,
+                    width: 800,
+                    height: 600,
                     bgcolor: "white",
                     boxShadow: 24,
                     p: 2,
                     borderRadius: 2
                   }}
                 >
-                  <Typography variant="h6" mb={2}>Lokacija objave</Typography>
+                  <Typography variant="h6" mb={2}>{adresaZaPrikaz}</Typography>
                   <div style={{ height: "100%", width: "100%" }}>
                     <MapContainer
                       center={[selectedLocation?.lat, selectedLocation?.lng]}

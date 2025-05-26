@@ -1,8 +1,10 @@
 package com.developer.onlybuns.controller;
 
 import com.developer.onlybuns.dto.KorisnikProfilDTO;
+import com.developer.onlybuns.entity.Lokacija;
 import com.developer.onlybuns.entity.Pracenje;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
+import com.developer.onlybuns.service.LokacijaService;
 import com.developer.onlybuns.service.PracenjeService;
 import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import org.springframework.http.HttpStatus;
@@ -25,9 +27,12 @@ public class PracenjeController {
 
     private final RegistrovaniKorisnikService registrovaniKorisnikService;
 
-    public PracenjeController(PracenjeService pracenjeService, RegistrovaniKorisnikService registrovaniKorisnikService) {
+    private final LokacijaService lokacijaService;
+
+    public PracenjeController(PracenjeService pracenjeService, RegistrovaniKorisnikService registrovaniKorisnikService, LokacijaService lokacijaService) {
         this.pracenjeService = pracenjeService;
         this.registrovaniKorisnikService=registrovaniKorisnikService;
+        this.lokacijaService=lokacijaService;
     }
 
     @PreAuthorize("hasAuthority('KORISNIK')")
@@ -86,11 +91,12 @@ public class PracenjeController {
         List<RegistrovaniKorisnik> zapraceniKorisnici= pracenjeService.zapraceniKorisnici(ulogovaniKorisnik.getId());
         List<KorisnikProfilDTO> zapraceniKorisniciPrikaz=new ArrayList<>();
         for(RegistrovaniKorisnik korisnik: zapraceniKorisnici){
+            String adresa=lokacijaService.getAdresa(korisnik.getLokacija().getLatituda(), korisnik.getLokacija().getLongituda());
             zapraceniKorisniciPrikaz.add(new KorisnikProfilDTO(
                     korisnik.getKorisnickoIme(),
                     korisnik.getIme(),
                     korisnik.getPrezime(),
-                    korisnik.getLokacija().toString(),
+                    adresa,
                     korisnik.getBroj(),
                     korisnik.getEmail(),
                     korisnik.getInfo()

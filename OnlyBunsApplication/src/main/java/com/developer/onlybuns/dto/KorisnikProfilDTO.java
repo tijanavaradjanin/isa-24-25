@@ -1,10 +1,12 @@
 package com.developer.onlybuns.dto;
 
+import com.developer.onlybuns.entity.Lokacija;
+
 public class KorisnikProfilDTO {
     private String korisnickoIme;
     private String ime;
     private String prezime;
-    private String lokacija;
+    private String adresa;
     private String broj;
     private String email;
     private String info;
@@ -33,12 +35,12 @@ public class KorisnikProfilDTO {
         this.prezime = prezime;
     }
 
-    public String getLokacija() {
-        return lokacija;
+    public String getAdresa() {
+        return adresa;
     }
 
-    public void setLokacija(String lokacija) {
-        this.lokacija = lokacija;
+    public void setAdresa(String adresa) {
+        this.adresa = adresa;
     }
 
     public String getBroj() {
@@ -65,11 +67,11 @@ public class KorisnikProfilDTO {
         this.info = info;
     }
 
-    public KorisnikProfilDTO(String korisnickoIme, String ime, String prezime, String lokacija, String broj, String email, String info) {
+    public KorisnikProfilDTO(String korisnickoIme, String ime, String prezime, String adresa, String broj, String email, String info) {
         this.korisnickoIme = korisnickoIme;
         this.ime = ime;
         this.prezime = prezime;
-        this.lokacija=lokacija;
+        this.adresa=adresa;
         this.broj = broj;
         this.email = email;
         this.info = info;

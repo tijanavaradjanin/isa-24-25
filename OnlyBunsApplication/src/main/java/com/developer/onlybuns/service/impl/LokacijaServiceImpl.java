@@ -1,8 +1,5 @@
 package com.developer.onlybuns.service.impl;
-
-import com.developer.onlybuns.entity.Lajk;
 import com.developer.onlybuns.entity.Lokacija;
-import com.developer.onlybuns.repository.LajkRepository;
 import com.developer.onlybuns.repository.LokacijaRepository;
 import com.developer.onlybuns.service.LokacijaService;
 import org.json.JSONObject;

@@ -5,6 +5,7 @@ import com.developer.onlybuns.entity.Lajk;
 import com.developer.onlybuns.entity.Objava;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
 import com.developer.onlybuns.repository.ObjavaRepository;
+import com.developer.onlybuns.service.LokacijaService;
 import com.developer.onlybuns.service.ObjavaService;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,11 +30,15 @@ public class ObjavaServiceImpl implements ObjavaService {
     @Autowired
     private final ObjavaRepository objavaRepository;
 
+    @Autowired
+    private final LokacijaService lokacijaService;
+
     // Haversine formula za izračunavanje udaljenosti između dve tačke
     private static final double EARTH_RADIUS = 6371; // Kilometri
 
-    public ObjavaServiceImpl(ObjavaRepository objavaRepository) {
+    public ObjavaServiceImpl(ObjavaRepository objavaRepository, LokacijaService lokacijaService) {
         this.objavaRepository = objavaRepository;
+        this.lokacijaService = lokacijaService;
     }
 
     @Override
@@ -176,12 +181,14 @@ public class ObjavaServiceImpl implements ObjavaService {
             double distance = calculateDistance(latKorisnik, lonKorisnik, latObjava, lonObjava);
 
             if (distance <= radijus) {
+                String adresa=lokacijaService.getAdresa(latObjava, lonObjava);
                 nearbyPosts.add(new ObjavaDTO(
                         objava.getId(),
                         objava.getOpis(),
                         objava.getSlika(),
                         objava.getLokacija().getLatituda(),
                         objava.getLokacija().getLongituda(),
+                        adresa,
                         objava.getVremeKreiranja(),
                         objava.getKomentari(),
                         objava.getLajkovi(),
