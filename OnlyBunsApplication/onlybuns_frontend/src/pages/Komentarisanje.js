@@ -11,15 +11,27 @@ const Komentarisanje = ({ objavaId, brojKomentara }) => {
   const [listaKomentara, setListaKomentara] = useState([]);
   const navigate = useNavigate();
 
+  console.log("Modal open:", open);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleOpenKomentari = async () => {
     try {
+      const token = localStorage.getItem('token');
       const url = `http://localhost:8080/objava/komentari?objavaId=${objavaId}`;
-      const response = await fetch(url);
 
-      if (!response.ok) throw new Error("Greška sa učitavanjem komentara.");
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Greška sa učitavanjem komentara.");
+      }
 
       const data = await response.json();
       setListaKomentara(data);

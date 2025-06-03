@@ -10,7 +10,6 @@ import AdminSistemPocetna from "./pages/AdminSistemPocetna";
 import KreiranjeObjave from "./pages/KreiranjeObjave";
 import MojeObjave from "./pages/MojeObjave";
 import MojProfil from "./pages/MojProfil";
-import MapaObjava from "./pages/MapaObjava";
 import PrikazMape from "./pages/PrikazMape";
 import KorisnikProfil from "./pages/KorisnikProfil";
 import AzuriranjeProfila from "./pages/AzuriranjeProfila";
@@ -36,7 +35,6 @@ function App() {
           <Route path="/kreiranjeObjave" element={<KreiranjeObjave />} />
           <Route path="/mojeObjave" element={<MojeObjave />} />
           <Route path="/mojProfil" element={<MojProfil />} />
-          <Route path="/mapaObjava" element={<MapaObjava />} />
           <Route path="/prikazMape" element={<PrikazMape />} />
           <Route path="/korisnikProfil/:korisnickoIme" element={<KorisnikProfil />} />
           <Route path="/azuriranjeProfila" element={<AzuriranjeProfila />} />

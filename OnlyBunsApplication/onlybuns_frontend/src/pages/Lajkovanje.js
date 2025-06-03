@@ -8,6 +8,8 @@ const Lajkovanje = ({ objavaId, brojLajkova }) => {
   const [openLajkovi, setOpenLajkovi] = useState(false);
   const [listaLajkova, setListaLajkova] = useState([]);
 
+  console.log("Modal open:", openLajkovi);
+
   const handleLike = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
