@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconButton, Modal, Box, Typography, Button } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
 
-const Lajkovanje = ({ objavaId, brojLajkova }) => {
+const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
   const [lajkovano, setLajkovano] = useState(false);
   const [lajkovi, setLajkovi] = useState(brojLajkova);
   const [openLajkovi, setOpenLajkovi] = useState(false);
   const [listaLajkova, setListaLajkova] = useState([]);
 
-  console.log("Modal open:", openLajkovi);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    fetch(`http://localhost:8080/objava/jeLajkovao?objavaId=${objavaId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => res.ok ? res.json() : Promise.reject("Greška prilikom provere lajkova"))
+      .then(data => setLajkovano(data))
+      .catch(console.error);
+  }, [objavaId]);
 
   const handleLike = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Morate biti prijavljeni da biste lajkovali.");
+      onUnauthorized?.();
       return;
     }
 
@@ -25,14 +38,55 @@ const Lajkovanje = ({ objavaId, brojLajkova }) => {
         },
       });
 
+      if (response.status === 401) {
+        onUnauthorized?.();
+        return;
+      }
+
       if (!response.ok) {
-        throw new Error(await response.text());
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
 
       setLajkovano(true);
-      setLajkovi((prev) => prev + 1);
+      setLajkovi(prev => prev + 1);
     } catch (error) {
       alert(error.message);
+    }
+  };
+
+  const handleDislike = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      onUnauthorized?.();
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/objava/dislajkuj?objavaId=${objavaId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+
+      setLajkovano(false);
+      setLajkovi(prev => prev - 1);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const toggleLike = () => {
+    if (lajkovano) {
+      handleDislike();
+    } else {
+      handleLike();
     }
   };
 
@@ -67,9 +121,8 @@ const Lajkovanje = ({ objavaId, brojLajkova }) => {
 
   return (
     <>
-      {/* Ikonica i broj lajkova */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
-        <IconButton onClick={handleLike} disabled={lajkovano}>
+        <IconButton onClick={toggleLike}>
           <ThumbUp color={lajkovano ? "primary" : "inherit"} />
         </IconButton>
         <Typography
@@ -81,7 +134,7 @@ const Lajkovanje = ({ objavaId, brojLajkova }) => {
         </Typography>
       </Box>
 
-      {/* Modal za prikaz lajkova */}
+      {/* Modal za lajkove */}
       <Modal open={openLajkovi} onClose={handleCloseLajkovi}>
         <Box
           sx={{
@@ -109,14 +162,14 @@ const Lajkovanje = ({ objavaId, brojLajkova }) => {
                   <strong>{lajk.korisnickoIme}</strong>
                 </Typography>
                 <Typography variant="caption" color="gray">
-                {new Date(
-                        lajk.vremeLajkovanja[0],
-                        lajk.vremeLajkovanja[1] - 1,
-                        lajk.vremeLajkovanja[2],
-                        lajk.vremeLajkovanja[3],
-                        lajk.vremeLajkovanja[4],
-                        lajk.vremeLajkovanja[5]
-                      ).toLocaleString()}
+                  {new Date(
+                    lajk.vremeLajkovanja[0],
+                    lajk.vremeLajkovanja[1] - 1,
+                    lajk.vremeLajkovanja[2],
+                    lajk.vremeLajkovanja[3],
+                    lajk.vremeLajkovanja[4],
+                    lajk.vremeLajkovanja[5]
+                  ).toLocaleString()}
                 </Typography>
               </Box>
             ))

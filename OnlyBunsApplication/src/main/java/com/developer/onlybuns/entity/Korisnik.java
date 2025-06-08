@@ -97,7 +97,7 @@ public class Korisnik implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return korisnickoIme;
     }
 
     @Override

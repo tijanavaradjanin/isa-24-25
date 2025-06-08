@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconButton, Modal, Box, Typography, TextField, Button } from "@mui/material";
 import { ChatBubbleOutline } from "@mui/icons-material";
 
-const Komentarisanje = ({ objavaId, brojKomentara }) => {
+const Komentarisanje = ({ objavaId, brojKomentara, onUnauthorized }) => {
   const [open, setOpen] = useState(false);
   const [openKomentari, setOpenKomentari] = useState(false);
   const [komentar, setKomentar] = useState("");
   const [komentari, setKomentari] = useState(brojKomentara);
   const [listaKomentara, setListaKomentara] = useState([]);
   const navigate = useNavigate();
-
-  console.log("Modal open:", open);
+  const inputRef = useRef(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -41,12 +40,18 @@ const Komentarisanje = ({ objavaId, brojKomentara }) => {
     }
   };
 
+  useEffect(() => {
+    if (open && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [open]);
+
   const handleCloseKomentari = () => setOpenKomentari(false);
 
   const handleKomentarisi = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Morate biti prijavljeni da biste komentarisali.");
+      onUnauthorized?.()
       return;
     }
 
@@ -105,7 +110,11 @@ const Komentarisanje = ({ objavaId, brojKomentara }) => {
             borderRadius: 2,
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 2
+          }}
+            tabIndex={-1}  // da Box može primiti fokus
+            ref={el => {
+            if (openKomentari && el) el.focus();
           }}
         >
           <Typography variant="h6">Ostavite komentar</Typography>
@@ -117,6 +126,7 @@ const Komentarisanje = ({ objavaId, brojKomentara }) => {
             placeholder="Unesite komentar..."
             value={komentar}
             onChange={(e) => setKomentar(e.target.value)}
+            inputRef={inputRef}
           />
           <Button variant="contained" color="primary" onClick={handleKomentarisi}>
             Komentariši

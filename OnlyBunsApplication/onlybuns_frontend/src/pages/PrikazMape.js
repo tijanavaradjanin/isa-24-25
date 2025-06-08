@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, Typography, Modal, Card, CardContent, CardActions, CardMedia, CardHeader, Avatar } from "@mui/material";
+import { Box, Typography, Modal } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import Lajkovanje from "./Lajkovanje";
-import Komentarisanje from "./Komentarisanje";
+import Objava from './Objava';
 import { cirilicaULatinicu } from '../helpers/PismoKonverter.js';
 import L from 'leaflet';
 
@@ -16,7 +15,7 @@ const PrikazMape = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [locationMessage, setLocationMessage] = useState(null);
   const [nearbyPosts, setNearbyPosts] = useState([]); // Dodato: Držimo obližnje objave
-  const mapRef = useRef(null);
+  //const mapRef = useRef(null);
 
   const getCoordinates = async (fullAddress) => {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json`);
@@ -32,10 +31,6 @@ const PrikazMape = () => {
   const handleCloseModal = () => {
    setModalOpen(false);
    setPost(null);
-  };
-
-  const goToUserProfile = (korisnickoIme) => {
-    navigate(`/korisnikProfil/${korisnickoIme}`);
   };
 
   useEffect(() => {
@@ -54,16 +49,15 @@ const PrikazMape = () => {
       .then(response => response.ok ? response.json() : Promise.reject('Neuspešno dobijanje podataka'))
       .then(data => {
         setKorisnik(data);
-        console.log("Korisnik podaci:", data);
 
         if (data.adresa) {
           getCoordinates(data.adresa).then(coords => {
             if (coords) {
               setLocation(coords);
               setLocationMessage(null);
-              if (mapRef.current) {
+              /*if (mapRef.current) {
                 mapRef.current.setView(coords, 12);
-              }
+              }*/
               fetchNearbyPosts(token); // Pozivamo funkciju da dohvatimo obližnje objave
             } else {
               setLocationMessage("Vaša lokacija je nepostojeća, molimo Vas ažurirajte je.");
@@ -89,7 +83,6 @@ const PrikazMape = () => {
       if (response.ok) {
         const data = await response.json();
         setNearbyPosts(data);
-        console.log(data);
       } else {
         console.error("Greška pri dohvatanju obližnjih objava");
       }
@@ -120,7 +113,7 @@ const PrikazMape = () => {
           center={location}
           zoom={12}
           style={{ height: "calc(100vh - 100px)", width: "100%" }}
-          ref={mapRef}
+          //ref={mapRef}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -160,74 +153,16 @@ const PrikazMape = () => {
 
           {/* Modal za selektovanu objavu */}
           {post && ( <>
-          {console.log("POST ZA MODAL:", post)}
-          <Modal open={modalOpen} onClose={handleCloseModal}>
-            <Card 
+          <Modal open={modalOpen} onClose={handleCloseModal}
+           sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Objava
               key={post.id}
-              sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 600,
-              boxShadow: 6,
-              outline: 'none',
-              borderRadius: '12px'
-              }}
-            >
-                <CardHeader
-                  avatar={<Avatar sx={{bgcolor: "#1976d2"}}>
-                    {post.korisnickoIme[0].toUpperCase()}
-                  </Avatar>}
-                  title={
-                    <Typography
-                    variant="body1"
-                    color="text.primary"
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => goToUserProfile(post.korisnickoIme)}
-                  >
-                    {post.korisnickoIme}
-                    </Typography>
-                 }
-                 subheader={
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <Typography variant="body2" color="text.secondary">
-                        {new Date(
-                          post.vremeKreiranja[0],
-                          post.vremeKreiranja[1] - 1,
-                          post.vremeKreiranja[2],
-                          post.vremeKreiranja[3],
-                          post.vremeKreiranja[4],
-                          post.vremeKreiranja[5]
-                        ).toLocaleString()}
-                      </Typography>
-                    </Box>
-                  }
-                />
-  
-                {/* Slika objave */}
-                {post.slika && (
-                  <CardMedia
-                    component="img"
-                    height="300"
-                    image={`http://localhost:8080/slika/${post.slika}`}
-                    alt="Slika objave"
-                    sx={{ objectFit: "cover" }}
-                  />
-                )}
-  
-                {/* Opis objave */}
-                <CardContent>
-                  <Typography variant="body1">{post.opis}</Typography>
-                  <Box sx={{ display: "flex", alignItems: "flex-start", mt: 0 }}></Box>
-                </CardContent>
-  
-                {/* Dugmad za lajk i komentar */}
-                <CardActions disableSpacing sx={{ gap: 2, paddingX: 1 }}>
-                <Lajkovanje objavaId={post.id} brojLajkova={post.lajkovi.length} />
-                <Komentarisanje objavaId={post.id} brojKomentara={post.komentari.length} />
-                </CardActions>
-              </Card>
+              objava={post}
+            />
           </Modal>
           </>
           )}

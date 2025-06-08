@@ -18,6 +18,7 @@ import com.developer.onlybuns.dto.ObjavaDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 
 @RestController
@@ -189,10 +190,28 @@ public class ObjavaController {
     public ResponseEntity<?> likeAPost(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
         Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
-        Lajk lajk = new Lajk(korisnik, objava, LocalDateTime.now());
-        lajkService.saveLajk(lajk);
+        Lajk existingLajk = lajkService.findByKorisnikAndObjava(korisnik, objava);
+        if (existingLajk!=null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Vec ste lajkovali objavu.");
+        } else {
+            Lajk lajk = new Lajk(korisnik, objava, LocalDateTime.now());
+            lajkService.saveLajk(lajk);
+            return ResponseEntity.ok("Objava lajkovana uspesno!");
+        }
+    }
 
-        return ResponseEntity.ok("Objava lajkovana uspesno!");
+    @Transactional
+    @PreAuthorize("hasAuthority('KORISNIK')")
+    @DeleteMapping("/dislajkuj")
+    public ResponseEntity<?> dislikeAPost(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
+        Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
+        Lajk existingLajk = lajkService.findByKorisnikAndObjava(korisnik, objava);
+        if (existingLajk == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Objava nije prvobitno lajkovana.");
+        }
+        objava.getLajkovi().remove(existingLajk); // ovo + orphanRemoval = true radi delete
+        return ResponseEntity.ok("Objava dislajkovana uspesno!");
     }
 
     @PreAuthorize("hasAuthority('KORISNIK')")
@@ -211,7 +230,16 @@ public class ObjavaController {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
+    @PreAuthorize("hasAuthority('KORISNIK')")
+    @GetMapping("/jeLajkovao")
+    public ResponseEntity<Boolean> isPostLiked(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
+        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
+        Objava objava = objavaService.getById(objavaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));
+        Lajk lajkovano = lajkService.findByKorisnikAndObjava(korisnik, objava);
+        return ResponseEntity.ok(lajkovano != null);
+    }
+
     @GetMapping("/komentari")
     public ResponseEntity<List<KomentarDTO>> seeComments(@RequestParam("objavaId") Integer objavaId) {
         Objava objava = objavaService.getById(objavaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objava nije pronađena"));

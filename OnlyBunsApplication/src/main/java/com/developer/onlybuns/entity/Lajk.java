@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name="lajk", uniqueConstraints = @UniqueConstraint(columnNames = {"korisnik_id", "objava_id"}))    //koji korisnik je lajkovao koju objavu
@@ -66,5 +67,18 @@ public class Lajk {
 
     public void setVremeLajkovanja(LocalDateTime vremeLajkovanja) {
         this.vremeLajkovanja = vremeLajkovanja;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lajk lajk = (Lajk) o;
+        return id != null && id.equals(lajk.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

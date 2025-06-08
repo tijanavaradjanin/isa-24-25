@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { Box } from '@mui/material';
@@ -7,6 +7,7 @@ import '../css/KreiranjeObjave.css';
 import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import Navigacija from './Navigacija'; 
 
 const customIcon = new L.Icon({
   iconUrl: markerIcon,
@@ -25,6 +26,7 @@ export default function KreiranjeObjave() {
   const [drzava, setDrzava] = useState('');
   const [slika, setSlika] = useState(null);
   const [error, setError] = useState('');
+  const [, setKorisnik] = useState(localStorage.getItem("korisnickoIme"));
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null); // Koordinate sa mape
   const [mapEnabled, setMapEnabled] = useState(true); // Da li je mapa aktivna
@@ -124,7 +126,10 @@ export default function KreiranjeObjave() {
   }
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
+      <div style={{ position: "absolute", top: 16, right: 0, zIndex: 10 }}>
+        <Navigacija setKorisnik={setKorisnik} sx={{ fontSize: "1.6rem" }}/>
+    </div>
       <Box sx={{
         background: "linear-gradient(to right,rgb(69, 185, 194), #e3f2fd)",
         width: "99vw",

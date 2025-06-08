@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { cirilicaULatinicu } from '../helpers/PismoKonverter.js';
-import { Box, Button, Typography, Toolbar, Table, Modal, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
+import Navigacija from './Navigacija'; 
+import { Box, Button, Typography, Table, Modal, TableBody, TableCell, TableContainer, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
 
 const MojProfil = () => {
-  //const location = useLocation();
   const navigate = useNavigate();
   const [korisnik, setKorisnik] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [openLista, setOpenLista] = useState(false);
-  const [zapracen, setZapracen] = useState("");
   const [listaZapracenih, setListaZapracenih] = useState([]);
 
   useEffect(() => {
@@ -22,14 +21,11 @@ const MojProfil = () => {
     console.log('Korisnicko ime:', korisnickoIme);
     console.log('Token:', token);
 
-
     if (!token || !korisnickoIme) {
-      // Ako token nije pronađen, preusmeravamo na početnu stranicu
       navigate('/');
       return;
     }
   
-    // Fetch funkcija za preuzimanje detalja korisnika
     fetch(`http://localhost:8080/registrovaniKorisnik/profil`, {
       method: 'GET',
       headers: {
@@ -44,7 +40,6 @@ const MojProfil = () => {
       })
       .then((data) => {
         setKorisnik(data);
-        console.log(korisnik);
       })
       .catch((error) => {
         console.error('Greška:', error.message);
@@ -82,28 +77,6 @@ const MojProfil = () => {
   };
 
   const handleCloseLista= () => setOpenLista(false);
-  
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setKorisnik(null);
-    navigate('/');
-  };
-
-  const seeMyPosts = () => {
-    navigate('/mojeObjave');
-  };
-
-  const seeMyProfile = () => {
-    navigate('/mojProfil');
-  };
-
-  const makeAPost = () => {
-    navigate('/kreiranjeObjave');
-  };
-
-  const showMap = () => {
-    navigate('/prikazMape');
-  };
 
   const handleUpdateProfile = () => {
     navigate('/azuriranjeProfila');
@@ -138,17 +111,7 @@ const MojProfil = () => {
       }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
         <Box sx={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
-        <Toolbar sx={{ justifyContent: "flex-end" }}>
-             <Button color="primary" onClick={seeMyProfile}>Moj profil</Button>
-           <Typography>|</Typography>
-             <Button color="primary" onClick={seeMyPosts}>Moje objave</Button>
-            <Typography>|</Typography>
-             <Button color="primary" onClick={showMap}>Prikaz mape</Button>
-            <Typography>|</Typography>
-             <Button color="primary" onClick={makeAPost}>+Objava</Button>
-            <Typography>|</Typography>
-             <Button color="primary" onClick={handleLogout}>Odjavi se</Button>
-          </Toolbar>
+         <Navigacija setKorisnik={setKorisnik} />
         </Box>
       </Box>
 

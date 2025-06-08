@@ -13,7 +13,6 @@ export default function Prijavljivanje() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const korisnik = { email, password };
-    console.log("Korisnik:", korisnik); // Pre fetch-a
 
     fetch("http://localhost:8080/auth/login", {
       method: "POST",
@@ -29,20 +28,11 @@ export default function Prijavljivanje() {
         });
       })
       .then((data) => {
-        console.log("Pokrenuta funkcija handleLogin");
-        console.log("Sta vraca bekend: ", data);
-        console.log("Sta vraca bekend: ", data.accessToken);
         const jwtToken = data.accessToken;
         if (jwtToken) {
           localStorage.setItem("token", jwtToken);
           const decodedToken = jwtDecode(jwtToken);
-          console.log("Decoded Token:", decodedToken);
-          console.log("Success login");
-          console.log("Token:", jwtToken);
-          console.log("User info:", data);
           const role = decodedToken.uloga.naziv;
-          console.log("Uloga iz tokena:", role);
-    
           if (role === "ADMIN") {
             navigate("/adminSistemPocetna", { state: { token: jwtToken } });
           } else {

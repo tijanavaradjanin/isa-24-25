@@ -5,7 +5,6 @@ import { Box, Typography, Avatar, Table, Button, TableBody, TableCell, CircularP
 
 const KorisnikProfil = () => {
   const { korisnickoIme } = useParams(); // Uzima korisničko ime iz URL-a
-  const [userProfile, setUserProfile] = useState(null);
   const [korisnik, setKorisnik] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
