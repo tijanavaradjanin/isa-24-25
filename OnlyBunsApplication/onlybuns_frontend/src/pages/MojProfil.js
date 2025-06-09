@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { cirilicaULatinicu } from '../helpers/PismoKonverter.js';
 import Navigacija from './Navigacija'; 
+import { korisnickoImeIzTokena, getToken } from "../helpers/KorisnickoImeIzTokena";
 import { Box, Button, Typography, Table, Modal, TableBody, TableCell, TableContainer, TableRow, Paper, CircularProgress, Alert } from "@mui/material";
 
 const MojProfil = () => {
@@ -16,10 +17,8 @@ const MojProfil = () => {
   const [listaZapracenih, setListaZapracenih] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const korisnickoIme = localStorage.getItem('korisnickoIme');
-    console.log('Korisnicko ime:', korisnickoIme);
-    console.log('Token:', token);
+    const token = getToken();
+    const korisnickoIme = korisnickoImeIzTokena();
 
     if (!token || !korisnickoIme) {
       navigate('/');
@@ -51,7 +50,7 @@ const MojProfil = () => {
   }, [navigate]);
 
   const handleOpenListaZapracenih = async () => {
-    const token = localStorage.getItem('token');
+    const token = getToken();
     fetch(`http://localhost:8080/pracenje/listaZapracenih`, {
       method: 'GET',
       headers: {

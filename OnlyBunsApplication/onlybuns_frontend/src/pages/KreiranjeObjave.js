@@ -8,6 +8,7 @@ import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import Navigacija from './Navigacija'; 
+import { korisnickoImeIzTokena, getToken } from "../helpers/KorisnickoImeIzTokena";
 
 const customIcon = new L.Icon({
   iconUrl: markerIcon,
@@ -26,7 +27,7 @@ export default function KreiranjeObjave() {
   const [drzava, setDrzava] = useState('');
   const [slika, setSlika] = useState(null);
   const [error, setError] = useState('');
-  const [, setKorisnik] = useState(localStorage.getItem("korisnickoIme"));
+  const [, setKorisnik] = useState(korisnickoImeIzTokena());
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null); // Koordinate sa mape
   const [mapEnabled, setMapEnabled] = useState(true); // Da li je mapa aktivna
@@ -34,7 +35,6 @@ export default function KreiranjeObjave() {
 
   const navigate = useNavigate();
 
-   // Funkcija za reset lokacije
    const resetLocation = () => {
     setLocation(null);
     setGrad('');
@@ -44,7 +44,6 @@ export default function KreiranjeObjave() {
   }; 
 
   const handleSlikaChange = (event) => {
-    //setSlika(event.target.files[0]);
     const file = event.target.files[0];
     if (file) {
       setSlika(file);
@@ -63,15 +62,14 @@ export default function KreiranjeObjave() {
     setError('');
     setLoading(true);
 
-    const token = localStorage.getItem('token');
+    const token = getToken();
     if (!token) {
       setError('Morate biti prijavljeni da biste kreirali objavu.');
       setLoading(false);
       return;
     }
 
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    const korisnickoIme = decodedToken.korisnickoIme;
+    const korisnickoIme = korisnickoImeIzTokena();
 
     const formData = new FormData();
     formData.append("opis", opis);
@@ -160,7 +158,6 @@ export default function KreiranjeObjave() {
           <img src={preview} alt="Preview" className="image-preview" />
         </div>
         )}
-
 
         {/* Ručni unos grada i države */}
         <input

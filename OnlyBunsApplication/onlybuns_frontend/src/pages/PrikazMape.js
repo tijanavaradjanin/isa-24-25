@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography, Modal } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Objava from './Objava';
 import { cirilicaULatinicu } from '../helpers/PismoKonverter.js';
+import { korisnickoImeIzTokena, getToken } from "../helpers/KorisnickoImeIzTokena";
 import L from 'leaflet';
 
 const PrikazMape = () => {
@@ -34,8 +35,8 @@ const PrikazMape = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const korisnickoIme = localStorage.getItem('korisnickoIme');
+    const token = getToken();
+    const korisnickoIme = korisnickoImeIzTokena();
 
     if (!token || !korisnickoIme) {
       navigate('/');
@@ -71,7 +72,7 @@ const PrikazMape = () => {
         console.error('Greška:', error);
         setLocationMessage("Vaša lokacija je nepostojeća, molimo Vas ažurirajte je.");
       });
-  }, []);
+  }, [navigate]);
 
   const fetchNearbyPosts = async (token) => {
     try {

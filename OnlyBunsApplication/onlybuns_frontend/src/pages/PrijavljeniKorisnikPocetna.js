@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typography, Box } from "@mui/material";
 import Objava from './Objava';
-import Navigacija from './Navigacija'; 
+import Navigacija from './Navigacija';
+import { korisnickoImeIzTokena, getToken, parseJwt } from "../helpers/KorisnickoImeIzTokena"; 
 
 const PrijavljeniKorisnikPocetna = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const PrijavljeniKorisnikPocetna = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getToken();
     if (!token) {
       navigate('/');
       return;
@@ -41,18 +42,18 @@ const PrijavljeniKorisnikPocetna = () => {
       });
 
     try {
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      const korisnickoIme = decodedToken.sub;
-      if (korisnickoIme) {
-        setKorisnik({ korisnickoIme, ...decodedToken });
-        localStorage.setItem('korisnickoIme', korisnickoIme);
-      } else {
-        throw new Error('Korisničko ime nije pronađeno u tokenu');
-      }
-    } catch (error) {
-      localStorage.removeItem('token');
+      const korisnickoIme = korisnickoImeIzTokena();
+      const payload = parseJwt();
+
+      if (!korisnickoIme || !payload) throw new Error("Token nije validan");
+
+      setKorisnik({ korisnickoIme, ...payload });
+      localStorage.setItem("korisnickoIme", korisnickoIme);
+    } catch (err) {
+      
+      localStorage.removeItem("token");
       navigate('/');
-    }
+  }
   }, [navigate]);
 
   return (

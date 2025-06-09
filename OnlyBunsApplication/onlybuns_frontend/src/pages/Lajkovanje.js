@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IconButton, Modal, Box, Typography, Button } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
+import { getToken } from "../helpers/KorisnickoImeIzTokena";
 
 const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
   const [lajkovano, setLajkovano] = useState(false);
@@ -9,7 +10,7 @@ const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
   const [listaLajkova, setListaLajkova] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) return;
 
     fetch(`http://localhost:8080/objava/jeLajkovao?objavaId=${objavaId}`, {
@@ -24,7 +25,7 @@ const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
   }, [objavaId]);
 
   const handleLike = async () => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       onUnauthorized?.();
       return;
@@ -56,7 +57,7 @@ const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
   };
 
   const handleDislike = async () => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       onUnauthorized?.();
       return;
@@ -91,7 +92,7 @@ const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
   };
 
   const handleOpenLajkovi = async () => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       alert("Morate biti prijavljeni da biste videli ko je lajkovao.");
       return;

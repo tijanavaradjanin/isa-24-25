@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { getToken } from "../helpers/KorisnickoImeIzTokena";
 import { IconButton, Modal, Box, Typography, TextField, Button } from "@mui/material";
 import { ChatBubbleOutline } from "@mui/icons-material";
 
@@ -17,7 +18,7 @@ const Komentarisanje = ({ objavaId, brojKomentara, onUnauthorized }) => {
 
   const handleOpenKomentari = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
       const url = `http://localhost:8080/objava/komentari?objavaId=${objavaId}`;
 
       const response = await fetch(url, {
@@ -49,7 +50,7 @@ const Komentarisanje = ({ objavaId, brojKomentara, onUnauthorized }) => {
   const handleCloseKomentari = () => setOpenKomentari(false);
 
   const handleKomentarisi = async () => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       onUnauthorized?.()
       return;

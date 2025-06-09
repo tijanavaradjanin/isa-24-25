@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { korisnickoImeIzTokena, getToken } from "../helpers/KorisnickoImeIzTokena";
 import { cirilicaULatinicu } from '../helpers/PismoKonverter';
 import { Box, Typography, Avatar, Table, Button, TableBody, TableCell, CircularProgress, Alert, TableContainer, TableHead, TableRow, Paper} from "@mui/material";
 
@@ -9,12 +10,18 @@ const KorisnikProfil = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [prati, setPrati] = useState(false);
+  const ulogovani = korisnickoImeIzTokena();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+   if (ulogovani && ulogovani === korisnickoIme) {
+     navigate("/mojprofil");
+   }
+  }, [korisnickoIme, ulogovani, navigate]);
 
+  useEffect(() => {
     // Provera da li korisnik već prati prikazanog korisnika
+    const token = getToken(); 
     fetch(`http://localhost:8080/pracenje/provera?zapraceni=${korisnickoIme}`, {
       method: "GET",
       headers: {
@@ -22,7 +29,7 @@ const KorisnikProfil = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setPrati(data))
+      .then((data) => setPrati(data.prati))
       .catch((error) => console.error("Greška prilikom provere praćenja:", error));
   }, [korisnickoIme]);
 
@@ -39,10 +46,8 @@ const KorisnikProfil = () => {
         })
         .then((data) => {
           setKorisnik(data);
-          console.log(data);
         })
         .catch((error) => {
-          console.error('Greška:', error.message);
           setError('Došlo je do greške prilikom preuzimanja podataka.');
         })
         .finally(() => {
@@ -67,15 +72,15 @@ const KorisnikProfil = () => {
     }
 
   const handlePracenje = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Morate biti prijavljeni da biste zapratili korisnika.");
-      return;
-    }
+  const token = getToken();
+  if (!token) {
+    alert("Morate biti prijavljeni da biste zapratili korisnika.");
+    return;
+  }
 
-    const url = prati
-      ? `http://localhost:8080/pracenje/delete?zapraceni=${encodeURIComponent(korisnickoIme)}`
-      : `http://localhost:8080/pracenje/add?zapraceni=${encodeURIComponent(korisnickoIme)}`;
+  const url = prati
+    ? `http://localhost:8080/pracenje/delete?zapraceni=${encodeURIComponent(korisnickoIme)}`
+    : `http://localhost:8080/pracenje/add?zapraceni=${encodeURIComponent(korisnickoIme)}`;
     
     try {
       const response = await fetch(url, {

@@ -3,17 +3,18 @@ import { Box, CircularProgress, Typography, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Objava from "./Objava";
 import Navigacija from './Navigacija'; 
+import { korisnickoImeIzTokena, getToken } from "../helpers/KorisnickoImeIzTokena";
 
 export default function MojeObjave() {
   const [objave, setObjave] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [, setKorisnik] = useState(localStorage.getItem("korisnickoIme"));
+  const [, setKorisnik] = useState(korisnickoImeIzTokena());
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const korisnickoIme = localStorage.getItem("korisnickoIme");
+    const token = getToken();
+    const korisnickoIme = korisnickoImeIzTokena();
 
     if (!token || !korisnickoIme) {
       navigate("/");
