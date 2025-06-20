@@ -5,11 +5,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "lokacija")
-public class Lokacija {
+public class Lokacija implements Serializable {
 
     @Id
     @SequenceGenerator(name = "lokacijaSeqGen", sequenceName = "lokacijaSeq", initialValue = 1, allocationSize = 1)

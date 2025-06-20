@@ -3,7 +3,11 @@ import com.developer.onlybuns.entity.Lokacija;
 import com.developer.onlybuns.repository.LokacijaRepository;
 import com.developer.onlybuns.service.LokacijaService;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,12 +25,23 @@ public class LokacijaServiceImpl implements LokacijaService {
         this.lokacijaRepository = lokacijaRepository;
     }
 
+    private final Logger LOG = LoggerFactory.getLogger(LokacijaServiceImpl.class);
+
     @Override
     public void saveLokacija(Lokacija lokacija){
         lokacijaRepository.save(lokacija);
     }
 
+    @Cacheable(value = "lokacijaCache", key = "#id", unless = "#result == null")
+    public Lokacija findById(Integer id) {
+        LOG.info("Fetching from DB");
+        return lokacijaRepository.findById(id).orElse(null);
+    }
+
+    //kesiranje adrese koja se koristi pri prikazu objava i profila korisnika
+    @Cacheable(value = "lokacijaAdresaCache", key = "#latituda + '_' + #longituda", unless = "#result == null")
     public String getAdresa(double latituda, double longituda) {
+        LOG.info(">>> FETCHING address from API for: {} , {}", latituda, longituda);
         try {
             String url = String.format(
                     "https://nominatim.openstreetmap.org/reverse?lat=%f&lon=%f&format=json",
@@ -51,6 +66,11 @@ public class LokacijaServiceImpl implements LokacijaService {
             e.printStackTrace();
             return "Greška pri dohvatanju adrese";
         }
+    }
+
+    @CacheEvict(cacheNames = {"lokacijaCache", "lokacijaAdresaCache"}, allEntries = true)
+    public void removeFromCache() {
+        LOG.info("Locations removed from cache!");
     }
 
 }

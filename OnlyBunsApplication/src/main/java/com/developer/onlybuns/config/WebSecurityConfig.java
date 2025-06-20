@@ -1,7 +1,6 @@
 package com.developer.onlybuns.config;
 
 import com.developer.onlybuns.securityauth.TokenAuthenticationFilter;
-import com.developer.onlybuns.securityauth.TokenBasedAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,10 +33,13 @@ import com.developer.onlybuns.util.TokenUtils;
 public class WebSecurityConfig {
 
 	// Servis koji se koristi za citanje podataka o korisnicima aplikacije
-	@Bean
-    public CustomUserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
+	//@Bean
+    //public CustomUserDetailsService userDetailsService() {
+     //   return new CustomUserDetailsService();
+   // }
+	//promenjeno nakon dodavanja kesiranja
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	// Implementacija PasswordEncoder-a koriscenjem BCrypt hashing funkcije.
 	// BCrypt po defalt-u radi 10 rundi hesiranja prosledjene vrednosti.
@@ -52,7 +54,7 @@ public class WebSecurityConfig {
  	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
  	   // 1. koji servis da koristi da izvuce podatke o korisniku koji zeli da se autentifikuje
  	    // prilikom autentifikacije, AuthenticationManager ce sam pozivati loadUserByUsername() metodu ovog servisa
- 	    authProvider.setUserDetailsService(userDetailsService());
+ 	    authProvider.setUserDetailsService(userDetailsService);
  	    // 2. kroz koji enkoder da provuce lozinku koju je dobio od klijenta u zahtevu
 	    // da bi adekvatan hash koji dobije kao rezultat hash algoritma uporedio sa onim koji se nalazi u bazi (posto se u bazi ne cuva plain lozinka)
  	    authProvider.setPasswordEncoder(passwordEncoder());
@@ -103,7 +105,7 @@ public class WebSecurityConfig {
 			.cors().and()
 
 			// umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
-			.addFilterBefore(new TokenAuthenticationFilter(tokenUtils,  userDetailsService()), UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(new TokenAuthenticationFilter(tokenUtils,  userDetailsService), UsernamePasswordAuthenticationFilter.class);
 
 		// zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 		http.csrf().disable();
