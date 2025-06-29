@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/IsaOnlyBuns.iml" filepath="$PROJECT_DIR$/.idea/IsaOnlyBuns.iml" />
       <module fileurl="file://$PROJECT_DIR$/OnlyBunsApplication/OnlyBunsApplication.iml" filepath="$PROJECT_DIR$/OnlyBunsApplication/OnlyBunsApplication.iml" />
     </modules>
   </component>

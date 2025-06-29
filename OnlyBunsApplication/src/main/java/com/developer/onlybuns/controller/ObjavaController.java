@@ -2,6 +2,7 @@ package com.developer.onlybuns.controller;
 import com.developer.onlybuns.dto.KomentarDTO;
 import com.developer.onlybuns.dto.LajkDTO;
 import com.developer.onlybuns.entity.*;
+import com.developer.onlybuns.rabbitmq.RabbitMQProducerService;
 import com.developer.onlybuns.service.*;
 import com.developer.onlybuns.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +37,16 @@ public class ObjavaController {
 
     private final LokacijaService lokacijaService;
 
+    private final RabbitMQProducerService rabbitMQProducerService;
+
     @Autowired
     TokenUtils tokenUtils;
 
     @Autowired
     private RateLimiterService rateLimiterService;
 
-    public ObjavaController(ObjavaService objavaService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService, LokacijaService lokacijaService) {
+    public ObjavaController(RabbitMQProducerService rabbitMQProducerService, ObjavaService objavaService, PracenjeService pracenjeService, LajkService lajkService, KomentarService komentarService, LokacijaService lokacijaService) {
+        this.rabbitMQProducerService = rabbitMQProducerService;
         this.objavaService = objavaService;
         this.pracenjeService=pracenjeService;
         this.lajkService=lajkService;
@@ -323,4 +327,5 @@ public class ObjavaController {
         }
         return ResponseEntity.ok(objaveFeed2);
     }
+
 }
