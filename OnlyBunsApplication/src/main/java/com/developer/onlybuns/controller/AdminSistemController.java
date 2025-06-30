@@ -87,7 +87,7 @@ public class AdminSistemController {
         return ResponseEntity.ok(emails);
     }
 
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/posalji-reklamama")
     public ResponseEntity<String> sendPostsToAdvertisers(
             @RequestBody List<Integer> objaveId,

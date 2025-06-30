@@ -33,7 +33,7 @@ public class InactiveUserNotificationService {
     @Autowired
     private ObjavaRepository objavaRepository;
 
-    @Scheduled(cron = "0 5 20 * * ?")     //Svaki dan u 8 uvece
+    @Scheduled(cron = "0 10 15 * * ?")     //sec min h * *, svaki dan u 3 i 5 popodne
     public void notifyInactiveUsers() {
         Timestamp sevenDaysAgo = Timestamp.valueOf(LocalDateTime.now().minusDays(7));
         List<RegistrovaniKorisnik> inactiveUsers = korisnikRepository.findByLastLoginBefore(sevenDaysAgo);
@@ -45,8 +45,6 @@ public class InactiveUserNotificationService {
         emailSenderService.sendSummaryEmail(new RegistrovaniKorisnik(), "Ovo je testni email.");
     }
 
-    //TO DO:
-    //istestirati dodatno kad budu dodati lajkovi, pracenja, objave itd.
     private String generateUserSummary(RegistrovaniKorisnik korisnik) {
         //filter za nove pratioce u poslednjih nedelju dana
         LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
@@ -71,8 +69,8 @@ public class InactiveUserNotificationService {
         }
         int brojNovihObjava=noveObjave.size();
 
-        return "U proteklih 7 dana dobili ste " + brojNovihPratilaca + " novih pratilaca, "
-                + brojNovihLajkova + " novih lajkova i " + brojNovihObjava + "novih objava.";
+        return "Postovani korisnice " + korisnik.getKorisnickoIme() + ", u proteklih 7 dana dobili ste " + brojNovihPratilaca + " novih pratilaca, "
+                + brojNovihLajkova + " novih lajkova i " + brojNovihObjava + " novih objava.";
     }
 }
 
