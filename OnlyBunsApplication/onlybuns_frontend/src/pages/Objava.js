@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { Button, Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, Typography, Box, Modal } from "@mui/material";
+import { Button, Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, Checkbox, Typography, Box, Modal } from "@mui/material";
 import { Room as LocationIcon} from "@mui/icons-material";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { cirilicaULatinicu } from '../helpers/PismoKonverter';
@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-const Objava = ({ objava,  onUnauthorized }) => {
+const Objava = ({ objava,  onUnauthorized, adminPogled, selektovana, onToggle, selektovanjeAktivno }) => {
   const [openMap, setOpenMap] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [adresaZaPrikaz, setAdresaZaPrikaz] = useState("");
@@ -41,6 +41,15 @@ const Objava = ({ objava,  onUnauthorized }) => {
       <Card sx={{ mb: 4, width: "700px", borderRadius: 4, backgroundColor: "rgba(255, 255, 255, 1)", boxShadow: 3 }}>
         <CardHeader
           avatar={<Avatar sx={{ bgcolor: "#1976d2" }}>{objava.korisnickoIme[0].toUpperCase()}</Avatar>}
+           action={
+              adminPogled && selektovanjeAktivno && (
+                <Checkbox
+                  checked={selektovana}
+                  onChange={onToggle}
+                  inputProps={{ 'aria-label': 'select post' }}
+                />
+              )
+            }
           title={
             <Typography
               variant="body1"
@@ -96,8 +105,8 @@ const Objava = ({ objava,  onUnauthorized }) => {
         </CardContent>
 
         <CardActions disableSpacing sx={{ gap: 2, paddingX: 1 }}>
-              <Lajkovanje objavaId={objava.id} brojLajkova={objava.lajkovi.length} onUnauthorized={onUnauthorized}/>
-              <Komentarisanje objavaId={objava.id} brojKomentara={objava.komentari.length} onUnauthorized={onUnauthorized}/>
+              <Lajkovanje objavaId={objava.id} brojLajkova={objava.lajkovi.length} onUnauthorized={onUnauthorized} adminPogled={adminPogled}/>
+              <Komentarisanje objavaId={objava.id} brojKomentara={objava.komentari.length} onUnauthorized={onUnauthorized} adminPogled={adminPogled}/>
         </CardActions>
       </Card>
 

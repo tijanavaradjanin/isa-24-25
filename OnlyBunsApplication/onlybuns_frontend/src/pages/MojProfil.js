@@ -205,7 +205,7 @@ const MojProfil = () => {
                 <Typography variant="h6">Zapraceni korisnici</Typography>
                 {listaZapracenih.length > 0 ? (
                   listaZapracenih.map((zapracen) => (
-                    <Box key={zapracen.id} sx={{ borderBottom: "1px solid #ddd", pb: 1, mb: 1 }}>
+                    <Box key={zapracen.korisnickoIme} sx={{ borderBottom: "1px solid #ddd", pb: 1, mb: 1 }}>
                       <Typography variant="body1">
                         <Typography
                           component="span"

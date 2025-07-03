@@ -3,13 +3,14 @@ import { IconButton, Modal, Box, Typography, Button } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
 import { getToken } from "../helpers/KorisnickoImeIzTokena";
 
-const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
+const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized, adminPogled }) => {
   const [lajkovano, setLajkovano] = useState(false);
   const [lajkovi, setLajkovi] = useState(brojLajkova);
   const [openLajkovi, setOpenLajkovi] = useState(false);
   const [listaLajkova, setListaLajkova] = useState([]);
 
   useEffect(() => {
+    if (adminPogled) return;
     const token = getToken();
     if (!token) return;
 
@@ -22,7 +23,7 @@ const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
       .then(res => res.ok ? res.json() : Promise.reject("Greška prilikom provere lajkova"))
       .then(data => setLajkovano(data))
       .catch(console.error);
-  }, [objavaId]);
+  }, [objavaId, adminPogled]);
 
   const handleLike = async () => {
     const token = getToken();
@@ -123,7 +124,7 @@ const Lajkovanje = ({ objavaId, brojLajkova, onUnauthorized }) => {
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
-        <IconButton onClick={toggleLike}>
+        <IconButton onClick={adminPogled ? null : toggleLike} disabled={adminPogled}>
           <ThumbUp color={lajkovano ? "primary" : "inherit"} />
         </IconButton>
         <Typography

@@ -86,7 +86,7 @@ public class RegistrovaniKorisnikController {
         return ResponseEntity.ok(korisnikDTO);
     }
 
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
     @GetMapping("/profil")
     public ResponseEntity<KorisnikProfilDTO> getUser(Authentication authentication) {
             RegistrovaniKorisnik user = (RegistrovaniKorisnik) authentication.getPrincipal();

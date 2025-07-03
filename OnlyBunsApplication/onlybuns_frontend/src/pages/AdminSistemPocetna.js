@@ -1,54 +1,150 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // Importujemo useNavigate za navigaciju
-import { Button, Box, Toolbar } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Box, Toolbar, Typography } from '@mui/material';
+import Objava from './Objava';
+import { korisnickoImeIzTokena, getToken, parseJwt } from "../helpers/KorisnickoImeIzTokena";
 
 const AdminSistemPocetna = () => {
-  const location = useLocation();
-  const navigate = useNavigate(); // Koristimo useNavigate za navigaciju
-  const [korisnik, setKorisnik] = useState(null);
+  const navigate = useNavigate();
+  const [, setKorisnik] = useState(null);
+  const [objave, setObjave] = useState([]);
+  const [, setError] = useState(null);
+  const [, setLoading] = useState(false);
+  const [selektovaneObjave, setSelektovaneObjave] = useState([]);
+  const [selektovanjeAktivno, setSelektovanjeAktivno] = useState(false);
 
   useEffect(() => {
-    // Pokušavamo da učitamo korisnika iz lokalnog stanja (location.state)
-    const korisnikData = location.state?.korisnik;
-
-    if (korisnikData) {
-      setKorisnik(korisnikData);
-    } else {
-      // Ako nije pronađen korisnik u state, proveravamo token u localStorage
-      const token = localStorage.getItem('token');
-      if (!token) {
-        // Ako token nije prisutan, vraćamo korisnika na početnu stranicu
-        navigate('/');
-      } else {
-        // Ako token postoji, možemo uzeti korisničke podatke
-        const decodedUser = JSON.parse(atob(token.split('.')[1])); // Ovo je primer dekodiranja JWT tokena
-        setKorisnik(decodedUser); 
-      }
+    const token = getToken();
+    if (!token) {
+      navigate('/');
+      return;
     }
-  }, [location.state, navigate]);
 
-  const adminRegister = () => {
-    navigate('/'); // Preusmeravanje na početnu stranicu
-  };
+    fetch(`http://localhost:8080/objava/sveobjave`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Greška prilikom preuzimanja objava.");
+        }
+        return response.json();
+      })
+      .then((data) => setObjave(data))
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
 
-  const changePassword = () => {
-    navigate('/'); // Preusmeravanje na početnu stranicu
-  };
+    try {
+      const korisnickoIme = korisnickoImeIzTokena();
+      const payload = parseJwt();
+
+      if (!korisnickoIme || !payload) throw new Error("Token nije validan");
+
+      setKorisnik({ korisnickoIme, ...payload });
+      localStorage.setItem("korisnickoIme", korisnickoIme);
+    } catch (err) {
+      localStorage.removeItem("token");
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Brisanje tokena iz localStorage
-    setKorisnik(null); // Očisti korisničke podatke iz stanja
-    navigate('/'); // Preusmeravanje na početnu stranicu
+    localStorage.removeItem('token');
+    setKorisnik(null);
+    navigate('/');
+  };
+
+  const toggleSelektovanaObjava = (id) => {
+    setSelektovaneObjave((prev) =>
+      prev.includes(id) ? prev.filter((oid) => oid !== id) : [...prev, id]
+    );
+  };
+
+  const handleAdvertising = () => {
+    const token = getToken();
+
+    fetch("http://localhost:8080/adminsistem/posalji-reklamama", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(selektovaneObjave),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Greška pri slanju objava agencijama");
+        return res.text();
+      })
+      .then((poruka) => {
+        alert(poruka);
+        setSelektovaneObjave([]);
+        setSelektovanjeAktivno(false);
+      })
+      .catch((err) => {
+        alert("Došlo je do greške: " + err.message);
+      });
   };
 
   return (
-        <Box>
-          {/* Navigacija */}
-          <Toolbar sx={{ justifyContent: "flex-end" }}>
-            <Button color="primary" onClick={handleLogout}>Odjavi se</Button>
-          </Toolbar>
-        </Box>
-  )
+    <Box
+      sx={{
+        background: "linear-gradient(to right, rgb(69, 185, 194), #e3f2fd)",
+        minHeight: "100vh",
+        py: 2,
+      }}
+    >
+      {/* Navigacija */}
+      <Toolbar sx={{ justifyContent: "flex-end", gap: 2 }}>
+        {!selektovanjeAktivno ? (
+          <Button onClick={() => setSelektovanjeAktivno(true)}>
+            Označi objave za reklame
+          </Button>
+        ) : (
+          <>
+            <Button variant="outlined" onClick={() => {
+              setSelektovaneObjave([]);
+              setSelektovanjeAktivno(false);
+            }}>
+              Otkaži selekciju
+            </Button>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={handleAdvertising}
+              disabled={selektovaneObjave.length === 0}
+            >
+              Pošalji selektovane objave agencijama
+            </Button>
+          </>
+        )}
+        <Button color="info" onClick={handleLogout}>
+          Odjavi se
+        </Button>
+      </Toolbar>
+
+      {/* Lista objava */}
+      <Box sx={{ width: "90%", maxWidth: "700px", margin: "auto", mt: 4 }}>
+        {objave.length === 0 ? (
+          <Typography variant="h6" textAlign="center">
+            Nema objava za prikaz.
+          </Typography>
+        ) : (
+          objave.map((objava) => (
+            <Objava
+              key={objava.id}
+              objava={objava}
+              adminPogled={true}
+              selektovana={selektovaneObjave.includes(objava.id)}
+              onToggle={() => toggleSelektovanaObjava(objava.id)}
+              selektovanjeAktivno={selektovanjeAktivno}
+            />
+          ))
+        )}
+      </Box>
+    </Box>
+  );
 };
 
 export default AdminSistemPocetna;

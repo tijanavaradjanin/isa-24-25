@@ -29,7 +29,7 @@ const PrijavaModal = ({ open, handleClose, navigate }) => {
 
 const PocetnaStranica = () => {
   const [objave, setObjave] = useState([]);
-  const [openModal, setOpenModal] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   //const backgroundRef = useRef(null);
 

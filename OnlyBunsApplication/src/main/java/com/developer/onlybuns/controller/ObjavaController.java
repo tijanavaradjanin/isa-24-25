@@ -189,7 +189,7 @@ public class ObjavaController {
         objavaService.deleteObjava(id);
     }
 
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAnyAuthority('KORISNIK')")
     @PostMapping("/lajkuj")
     public ResponseEntity<?> likeAPost(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -205,7 +205,7 @@ public class ObjavaController {
     }
 
     @Transactional
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAnyAuthority('KORISNIK')")
     @DeleteMapping("/dislajkuj")
     public ResponseEntity<?> dislikeAPost(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -218,7 +218,7 @@ public class ObjavaController {
         return ResponseEntity.ok("Objava dislajkovana uspesno!");
     }
 
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAnyAuthority('KORISNIK')")
     @PostMapping("/komentarisi")
     public ResponseEntity<?> commentAPost(@RequestParam("objavaId") Integer objavaId, @RequestParam("sadrzaj") String sadrzaj, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
@@ -234,7 +234,7 @@ public class ObjavaController {
         }
     }
 
-    @PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAnyAuthority('KORISNIK')")
     @GetMapping("/jeLajkovao")
     public ResponseEntity<Boolean> isPostLiked(@RequestParam("objavaId") Integer objavaId, Authentication authentication) {
         RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();

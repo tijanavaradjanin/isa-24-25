@@ -1,13 +1,25 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
+import { parseJwt } from './helpers/KorisnickoImeIzTokena';
 
 export default function Header(props) {
     const navigate = useNavigate();
 
     const homePage = () => {
-        navigate('/prijavljeniKorisnikPocetna'); // Navigacija na početnu stranicu korisnika
-    };
+        const payload = parseJwt();
+        if (!payload) {
+            navigate('/');
+            return;
+        }
+
+        const uloga = payload.uloga?.naziv || null;
+        if (uloga==='ADMIN') {
+            navigate('/adminSistemPocetna');
+        } else {
+            navigate('/prijavljeniKorisnikPocetna');
+        }
+        };
 
     return (
         <header className="App-header">

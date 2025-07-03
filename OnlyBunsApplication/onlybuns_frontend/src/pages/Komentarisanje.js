@@ -4,7 +4,7 @@ import { getToken } from "../helpers/KorisnickoImeIzTokena";
 import { IconButton, Modal, Box, Typography, TextField, Button } from "@mui/material";
 import { ChatBubbleOutline } from "@mui/icons-material";
 
-const Komentarisanje = ({ objavaId, brojKomentara, onUnauthorized }) => {
+const Komentarisanje = ({ objavaId, brojKomentara, onUnauthorized, adminPogled }) => {
   const [open, setOpen] = useState(false);
   const [openKomentari, setOpenKomentari] = useState(false);
   const [komentar, setKomentar] = useState("");
@@ -84,8 +84,8 @@ const Komentarisanje = ({ objavaId, brojKomentara, onUnauthorized }) => {
     <>
       {/* Ikonica i broj komentara u istoj liniji */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
-        <IconButton onClick={handleOpen}>
-          <ChatBubbleOutline />
+        <IconButton onClick={adminPogled ? null : handleOpen} disabled={adminPogled}>
+         <ChatBubbleOutline />
         </IconButton>
         <Typography
           variant="body2"
