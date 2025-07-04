@@ -103,22 +103,45 @@ const AdminSistemPocetna = () => {
           </Button>
         ) : (
           <>
-            <Button variant="outlined" onClick={() => {
-              setSelektovaneObjave([]);
-              setSelektovanjeAktivno(false);
-            }}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setSelektovaneObjave([]);
+                setSelektovanjeAktivno(false);
+              }}
+              sx={{ fontWeight: "normal", textTransform: "uppercase" }}
+            >
               Otkaži selekciju
             </Button>
+
+            <Button
+              variant="outlined"
+              onClick={() => {
+                if (selektovaneObjave.length === objave.length) {
+                  setSelektovaneObjave([]);
+                } else {
+                  setSelektovaneObjave(objave.map((o) => o.id));
+                }
+              }}
+              sx={{ fontWeight: "normal", textTransform: "uppercase" }}
+            >
+              {selektovaneObjave.length === objave.length
+                ? `PONIŠTI SVE (${selektovaneObjave.length}/${objave.length})`
+                : `OZNAČI SVE (${selektovaneObjave.length}/${objave.length})`}
+            </Button>
+
             <Button
               variant="contained"
               color="info"
               onClick={handleAdvertising}
               disabled={selektovaneObjave.length === 0}
+              sx={{ fontWeight: "normal", textTransform: "uppercase" }}
             >
               Pošalji selektovane objave agencijama
             </Button>
           </>
         )}
+        <Typography>|</Typography>
         <Button color="info" onClick={handleLogout}>
           Odjavi se
         </Button>

@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { korisnickoImeIzTokena, getToken } from "../helpers/KorisnickoImeIzTokena";
+import { korisnickoImeIzTokena, getToken, parseJwt } from "../helpers/KorisnickoImeIzTokena";
 import { cirilicaULatinicu } from '../helpers/PismoKonverter';
 import { Box, Typography, Avatar, Table, Button, TableBody, TableCell, CircularProgress, Alert, TableContainer, TableHead, TableRow, Paper} from "@mui/material";
 
@@ -11,6 +11,9 @@ const KorisnikProfil = () => {
   const [error, setError] = useState(null);
   const [prati, setPrati] = useState(false);
   const ulogovani = korisnickoImeIzTokena();
+  const payload = parseJwt();
+  const jeAdmin = payload?.uloga?.naziv === 'ADMIN';
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,9 +22,13 @@ const KorisnikProfil = () => {
    }
   }, [korisnickoIme, ulogovani, navigate]);
 
-  useEffect(() => {
-    // Provera da li korisnik već prati prikazanog korisnika
+  useEffect(() => {    
+    // Provera da li korisnik vec prati korisnika, za admina se preskace provera                    
     const token = getToken(); 
+    const payload = parseJwt();
+
+    if (!token || payload?.uloga?.naziv === "ADMIN") return;
+
     fetch(`http://localhost:8080/pracenje/provera?zapraceni=${korisnickoIme}`, {
       method: "GET",
       headers: {
@@ -32,6 +39,7 @@ const KorisnikProfil = () => {
       .then((data) => setPrati(data.prati))
       .catch((error) => console.error("Greška prilikom provere praćenja:", error));
   }, [korisnickoIme]);
+
 
   useEffect(() => {
     // Poziv backend-a da preuzme podatke o korisniku
@@ -111,7 +119,13 @@ const KorisnikProfil = () => {
       }}>
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', marginTop: '70px' }}>
         <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
-            <Button sx={{ marginLeft: '55vh', marginTop: '1vh', fontWeight: 'bold' }} 
+            <Button
+              sx={{
+                marginLeft: '55vh',
+                marginTop: '1vh',
+                fontWeight: 'bold',
+                visibility: jeAdmin ? 'hidden' : 'visible',
+              }}
               onClick={handlePracenje}
             >
               {prati ? "Otprati" : "Zaprati"}
