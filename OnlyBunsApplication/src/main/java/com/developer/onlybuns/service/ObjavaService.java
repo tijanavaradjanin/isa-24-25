@@ -27,8 +27,6 @@ public interface ObjavaService {
 
     List<Komentar> getAllKomentari(Integer id);
 
-    double[] validateKorisnikLocation(String grad, String drzava);
-
     double[] validateLocation(String grad, String drzava, String ulica, String broj);
 
     public List<ObjavaDTO> findNearbyPosts(RegistrovaniKorisnik korisnik);

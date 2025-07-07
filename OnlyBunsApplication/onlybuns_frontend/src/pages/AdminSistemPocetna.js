@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Toolbar, Typography } from '@mui/material';
+import { Button, Box, Toolbar, Typography, Tooltip } from '@mui/material';
 import Objava from './Objava';
 import { korisnickoImeIzTokena, getToken, parseJwt } from "../helpers/KorisnickoImeIzTokena";
 
@@ -96,7 +96,7 @@ const AdminSistemPocetna = () => {
       }}
     >
       {/* Navigacija */}
-      <Toolbar sx={{ justifyContent: "flex-end", gap: 2 }}>
+      <Toolbar sx={{ justifyContent: "flex-end", gap: 0.5 }}>
         {!selektovanjeAktivno ? (
           <Button onClick={() => setSelektovanjeAktivno(true)}>
             Označi objave za reklame
@@ -141,6 +141,30 @@ const AdminSistemPocetna = () => {
             </Button>
           </>
         )}
+        <Typography>|</Typography>
+        <Tooltip title="Uskoro dostupno" arrow>
+          <span>
+            <Button color="primary" disabled>
+              Trendovi
+            </Button>
+          </span>
+        </Tooltip>
+        <Typography>|</Typography>
+        <Tooltip title="Uskoro dostupno" arrow>
+          <span>
+            <Button color="primary" disabled>
+              Analitika
+            </Button>
+          </span>
+        </Tooltip>
+        <Typography>|</Typography>
+        <Tooltip title="Uskoro dostupno" arrow>
+          <span>
+            <Button color="primary" disabled>
+              Korisnici
+            </Button>
+          </span>
+        </Tooltip>
         <Typography>|</Typography>
         <Button color="info" onClick={handleLogout}>
           Odjavi se

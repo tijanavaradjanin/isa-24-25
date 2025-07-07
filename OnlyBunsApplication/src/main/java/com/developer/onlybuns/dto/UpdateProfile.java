@@ -2,10 +2,8 @@ package com.developer.onlybuns.dto;
 
 import com.developer.onlybuns.service.NotBlankIfPresent;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -33,15 +31,23 @@ public class UpdateProfile {
     @NotBlankIfPresent(message = "Drzava ne može biti prazna ako se menja.")
     private String drzava;
 
+    @NotBlankIfPresent(message = "Ulica ne može biti prazna ako se menja.")
+    private String ulica;
+
+    @Pattern(regexp = "^[0-9a-zA-Z/\\- ]{0,15}$", message = "Broj adrese nije validan.")
+    private String brojKuce;
+
     private String broj;
 
     private String info;
 
-    public UpdateProfile(String info, String broj, String drzava, String grad, String prezime, String ime, String potvrdaNoveLozinke, String novaLozinka, String password, String korisnickoIme) {
+    public UpdateProfile(String info, String broj, String drzava, String grad, String ulica, String brojKuce, String prezime, String ime, String potvrdaNoveLozinke, String novaLozinka, String password, String korisnickoIme) {
         this.info = info;
         this.broj = broj;
         this.drzava = drzava;
         this.grad = grad;
+        this.ulica=ulica;
+        this.brojKuce=brojKuce;
         this.prezime = prezime;
         this.ime = ime;
         this.potvrdaNoveLozinke = potvrdaNoveLozinke;
@@ -111,6 +117,22 @@ public class UpdateProfile {
 
     public void setDrzava(String drzava) {
         this.drzava = drzava;
+    }
+
+    public String getUlica() {
+        return ulica;
+    }
+
+    public void setUlica(String ulica) {
+        this.ulica = ulica;
+    }
+
+    public @Pattern(regexp = "^[0-9a-zA-Z/\\- ]{0,15}$", message = "Broj adrese nije validan.") String getBrojKuce() {
+        return brojKuce;
+    }
+
+    public void setBrojKuce(@Pattern(regexp = "^[0-9a-zA-Z/\\- ]{0,15}$", message = "Broj adrese nije validan.") String brojKuce) {
+        this.brojKuce = brojKuce;
     }
 
     public String getBroj() {

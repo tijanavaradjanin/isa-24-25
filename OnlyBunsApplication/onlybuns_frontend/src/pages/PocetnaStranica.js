@@ -63,7 +63,7 @@ const PocetnaStranica = () => {
         }}
       >
         {/* Navigacija */}
-        <Toolbar sx={{ justifyContent: "flex-end" }}>
+        <Toolbar sx={{ justifyContent: "flex-end"}}>
           <Button color="info" onClick={() => navigate("/prijava")}>
             Prijavite se
           </Button>

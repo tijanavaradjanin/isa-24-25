@@ -1,5 +1,6 @@
 package com.developer.onlybuns.controller;
 import com.developer.onlybuns.dto.KorisnikProfilDTO;
+import com.developer.onlybuns.dto.UpdateProfile;
 import com.developer.onlybuns.dto.UserRequest;
 import com.developer.onlybuns.entity.Lokacija;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
@@ -177,71 +178,8 @@ public class RegistrovaniKorisnikController {
         }
     }
 
-    /*@PreAuthorize("hasAuthority('KORISNIK')")
-    @PutMapping("/update")
-    public ResponseEntity<?>  updateProfile(@RequestBody @Valid UpdateProfile dto, Authentication authentication) {
-        RegistrovaniKorisnik korisnik = (RegistrovaniKorisnik) authentication.getPrincipal();
+   
 
-        boolean usernameChanged = false;
-        boolean passwordChanged = false;
-
-        if (dto.getIme() != null) korisnik.setIme(dto.getIme());
-        if (dto.getPrezime() != null) korisnik.setPrezime(dto.getPrezime());
-        if (dto.getBroj() != null) korisnik.setBroj(dto.getBroj());
-        if (dto.getInfo() != null) korisnik.setInfo(dto.getInfo());
-
-        if (dto.getKorisnickoIme() != null && !dto.getKorisnickoIme().equals(korisnik.getKorisnickoIme())) {
-            if (registrovaniKorisnikService.findByKorisnickoIme(dto.getKorisnickoIme()) != null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Korisnicko ime je vec zauzeto.");
-            }
-            korisnik.setKorisnickoIme(dto.getKorisnickoIme());
-            usernameChanged = true;
-        }
-
-        if (dto.getGrad() != null && dto.getDrzava() != null) {
-            // Ako menja oba (grad i državu), validira kombinaciju
-            if (objavaService.validateKorisnikLocation(dto.getGrad(), dto.getDrzava()) == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Nevalidna lokacija.");
-            }
-            korisnik.setGrad(dto.getGrad());
-            korisnik.setDrzava(dto.getDrzava());
-        } else if (dto.getGrad() != null) {
-            // Ako menja samo grad, proverava da li pripada trenutnoj državi
-            if (objavaService.validateKorisnikLocation(dto.getGrad(), korisnik.getDrzava()) == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Izabrani grad ne pripada trenutnoj drzavi.");
-            }
-            korisnik.setGrad(dto.getGrad());
-        } else if (dto.getDrzava() != null) {
-            // Ako menja samo državu, proverava da li trenutni grad pripada novoj državi
-            if (objavaService.validateKorisnikLocation(korisnik.getGrad(), dto.getDrzava()) == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Trenutni grad ne pripada izabranoj novoj drzavi.");
-            }
-            korisnik.setDrzava(dto.getDrzava());
-        }
-
-        if (dto.getNovaLozinka() != null) {
-            if (!passwordEncoder.matches(dto.getPassword(), korisnik.getPassword())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Stara lozinka nije tacna.");
-            }
-            if (!dto.getNovaLozinka().equals(dto.getPotvrdaNoveLozinke())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Nova lozinka i potvrda se ne poklapaju.");
-            }
-            korisnik.setPassword(passwordEncoder.encode(dto.getNovaLozinka()));
-            passwordChanged = true;
-        }
-        registrovaniKorisnikService.saveRegistrovaniKorisnik(korisnik);
-        if (usernameChanged || passwordChanged) {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Profil azuriran. Ponovo se prijavite.");
-        }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Profil uspesno azuriran.");
-    }
-     */
 
     @DeleteMapping("/{id}")
     public void deleteRegistrovaniKorisnik(@PathVariable("id") Integer id) {

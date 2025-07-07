@@ -95,27 +95,6 @@ public class ObjavaServiceImpl implements ObjavaService {
         return objavaRepository.findByKorisnikId(korisnikId);
     }
 
-    public double[] validateKorisnikLocation(String grad, String drzava) {
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            String url = NOMINATIM_URL + grad + "," + drzava;
-            String response = restTemplate.getForObject(url, String.class);
-
-            JSONArray jsonArray = new JSONArray(response);
-            if (jsonArray.length() == 0) {
-                return null; // Lokacija nije pronađena
-            }
-
-            JSONObject location = jsonArray.getJSONObject(0);
-            double lat = location.getDouble("lat");
-            double lon = location.getDouble("lon");
-
-            return new double[]{lat, lon};
-        } catch (Exception e) {
-            return null; // Greška pri dohvaćanju podataka
-        }
-    }
-
     public double[] validateLocation(String grad, String drzava, String ulica, String broj) {
         try {
             StringBuilder sb = new StringBuilder();
