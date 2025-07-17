@@ -8,6 +8,8 @@ import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -46,8 +48,16 @@ public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
         return registrovaniKorisnikRepository.findByKorisnickoIme(korisnickoIme);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public RegistrovaniKorisnik saveRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnikEntity) {
+        try {
+            // Simulacija sporog rada (npr. da drugi thread upadne u isto vreme)
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
             Timestamp now = new Timestamp(new Date().getTime());
             registrovaniKorisnikEntity.setLastPasswordResetDate(now);
             registrovaniKorisnikEntity.setEnabled(true);

@@ -9,6 +9,7 @@ import com.developer.onlybuns.service.ObjavaService;
 import com.developer.onlybuns.service.RegistrovaniKorisnikService;
 import com.developer.onlybuns.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -158,8 +159,12 @@ public class RegistrovaniKorisnikController {
                                     userRequest.getBroj(),
                                     userRequest.getInfo()
                             );
-                            registrovaniKorisnikService.saveRegistrovaniKorisnik(regKorisnik);
-                            return new ResponseEntity<>(regKorisnik, HttpStatus.CREATED);
+                            try {
+                                registrovaniKorisnikService.saveRegistrovaniKorisnik(regKorisnik);
+                                return new ResponseEntity<>(regKorisnik, HttpStatus.CREATED);
+                            } catch (DataIntegrityViolationException ex) {
+                                return ResponseEntity.status(HttpStatus.CONFLICT).body("Korisničko ime ili email su već zauzeti.");
+                            }
                         }
                     }
                 }
@@ -177,10 +182,7 @@ public class RegistrovaniKorisnikController {
             return ResponseEntity.status(401).body("Neispravan mejl ili lozinka.");
         }
     }
-
-   
-
-
+    
     @DeleteMapping("/{id}")
     public void deleteRegistrovaniKorisnik(@PathVariable("id") Integer id) {
         registrovaniKorisnikService.deleteRegistrovaniKorisnik(id);

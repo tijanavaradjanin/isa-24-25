@@ -2,7 +2,7 @@
         xmlns="http://www.ehcache.org/v3"
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
 
-    <persistence directory="${java.io.tmpdir}/onlybuns-cache" />
+    <persistence directory="${java.io.tmpdir}/onlybuns-test-cache" />
 
     <cache alias="lokacijaCache">
         <key-type>java.lang.Integer</key-type>
@@ -24,7 +24,7 @@
         <resources>
             <heap>10</heap>
             <offheap unit="MB">10</offheap>
-            <disk persistent="true" unit="MB">20</disk>
+            <!--<disk persistent="true" unit="MB">20</disk>-->
         </resources>
     </cache>
 
@@ -48,7 +48,7 @@
         <resources>
             <heap>10</heap>
             <offheap unit="MB">10</offheap>
-            <disk persistent="true" unit="MB">20</disk>
+            <!--<disk persistent="true" unit="MB">20</disk>-->
         </resources>
     </cache>
 </config>

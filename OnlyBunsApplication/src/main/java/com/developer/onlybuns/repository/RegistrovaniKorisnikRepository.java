@@ -28,5 +28,5 @@ public interface RegistrovaniKorisnikRepository extends JpaRepository<Registrova
     @Query("SELECT rk FROM RegistrovaniKorisnik rk WHERE rk.lastLogin < :sevenDaysAgo")
     List<RegistrovaniKorisnik> findByLastLoginBefore(@Param("sevenDaysAgo") Timestamp sevenDaysAgo);
 
-
+    void deleteByKorisnickoIme(String korisnickoIme);
 }

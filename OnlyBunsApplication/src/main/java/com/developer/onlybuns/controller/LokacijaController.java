@@ -38,7 +38,7 @@ public class LokacijaController {
     @DeleteMapping(value = "/removeCache")
     public ResponseEntity<String> removeFromCache() {
         lokacijaService.removeFromCache();
-        return ResponseEntity.ok("Lokacije removuspesno obrisane iz kesa!");
+        return ResponseEntity.ok("Lokacije uspesno obrisane iz kesa!");
     }
 
     @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
