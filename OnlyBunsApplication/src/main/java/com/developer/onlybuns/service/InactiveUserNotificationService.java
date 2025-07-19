@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Service
 public class InactiveUserNotificationService {
@@ -33,7 +36,7 @@ public class InactiveUserNotificationService {
     @Autowired
     private ObjavaRepository objavaRepository;
 
-    @Scheduled(cron = "0 10 15 * * ?")     //sec min h * *, svaki dan u 3 i 5 popodne
+    @Scheduled(cron = "0 10 15 * * ?")     //sec min h * *, svaki dan u 3 i 10 popodne
     public void notifyInactiveUsers() {
         Timestamp sevenDaysAgo = Timestamp.valueOf(LocalDateTime.now().minusDays(7));
         List<RegistrovaniKorisnik> inactiveUsers = korisnikRepository.findByLastLoginBefore(sevenDaysAgo);
@@ -43,6 +46,17 @@ public class InactiveUserNotificationService {
             emailSenderService.sendSummaryEmail(korisnik, summary);
         }
         emailSenderService.sendSummaryEmail(new RegistrovaniKorisnik(), "Ovo je testni email.");
+    }
+
+    @PostConstruct
+    public void testPokretanjeNakonStarta() {
+        // pokreće se 5 minuta nakon što se aplikacija startuje
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                notifyInactiveUsers();
+            }
+        }, 5 * 60 * 1000); // 5 minuta u milisekundama
     }
 
     private String generateUserSummary(RegistrovaniKorisnik korisnik) {

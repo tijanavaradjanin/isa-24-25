@@ -81,7 +81,6 @@ export default function KreiranjeObjave() {
       formData.append("ulica", ulica);
       formData.append("broj", broj);
   } else if (location) {
-    console.log("Koordinate pre slanja:", location.lat, location.lng);
       formData.append("latitude", location.lat);
       formData.append("longitude", location.lng);
   } else {
@@ -96,7 +95,6 @@ export default function KreiranjeObjave() {
     })
       .then((response) => response.ok ? response.json() : response.json().then(data => { throw new Error(data.message || 'Greška pri kreiranju objave.'); }))
       .then((data) => {
-        console.log('Objava uspešno kreirana:', data);
         navigate('/mojeObjave');
       })
       .catch((error) => {
@@ -112,8 +110,6 @@ export default function KreiranjeObjave() {
     useMapEvents({
       click(e) {
         if (!mapEnabled) return; // Ako je mapa isključena, ne dozvoljava klikove
-
-        console.log("Kliknuto na koordinatama:", e.latlng);
         setLocation(e.latlng);
         setGrad('');
         setDrzava('');

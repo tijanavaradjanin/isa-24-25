@@ -142,7 +142,7 @@ public class ObjavaServiceImpl implements ObjavaService {
         double latKorisnik = korisnik.getLokacija().getLatituda();
         double lonKorisnik = korisnik.getLokacija().getLongituda();
 
-        double radijus = 100.0; // Postavljamo radijus na 50 km, može se promeniti kasnije
+        double radijus = 20.0; // Postavljen radijus na 20 km, može se promeniti kasnije
 
         // Dobijamo sve objave iz baze
         List<Objava> allPosts = objavaRepository.findAll();

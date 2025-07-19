@@ -15,8 +15,7 @@ const PrikazMape = () => {
   const [post, setPost] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [locationMessage, setLocationMessage] = useState(null);
-  const [nearbyPosts, setNearbyPosts] = useState([]); // Dodato: Držimo obližnje objave
-  //const mapRef = useRef(null);
+  const [nearbyPosts, setNearbyPosts] = useState([]);
 
   const getCoordinates = async (fullAddress) => {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json`);
@@ -56,10 +55,7 @@ const PrikazMape = () => {
             if (coords) {
               setLocation(coords);
               setLocationMessage(null);
-              /*if (mapRef.current) {
-                mapRef.current.setView(coords, 12);
-              }*/
-              fetchNearbyPosts(token); // Pozivamo funkciju da dohvatimo obližnje objave
+              fetchNearbyPosts(token); 
             } else {
               setLocationMessage("Vaša lokacija je nepostojeća, molimo Vas ažurirajte je.");
             }
@@ -154,17 +150,19 @@ const PrikazMape = () => {
 
           {/* Modal za selektovanu objavu */}
           {post && ( <>
-          <Modal open={modalOpen} onClose={handleCloseModal}
-           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Objava
-              key={post.id}
-              objava={post}
-            />
-          </Modal>
+            <Modal open={modalOpen} onClose={handleCloseModal}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <Box sx={{ outline: 'none' }}>
+                  <Objava
+                    key={post.id}
+                    objava={post}
+                  />
+                </Box>
+            </Modal>
           </>
           )}
         </MapContainer>

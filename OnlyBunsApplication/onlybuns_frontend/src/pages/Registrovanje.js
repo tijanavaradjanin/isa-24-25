@@ -31,7 +31,6 @@ export default function Registrovanje() {
     })
       .then((response) => {
         return response.text().then((text) => {
-          console.log("Odgovor sa backend-a:", text); 
           if (!response.ok) {
             throw new Error(text);
           }
