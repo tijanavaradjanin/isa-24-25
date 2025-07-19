@@ -1,6 +1,6 @@
 package com.developer.onlybuns.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;

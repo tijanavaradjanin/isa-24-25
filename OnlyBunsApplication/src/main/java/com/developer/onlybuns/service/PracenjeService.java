@@ -4,7 +4,6 @@ import com.developer.onlybuns.entity.Pracenje;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PracenjeService {
 
@@ -17,4 +16,5 @@ public interface PracenjeService {
     List<RegistrovaniKorisnik> zapraceniKorisnici(Integer idKorisnika);
 
     boolean proveriDaLiPrati(Integer PratilacId, Integer ZapraceniId);
+
 }

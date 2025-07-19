@@ -22,4 +22,5 @@ public interface PracenjeRepository extends JpaRepository<Pracenje, Integer> {
 
     @Query("select p from Pracenje p where p.pratilac.id=:pratilacId and p.zapraceni.id=:zapraceniId")
     Pracenje findByPratilacIdAndZapraceniId(Integer pratilacId, Integer zapraceniId);
+
 }

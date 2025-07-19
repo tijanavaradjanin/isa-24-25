@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../css/Prijavljivanje.css'; 
 import '../css/Registrovanje.css';
@@ -31,7 +31,7 @@ export default function Registrovanje() {
     })
       .then((response) => {
         return response.text().then((text) => {
-          console.log("Odgovor sa backend-a:", text); // Debugging
+          console.log("Odgovor sa backend-a:", text); 
           if (!response.ok) {
             throw new Error(text);
           }

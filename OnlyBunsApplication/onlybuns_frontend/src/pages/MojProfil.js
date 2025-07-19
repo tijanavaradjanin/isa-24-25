@@ -77,10 +77,6 @@ const MojProfil = () => {
 
   const handleCloseLista= () => setOpenLista(false);
 
-  const handleUpdateProfile = () => {
-    navigate('/azuriranjeProfila');
-  };
-
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };  
@@ -130,7 +126,6 @@ const MojProfil = () => {
             <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                 {korisnik.korisnickoIme}
               </Typography>
-              <Button onClick={handleUpdateProfile}> izmeni profil </Button>
           </Box>
           <Table>
             <TableBody>

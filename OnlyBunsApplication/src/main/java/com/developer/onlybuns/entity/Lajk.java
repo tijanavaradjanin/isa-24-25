@@ -1,6 +1,6 @@
 package com.developer.onlybuns.entity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;

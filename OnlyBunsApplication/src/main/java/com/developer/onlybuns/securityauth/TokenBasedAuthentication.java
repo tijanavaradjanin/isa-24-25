@@ -1,10 +1,7 @@
 package com.developer.onlybuns.securityauth;
 
-import com.developer.onlybuns.entity.Korisnik;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Optional;
 
 // Override klasa za autentifikaciju umesto npr. Basic Auth
 public class TokenBasedAuthentication extends AbstractAuthenticationToken {

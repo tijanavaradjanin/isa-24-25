@@ -25,5 +25,4 @@ public class KorisnikServiceImpl implements KorisnikService {
     public Optional<Korisnik> findByKorisnickoIme(String korisnickoIme) {
         return korisnikRepository.findByKorisnickoIme(korisnickoIme);
     }
-
 }

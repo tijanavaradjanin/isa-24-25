@@ -75,7 +75,6 @@ public class AdminSistemController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public void deleteAdminSistem(@PathVariable("id") Integer id) {
         adminSistemService.deleteAdminSistem(id);

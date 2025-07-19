@@ -28,7 +28,6 @@ public class AdminSistemServiceImpl implements AdminSistemService {
     }
 
     public AdminSistem saveAdminSistem(AdminSistem adminSistem) {
-        //adminSistem.setUloga(Uloga.ADMIN);
         return adminSistemRepository.save(adminSistem);
     }
 
@@ -54,12 +53,4 @@ public class AdminSistemServiceImpl implements AdminSistemService {
     public List<String> getAllEmails() {
         return adminSistemRepository.findAllEmails();
     }
-
-    public AdminSistem proveriKredencijale(String email, String password) {
-        AdminSistem korisnik = this.adminSistemRepository.findByEmailAndPassword(email, password);
-        return korisnik != null ? korisnik : null;
-    }
-
-
-
 }

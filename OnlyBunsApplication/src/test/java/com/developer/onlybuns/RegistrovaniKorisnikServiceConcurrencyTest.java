@@ -48,13 +48,13 @@ public class RegistrovaniKorisnikServiceConcurrencyTest {
         String email2 = "korisnik2@example.com";
         String sifra = "sifra123";
 
-        // Očisti prethodni korisnički unos, ako postoji
+        // ocisti prethodni korisnicki unos, ako postoji
         registrovaniKorisnikRepository.deleteByKorisnickoIme(korisnickoIme);
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
         CountDownLatch latch = new CountDownLatch(1);
 
-        // Pokreni dva paralelna zadatka
+        // pokreni dva paralelna zadatka
         executor.submit(kreirajTask(email1, korisnickoIme, sifra, latch));
         executor.submit(kreirajTask(email2, korisnickoIme, sifra, latch));
 
@@ -64,7 +64,7 @@ public class RegistrovaniKorisnikServiceConcurrencyTest {
         executor.shutdown();
         executor.awaitTermination(10, TimeUnit.SECONDS);
 
-        // Očekuje se da samo jedna registracija prođe
+        // ocekuje se da samo jedna registracija prodje
         Assertions.assertEquals(1, successCount.get(), "Samo jedan korisnik sme da bude uspešno registrovan!");
         Assertions.assertEquals(1, uspesnoRegistrovani.size(), "Tačno jedan korisnik treba biti uspešan.");
 

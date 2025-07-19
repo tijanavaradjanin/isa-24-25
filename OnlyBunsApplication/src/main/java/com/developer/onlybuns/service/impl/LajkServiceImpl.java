@@ -27,5 +27,4 @@ public class LajkServiceImpl implements LajkService {
         return lajkRepository.findByRegistrovaniKorisnikAndObjava(korisnik, objava)
                 .orElse(null);
     }
-
 }

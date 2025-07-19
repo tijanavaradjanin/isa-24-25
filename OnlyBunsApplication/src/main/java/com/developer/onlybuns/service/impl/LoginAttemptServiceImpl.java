@@ -14,13 +14,13 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
     private final int MAX_ATTEMPTS = 5;
     private final int TIME_WINDOW_MINUTES = 1;
 
-    //Cuva pokusaje logovanja po IP adresi u mapi
+    // cuva pokusaje logovanja po IP adresi u mapi
     private final ConcurrentHashMap<String, List<LocalDateTime>> attempts = new ConcurrentHashMap<>();
 
     public boolean isBlocked(String ipAddress) {
         List<LocalDateTime> timestamps = attempts.getOrDefault(ipAddress, List.of());
 
-        // Filtriraj pokušaje koji su u poslednjem minutu
+        // filtrira pokusaje koji su u poslednjem minutu
         List<LocalDateTime> recentAttempts = timestamps.stream()
                 .filter(t -> t.isAfter(LocalDateTime.now().minusMinutes(TIME_WINDOW_MINUTES)))
                 .collect(Collectors.toList());

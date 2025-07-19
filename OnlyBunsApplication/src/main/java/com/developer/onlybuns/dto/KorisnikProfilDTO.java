@@ -1,7 +1,5 @@
 package com.developer.onlybuns.dto;
 
-import com.developer.onlybuns.entity.Lokacija;
-
 public class KorisnikProfilDTO {
     private String korisnickoIme;
     private String ime;

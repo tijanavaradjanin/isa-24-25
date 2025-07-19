@@ -1,20 +1,15 @@
 package com.developer.onlybuns.securityauth;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.developer.onlybuns.entity.Korisnik;
-import com.developer.onlybuns.service.CustomUserDetailsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -70,15 +65,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 						authentication.setDetails(authentication.getDetails());
 						SecurityContextHolder.getContext().setAuthentication(authentication);
 
-						//UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-						//SecurityContextHolder.getContext().setAuthentication(authentication);
 						System.out.println("SECURITY CONTEXT: " + SecurityContextHolder.getContext().getAuthentication());
 						System.out.println(authToken);
 						System.out.println(tokenUtils.getUsernameFromToken(authToken));
-
-						//UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-						//authentication.setDetails(authentication.getDetails());
-						//SecurityContextHolder.getContext().setAuthentication(authentication);  // Postavi autentifikaciju
 					}
 				}
 			}

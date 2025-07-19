@@ -5,13 +5,10 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.developer.onlybuns.entity.RegistrovaniKorisnik;
 import com.developer.onlybuns.entity.Uloga;
 import com.developer.onlybuns.repository.KorisnikRepository;
-import com.developer.onlybuns.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 

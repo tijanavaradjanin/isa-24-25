@@ -58,5 +58,4 @@ public class LokacijaController {
         cache.forEach(entry -> keys.add(entry.getKey()));
         return ResponseEntity.ok(keys);
     }
-
 }

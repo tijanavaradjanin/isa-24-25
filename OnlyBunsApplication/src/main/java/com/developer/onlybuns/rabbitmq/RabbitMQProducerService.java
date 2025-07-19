@@ -19,8 +19,4 @@ public class RabbitMQProducerService {
         System.out.println("Saljem poruku: " + poruka);
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, "", poruka);
     }
-
-
-
 }
-

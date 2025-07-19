@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegistrovaniKorisnikRepository extends JpaRepository<RegistrovaniKorisnik, Integer> {
+
     RegistrovaniKorisnik findByEmailAndPassword(String email, String password);
 
     @Query("SELECT email FROM RegistrovaniKorisnik")
@@ -19,14 +20,11 @@ public interface RegistrovaniKorisnikRepository extends JpaRepository<Registrova
 
     RegistrovaniKorisnik findByKorisnickoIme(String korisnickoIme);
 
-    boolean existsByKorisnickoIme(String korisnickoIme);
-
-    boolean existsByEmail(String email);
-
     Optional<RegistrovaniKorisnik> findByEmail(String email);
 
     @Query("SELECT rk FROM RegistrovaniKorisnik rk WHERE rk.lastLogin < :sevenDaysAgo")
     List<RegistrovaniKorisnik> findByLastLoginBefore(@Param("sevenDaysAgo") Timestamp sevenDaysAgo);
 
     void deleteByKorisnickoIme(String korisnickoIme);
+
 }

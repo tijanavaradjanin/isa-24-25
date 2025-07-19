@@ -327,5 +327,4 @@ public class ObjavaController {
         }
         return ResponseEntity.ok(objaveFeed2);
     }
-
 }

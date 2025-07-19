@@ -6,5 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UlogaRepository extends JpaRepository<Uloga, Long> {
+
     Uloga findByNaziv(String naziv);
+
 }

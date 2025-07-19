@@ -1,6 +1,5 @@
 package com.developer.onlybuns.controller;
 import com.developer.onlybuns.dto.KorisnikProfilDTO;
-import com.developer.onlybuns.dto.UpdateProfile;
 import com.developer.onlybuns.dto.UserRequest;
 import com.developer.onlybuns.entity.Lokacija;
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
@@ -194,5 +193,4 @@ public class RegistrovaniKorisnikController {
         List<String> emails = registrovaniKorisnikService.getAllEmails();
         return ResponseEntity.ok(emails);
     }
-
 }

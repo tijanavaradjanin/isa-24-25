@@ -1,9 +1,7 @@
 package com.developer.onlybuns.service.impl;
 
 import com.developer.onlybuns.entity.Komentar;
-import com.developer.onlybuns.entity.Lajk;
 import com.developer.onlybuns.repository.KomentarRepository;
-import com.developer.onlybuns.repository.LajkRepository;
 import com.developer.onlybuns.service.KomentarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +20,4 @@ public class KomentarServiceImpl implements KomentarService {
     public void saveKomentar(Komentar komentar){
         komentarRepository.save(komentar);
     }
-
 }

@@ -17,11 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.developer.onlybuns.securityauth.RestAuthenticationEntryPoint;
-//import com.developer.onlybuns.securityauth.TokenAuthenticationFilter;
-import com.developer.onlybuns.service.CustomUserDetailsService;
 import com.developer.onlybuns.util.TokenUtils;
 
 @Configuration

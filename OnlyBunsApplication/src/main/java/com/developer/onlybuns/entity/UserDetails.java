@@ -1,10 +1,4 @@
-package com.developer.onlybuns.entity;//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
-
-import java.util.Map;
+package com.developer.onlybuns.entity;
 
 public interface UserDetails {
     Integer getId();
@@ -19,6 +13,5 @@ public interface UserDetails {
 
     String getBroj();
 
-   // Map<String, Object> getAdditionalClaims();
 }
 

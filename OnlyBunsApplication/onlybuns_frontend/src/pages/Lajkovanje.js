@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IconButton, Modal, Box, Typography, Button } from "@mui/material";
 import { ThumbUp } from "@mui/icons-material";
 import { getToken } from "../helpers/KorisnickoImeIzTokena";

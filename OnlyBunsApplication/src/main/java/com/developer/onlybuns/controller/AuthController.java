@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RestController
 @RequestMapping({"/auth"})

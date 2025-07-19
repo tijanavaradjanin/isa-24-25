@@ -105,13 +105,4 @@ public class PracenjeController {
         }
         return ResponseEntity.ok(zapraceniKorisniciPrikaz);
     }
-
-
-
-
-
-
-
-
-
 }
