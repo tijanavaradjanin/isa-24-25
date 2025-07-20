@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { cirilicaULatinicu } from '../helpers/PismoKonverter.js';
 import Navigacija from './Navigacija'; 
@@ -12,7 +11,6 @@ const MojProfil = () => {
   const [korisnik, setKorisnik] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
   const [openLista, setOpenLista] = useState(false);
   const [listaZapracenih, setListaZapracenih] = useState([]);
 
@@ -75,11 +73,7 @@ const MojProfil = () => {
       });
   };
 
-  const handleCloseLista= () => setOpenLista(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };  
+  const handleCloseLista= () => setOpenLista(false); 
 
   if (loading) {
     return (
@@ -160,17 +154,6 @@ const MojProfil = () => {
               <TableRow>
                 <TableCell>Info:</TableCell>
                 <TableCell>{korisnik.info}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Lozinka:</TableCell>
-                <TableCell>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {showPassword ? korisnik.password : '********'}
-                    <Button onClick={togglePasswordVisibility} sx={{ minWidth: 'auto', ml: 1 }}>
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </Button>
-                  </Box>
-                </TableCell>
               </TableRow>
             </TableBody>
           </Table>

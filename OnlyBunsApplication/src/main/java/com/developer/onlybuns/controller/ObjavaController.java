@@ -99,6 +99,16 @@ public class ObjavaController {
                 latituda = latitude;
                 longituda = longitude;
             } else {
+                // Validacija da su svi delovi adrese popunjeni
+                if (ulica == null || ulica.isBlank() ||
+                        broj == null || broj.isBlank() ||
+                        grad == null || grad.isBlank() ||
+                        drzava == null || drzava.isBlank()) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(Map.of("error", "Morate uneti ulicu, broj, grad i državu ukoliko ne birate lokaciju putem mape."));
+                }
+
+                // Validacija lokacije
                 double[] koordinate = objavaService.validateLocation(grad, drzava, ulica, broj);
                 if (koordinate == null) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -177,16 +187,6 @@ public class ObjavaController {
             ));
         }
             return ResponseEntity.ok(mojeObjavePrikaz);
-    }
-
-    @PutMapping
-    public Objava update(@RequestBody Objava objava) {
-        return objavaService.updateObjava(objava);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) {
-        objavaService.deleteObjava(id);
     }
 
     @PreAuthorize("hasAnyAuthority('KORISNIK')")

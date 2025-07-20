@@ -19,10 +19,6 @@ public interface ObjavaService {
 
     void saveObjava(Objava objava);
 
-    Objava updateObjava(Objava objava);
-
-    void deleteObjava(Integer id);
-
     List<Lajk> getAllLajkovi(Integer id);
 
     List<Komentar> getAllKomentari(Integer id);

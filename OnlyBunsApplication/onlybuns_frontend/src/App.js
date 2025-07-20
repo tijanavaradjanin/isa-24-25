@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ZastitaPristupa from './helpers/ZastitaPristupa';
 import Prijavljivanje from "./pages/Prijavljivanje";
 import PocetnaStranica from "./pages/PocetnaStranica";
 import Registrovanje from "./pages/Registrovanje";
@@ -16,20 +17,53 @@ import 'leaflet/dist/leaflet.css';
 
 function App() {
   return (
-    <Router>  {/* BrowserRouter obavija ceo sadržaj */}
+    <Router>
       <div className="App">
-        <Header logoSrc={logo} pageTitle="OnlyBuns" /> {/* Header je sada unutar Router-a */}
+        <Header logoSrc={logo} pageTitle="OnlyBuns" />
         <Routes>
+          {/* Stranice dostupne svima */}
           <Route path="/" element={<PocetnaStranica />} />
           <Route path="/prijava" element={<Prijavljivanje />} />
           <Route path="/registracija" element={<Registrovanje />} />
-          <Route path="/prijavljeniKorisnikPocetna" element={<PrijavljeniKorisnikPregled />} />
-          <Route path="/adminSistemPocetna" element={<AdminSistemPocetna />} />
-          <Route path="/kreiranjeObjave" element={<KreiranjeObjave />} />
-          <Route path="/mojeObjave" element={<MojeObjave />} />
-          <Route path="/mojProfil" element={<MojProfil />} />
-          <Route path="/prikazMape" element={<PrikazMape />} />
-          <Route path="/korisnikProfil/:korisnickoIme" element={<KorisnikProfil />} />
+
+          {/* Admin stranica - samo za ADMIN ulogu */}
+          <Route path="/adminSistemPocetna" element={
+            <ZastitaPristupa dozvoljeneUloge={['ADMIN']}>
+              <AdminSistemPocetna />
+            </ZastitaPristupa>
+          } />
+
+          {/* Stranice za korisnike - samo za KORISNIK ulogu */}
+          <Route path="/prijavljeniKorisnikPocetna" element={
+            <ZastitaPristupa dozvoljeneUloge={['KORISNIK']}>
+              <PrijavljeniKorisnikPregled />
+            </ZastitaPristupa>
+          } />
+          <Route path="/kreiranjeObjave" element={
+            <ZastitaPristupa dozvoljeneUloge={['KORISNIK']}>
+              <KreiranjeObjave />
+            </ZastitaPristupa>
+          } />
+          <Route path="/mojeObjave" element={
+            <ZastitaPristupa dozvoljeneUloge={['KORISNIK']}>
+              <MojeObjave />
+            </ZastitaPristupa>
+          } />
+          <Route path="/mojProfil" element={
+            <ZastitaPristupa dozvoljeneUloge={['KORISNIK']}>
+              <MojProfil />
+            </ZastitaPristupa>
+          } />
+          <Route path="/prikazMape" element={
+            <ZastitaPristupa dozvoljeneUloge={['KORISNIK']}>
+              <PrikazMape />
+            </ZastitaPristupa>
+          } />
+          <Route path="/korisnikProfil/:korisnickoIme" element={
+            <ZastitaPristupa dozvoljeneUloge={['KORISNIK']}>
+              <KorisnikProfil />
+            </ZastitaPristupa>
+          } />
         </Routes>
       </div>
     </Router>

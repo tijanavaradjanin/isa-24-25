@@ -55,10 +55,6 @@ export default function Registrovanje() {
     <div className="registrovanje-container">
       <form className="prijavljivanje-form" onSubmit={handleSubmit}>
         <h1 className="registrovanje-title">Kreiraj nalog</h1>
-          <div className={`error-container ${errors.global ? "show" : ""}`}>
-            {errors.global && <p className="error-message">{errors.global}</p>}
-          </div>
-
         <div className="input-group">
           <input
             type="text"
@@ -180,6 +176,17 @@ export default function Registrovanje() {
         </div>
         
         <button type="submit" className="prijavljivanje-button">Registruj se</button>
+        {errors.global && (
+            <p style={{ 
+              color: "red", 
+              textAlign: "center", 
+              marginTop: "20px", 
+              fontWeight: "bold", 
+              fontSize: "1rem" 
+            }}>
+              {errors.global}
+            </p>
+          )}
           <Typography component="div" style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
             <span>Već imaš nalog?</span>
               <Link to="/prijava" className="prijavljivanje-link" style={{ marginLeft: "5px" }}>

@@ -76,12 +76,12 @@
 
 .error-message {
   color: red;
-  top: 6px;
-  font-size: 14px;
-  margin-bottom: 5px;
+  background-color: transparent;
+  font-size: 25px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   text-align: center;
-  margin-top: -18px;
-  position: relative;
+  font-weight: bold;
 }
 
 .input-error {

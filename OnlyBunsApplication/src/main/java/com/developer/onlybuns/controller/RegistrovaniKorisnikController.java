@@ -44,16 +44,6 @@ public class RegistrovaniKorisnikController {
         this.lokacijaService=lokacijaService;
     }
 
-    @GetMapping
-    public List<RegistrovaniKorisnik> findAllRegistrovaniKorisnik() {
-        return registrovaniKorisnikService.findAllRegistrovaniKorisnik();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<RegistrovaniKorisnik> findRegistrovaniKorisnikById(@PathVariable("id") Integer id) {
-        return registrovaniKorisnikService.findById(id);
-    }
-
     //prikaz profila za admine
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/korisnickoIme/{korisnickoIme}")
@@ -102,21 +92,6 @@ public class RegistrovaniKorisnikController {
                     user.getInfo()
             );
             return ResponseEntity.ok(korisnik);
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<?> saveRegistrovaniKorisnik(@Valid @RequestBody RegistrovaniKorisnik korisnikEntity) {
-        try {
-            RegistrovaniKorisnik response = registrovaniKorisnikService.saveRegistrovaniKorisnik(korisnikEntity);
-            return ResponseEntity.ok(response);
-
-        }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
-        } catch (RuntimeException e) {
-            // Vraćanje poruke konflikta sa detaljima
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", e.getMessage()));
-        }
     }
 
     @PostMapping("/signup")
@@ -169,22 +144,6 @@ public class RegistrovaniKorisnikController {
                 }
             }
         }
-    }
-
-    //pocetni login, bez tokena, za autentifikaciju koristi se login iz authcontrollera
-    @PostMapping("/login")
-    public ResponseEntity<String> prijaviKorisnika(@RequestBody RegistrovaniKorisnik korisnik) {
-        RegistrovaniKorisnik userCredentials = registrovaniKorisnikService.proveriKredencijale(korisnik.getEmail(), korisnik.getPassword());
-        if (userCredentials != null) {
-            return ResponseEntity.ok("{\"message\": \"Prijava uspesna!\"}");
-        } else {
-            return ResponseEntity.status(401).body("Neispravan mejl ili lozinka.");
-        }
-    }
-    
-    @DeleteMapping("/{id}")
-    public void deleteRegistrovaniKorisnik(@PathVariable("id") Integer id) {
-        registrovaniKorisnikService.deleteRegistrovaniKorisnik(id);
     }
 
     //test get metode

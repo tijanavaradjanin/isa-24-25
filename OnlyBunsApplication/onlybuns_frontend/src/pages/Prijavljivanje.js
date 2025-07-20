@@ -50,10 +50,6 @@ export default function Prijavljivanje() {
     <div className="prijavljivanje-container">
       <form className="prijavljivanje-form" onSubmit={handleSubmit}>
         <h1 className="prijavljivanje-title">Dobrodošli nazad!</h1>
-        <div className={`error-container ${error ? "show" : ""}`}>
-          {error && <p className="error-message">{error}</p>}
-        </div>
-
         <input
           type="email"
           placeholder="Email"
@@ -69,6 +65,11 @@ export default function Prijavljivanje() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" className="prijavljivanje-button">Prijavi se</button>
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
           <Typography component="div" style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
             <span>Nemaš nalog?</span>
               <Link to="/registracija" className="prijavljivanje-link" style={{ marginLeft: "5px" }}>

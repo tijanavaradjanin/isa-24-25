@@ -56,16 +56,6 @@ public class ObjavaServiceImpl implements ObjavaService {
     }
 
     @Override
-    public Objava updateObjava(Objava objava) {
-        return objavaRepository.save(objava);
-    }
-
-    @Override
-    public void deleteObjava(Integer id) {
-        objavaRepository.deleteById(id);
-    }
-
-    @Override
     public List<Lajk> getAllLajkovi(Integer id) {
         Optional<Objava> objava = getById(id);
         List<Lajk> lajkovi = new ArrayList<>();

@@ -24,6 +24,7 @@ public class LokacijaController {
         this.jCacheManager=jCacheManager;
     }
 
+    @PreAuthorize("hasAnyAuthority('KORISNIK', 'ADMIN')")
     @GetMapping("/{id}")
     public  ResponseEntity<Lokacija> findLokacijaById(@PathVariable("id") Integer id) {
         Lokacija lokacija = lokacijaService.findById(id);

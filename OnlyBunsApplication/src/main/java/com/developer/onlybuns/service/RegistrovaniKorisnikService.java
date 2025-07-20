@@ -6,19 +6,11 @@ import java.util.Optional;
 
 public interface RegistrovaniKorisnikService {
 
-    Optional<RegistrovaniKorisnik> findById(Integer id);
-
     RegistrovaniKorisnik findByKorisnickoIme(String korisnickoIme);
 
     RegistrovaniKorisnik saveRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnik);
 
     RegistrovaniKorisnik updateRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnik);
-
-    RegistrovaniKorisnik proveriKredencijale(String email, String password);
-
-    void deleteRegistrovaniKorisnik(Integer id);
-
-    List<RegistrovaniKorisnik> findAllRegistrovaniKorisnik();
 
     List<String> getAllEmails();
 

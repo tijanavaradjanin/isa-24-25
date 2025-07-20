@@ -34,11 +34,6 @@ public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
     }
 
     @Override
-    public Optional<RegistrovaniKorisnik> findById(Integer id) {
-        return registrovaniKorisnikRepository.findById(id);
-    }
-
-    @Override
     public Optional<RegistrovaniKorisnik> findByEmail(String email) {
         return registrovaniKorisnikRepository.findByEmail(email);
     }
@@ -70,22 +65,6 @@ public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
     @Override
     public RegistrovaniKorisnik updateRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnikEntity) {
         return registrovaniKorisnikRepository.save(registrovaniKorisnikEntity);
-    }
-
-    @Override
-    public void deleteRegistrovaniKorisnik(Integer id) {
-        registrovaniKorisnikRepository.deleteById(id);
-    }
-
-    @Override
-    public RegistrovaniKorisnik proveriKredencijale(String email, String password) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikRepository.findByEmailAndPassword(email, password);
-        return korisnik;
-    }
-
-    @Override
-    public List<RegistrovaniKorisnik> findAllRegistrovaniKorisnik() {
-        return registrovaniKorisnikRepository.findAll();
     }
 
     @Override
