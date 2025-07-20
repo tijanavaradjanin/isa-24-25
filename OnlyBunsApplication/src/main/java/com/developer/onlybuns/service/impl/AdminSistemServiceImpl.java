@@ -1,6 +1,6 @@
 package com.developer.onlybuns.service.impl;
 
-import com.developer.onlybuns.dto.request.LoginDTO;
+import com.developer.onlybuns.dto.LoginDTO;
 import com.developer.onlybuns.entity.AdminSistem;
 import com.developer.onlybuns.repository.AdminSistemRepository;
 import com.developer.onlybuns.service.AdminSistemService;
@@ -53,25 +53,4 @@ public class AdminSistemServiceImpl implements AdminSistemService {
     public List<String> getAllEmails() {
         return adminSistemRepository.findAllEmails();
     }
-
-    /*@Override
-    public Optional<AdminSistem> findById(Integer id) {
-        Optional<Korisnik> korisnikOptional = korisnikRepository.findById(id);
-        return korisnikOptional.map(korisnik -> (AdminSistem) korisnik);
-    }
-*/
-
-
-   /* @Override
-    public List<AdminSistem> findAll() {
-        List<Korisnik> korisnici = korisnikRepository.findAll();
-        return korisnici.stream()
-                .filter(AdminSistem.class::isInstance)
-                .map(AdminSistem.class::cast)
-                .collect(Collectors.toList());
-    }*/
-
-
-
-
 }

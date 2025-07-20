@@ -1,4 +1,4 @@
-package com.developer.onlybuns.dto.request;
+package com.developer.onlybuns.dto;
 
 public class AdminSistemDTO {
 

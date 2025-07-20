@@ -8,17 +8,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="OnlyBunsApplication" />
+        <module name="ReklamnaAgencija" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="IsaOnlyBuns" target="1.5" />
-      <module name="onlybuns" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="OnlyBunsApplication" options="-parameters" />
-      <module name="onlybuns" options="-parameters --add-modules java.base" />
+      <module name="ReklamnaAgencija" options="-parameters" />
     </option>
   </component>
 </project>

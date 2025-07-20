@@ -1,103 +1,85 @@
-// Importuj potrebne biblioteke
-import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import { Link, useNavigate } from 'react-router-dom'; // Dodaj useNavigate
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const defaultTheme = createTheme();
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import '../css/Prijavljivanje.css'; 
+import {jwtDecode} from 'jwt-decode';
+import { Typography} from '@mui/material';
 
 export default function Prijavljivanje() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const korisnik = { email, password };
-    console.log(korisnik);
 
-    fetch("http://localhost:8080/registrovaniKorisnik/login", {
+    fetch("http://localhost:8080/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(korisnik),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+        return response.text().then((text) => {
+          if (!response.ok) {
+            throw new Error(text); // Vraća backend poruku umesto samo HTTP statusa
+          }
+          return JSON.parse(text); // Ako je uspešno, parsira JSON
+        });
       })
       .then((data) => {
-        console.log(data.message);
-        navigate('/prijavljeniKorisnikPregled', { state: { korisnik: data } }); // Prosledi podatke kroz rutiranje
+        const jwtToken = data.accessToken;
+        if (jwtToken) {
+          localStorage.setItem("token", jwtToken);
+          const decodedToken = jwtDecode(jwtToken);
+          const role = decodedToken.uloga.naziv;
+          if (role === "ADMIN") {
+            navigate("/adminSistemPocetna", { state: { token: jwtToken } });
+          } else {
+            navigate("/prijavljeniKorisnikPocetna", { state: { token: jwtToken } });
+          }
+        }
       })
       .catch((error) => {
         console.error("Error logging in:", error);
-      });
-  };
-
+        setError(error.message); // Prikazuje backend poruku
+      })
+    }
+    
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Prijavljivanje
+    <div className="prijavljivanje-container">
+      <form className="prijavljivanje-form" onSubmit={handleSubmit}>
+        <h1 className="prijavljivanje-title">Dobrodošli nazad!</h1>
+        <input
+          type="email"
+          placeholder="Email"
+          className="prijavljivanje-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Lozinka"
+          className="prijavljivanje-input"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit" className="prijavljivanje-button">Prijavi se</button>
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+          <Typography component="div" style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
+            <span>Nemaš nalog?</span>
+              <Link to="/registracija" className="prijavljivanje-link" style={{ marginLeft: "5px" }}>
+                Registruj se
+              </Link>
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Lozinka"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Prijavi se
-            </Button>
-            <Link to="/registracija"> Registruj se </Link>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+      </form>
+    </div>
   );
 }
+
+
+

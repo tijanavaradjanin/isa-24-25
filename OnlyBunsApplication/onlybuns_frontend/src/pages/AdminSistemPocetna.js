@@ -1,129 +1,196 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import {
-  MDBContainer
-} from 'mdb-react-ui-kit';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import { useNavigate } from 'react-router-dom'; // Dodaj useNavigate
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-
-const defaultTheme = createTheme();
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Box, Toolbar, Typography, Tooltip } from '@mui/material';
+import Objava from './Objava';
+import { korisnickoImeIzTokena, getToken, parseJwt } from "../helpers/KorisnickoImeIzTokena";
 
 const AdminSistemPocetna = () => {
-  const location = useLocation();
-  const { korisnik } = location.state || {};
-  const [email] = useState(korisnik?.email || ''); // Set the initial value of email
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
   const navigate = useNavigate();
+  const [, setKorisnik] = useState(null);
+  const [objave, setObjave] = useState([]);
+  const [, setError] = useState(null);
+  const [, setLoading] = useState(false);
+  const [selektovaneObjave, setSelektovaneObjave] = useState([]);
+  const [selektovanjeAktivno, setSelektovanjeAktivno] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const korisnik = { email, password };
-    console.log(korisnik);
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      navigate('/');
+      return;
+    }
 
-    fetch("http://localhost:8080/adminsistem/updatepassword", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(korisnik),
+    fetch(`http://localhost:8080/objava/sveobjave`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error("Greška prilikom preuzimanja objava.");
         }
         return response.json();
       })
-      .then((data) => {
-        console.log(data.message);
-        navigate('/adminSistemView', { state: { korisnik: data } }); // Prosledi podatke kroz rutiranje
+      .then((data) => setObjave(data))
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+
+    try {
+      const korisnickoIme = korisnickoImeIzTokena();
+      const payload = parseJwt();
+
+      if (!korisnickoIme || !payload) throw new Error("Token nije validan");
+
+      setKorisnik({ korisnickoIme, ...payload });
+      localStorage.setItem("korisnickoIme", korisnickoIme);
+    } catch (err) {
+      localStorage.removeItem("token");
+      navigate('/');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setKorisnik(null);
+    navigate('/');
+  };
+
+  const toggleSelektovanaObjava = (id) => {
+    setSelektovaneObjave((prev) =>
+      prev.includes(id) ? prev.filter((oid) => oid !== id) : [...prev, id]
+    );
+  };
+
+  const handleAdvertising = () => {
+    const token = getToken();
+
+    fetch("http://localhost:8080/adminsistem/posalji-reklamama", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(selektovaneObjave),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Greška pri slanju objava agencijama");
+        return res.text();
       })
-      .catch((error) => {
-        console.error("Error logging in:", error);
+      .then((poruka) => {
+        alert(poruka);
+        setSelektovaneObjave([]);
+        setSelektovanjeAktivno(false);
+      })
+      .catch((err) => {
+        alert("Došlo je do greške: " + err.message);
       });
   };
-  return (
-    <MDBContainer fluid>
-      <div>
-        {korisnik ? (
-          <>
-            <h1>
-              Dobrodošli, AdminSistem {korisnik.ime} {korisnik.prezime}!
-            </h1>
-          </>
-        ) : (
-          <p>Nije pronađen prijavljeni korisnik.</p>
-        )}
-      </div>
 
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Promena lozinke
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Nova lozinka"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Nova lozinka"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-            />
-            {password !== password2 && (
-            <Typography variant="body2" color="error">
-              Passwords do not match
-            </Typography>
-          )}
+  return (
+    <Box
+      sx={{
+        background: "linear-gradient(to right, rgb(69, 185, 194), #e3f2fd)",
+        minHeight: "100vh",
+        py: 2,
+      }}
+    >
+      {/* Navigacija */}
+      <Toolbar sx={{ justifyContent: "flex-end", gap: 0.5 }}>
+        {!selektovanjeAktivno ? (
+          <Button onClick={() => setSelektovanjeAktivno(true)}>
+            Označi objave za reklame
+          </Button>
+        ) : (
+          <>
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={password !== password2}
+              variant="outlined"
+              onClick={() => {
+                setSelektovaneObjave([]);
+                setSelektovanjeAktivno(false);
+              }}
+              sx={{ fontWeight: "normal", textTransform: "uppercase" }}
             >
-              Sacuvaj
+              Otkaži selekciju
             </Button>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
-    </MDBContainer>
-    
+
+            <Button
+              variant="outlined"
+              onClick={() => {
+                if (selektovaneObjave.length === objave.length) {
+                  setSelektovaneObjave([]);
+                } else {
+                  setSelektovaneObjave(objave.map((o) => o.id));
+                }
+              }}
+              sx={{ fontWeight: "normal", textTransform: "uppercase" }}
+            >
+              {selektovaneObjave.length === objave.length
+                ? `PONIŠTI SVE (${selektovaneObjave.length}/${objave.length})`
+                : `OZNAČI SVE (${selektovaneObjave.length}/${objave.length})`}
+            </Button>
+
+            <Button
+              variant="contained"
+              color="info"
+              onClick={handleAdvertising}
+              disabled={selektovaneObjave.length === 0}
+              sx={{ fontWeight: "normal", textTransform: "uppercase" }}
+            >
+              Pošalji selektovane objave agencijama
+            </Button>
+          </>
+        )}
+        <Typography>|</Typography>
+        <Tooltip title="Uskoro dostupno" arrow>
+          <span>
+            <Button color="primary" disabled>
+              Trendovi
+            </Button>
+          </span>
+        </Tooltip>
+        <Typography>|</Typography>
+        <Tooltip title="Uskoro dostupno" arrow>
+          <span>
+            <Button color="primary" disabled>
+              Analitika
+            </Button>
+          </span>
+        </Tooltip>
+        <Typography>|</Typography>
+        <Tooltip title="Uskoro dostupno" arrow>
+          <span>
+            <Button color="primary" disabled>
+              Korisnici
+            </Button>
+          </span>
+        </Tooltip>
+        <Typography>|</Typography>
+        <Button color="info" onClick={handleLogout}>
+          Odjavi se
+        </Button>
+      </Toolbar>
+
+      {/* Lista objava */}
+      <Box sx={{ width: "90%", maxWidth: "700px", margin: "auto", mt: 4 }}>
+        {objave.length === 0 ? (
+          <Typography variant="h6" textAlign="center">
+            Nema objava za prikaz.
+          </Typography>
+        ) : (
+          objave.map((objava) => (
+            <Objava
+              key={objava.id}
+              objava={objava}
+              adminPogled={true}
+              selektovana={selektovaneObjave.includes(objava.id)}
+              onToggle={() => toggleSelektovanaObjava(objava.id)}
+              selektovanjeAktivno={selektovanjeAktivno}
+            />
+          ))
+        )}
+      </Box>
+    </Box>
   );
 };
 

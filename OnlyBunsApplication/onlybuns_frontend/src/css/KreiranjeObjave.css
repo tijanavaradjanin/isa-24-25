@@ -1,0 +1,106 @@
+.kreiranje-objave-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+    align-items: center;
+    width: 100%;
+    max-width: 500px; /* Maksimalna širina forme */
+    padding: 30px;
+    background-color: #ffffff; /* Bela pozadina forme */
+    border-radius: 10px; /* Zaobljeni uglovi */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Senka za izgled kartice */
+}
+
+.kreiranje-objave-title {
+    font-size: 26px;
+    color: #0056b3; /* Tamnoplava boja naslova */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.kreiranje-objave-input {
+    width: 90%;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #0056b3; /* Tamnoplavi okvir */
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: 'Helvetica';
+}
+
+.kreiranje-objave-input:focus {
+    outline: none;
+    border-color: #007bff; /* Svetlije plava na fokus */
+}
+
+.kreiranje-objave-textarea {
+    width: 90%;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #0056b3; /* Tamnoplavi okvir */
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none; /* Onemogućava promenjivu veličinu */
+    height: 100px; /* Početna visina za opis */
+}
+
+.kreiranje-objave-button {
+    width: 90%;
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #0056b3; /* Tamnoplavo dugme */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.kreiranje-objave-button:hover {
+    background-color: #003f7f; /* Još tamnija plava na hover */
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.mapa-label {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  .map-container {
+    height: 300px;
+    width: 100%;
+    margin-top: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .image-preview-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    max-width: 300px; /* Ograniči širinu */
+    max-height: 300px; /* Ograniči visinu */
+    overflow: hidden;
+  }
+  
+  .image-preview {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  

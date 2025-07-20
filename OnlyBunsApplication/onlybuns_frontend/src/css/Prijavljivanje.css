@@ -1,0 +1,118 @@
+.prijavljivanje-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 70vh;
+  width: 100%;
+  background-image: url('sargarepe6.jpeg'); 
+  background-size: cover;
+  background-position: center 57%; /* Pomeranje slike na dole */
+  padding-top: 86px;
+}
+
+.prijavljivanje-form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 100px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px; /* Ograničenje širine za konzistentnost */
+  padding: 30px;
+  background-color: rgba(157, 193, 222, 0.7);
+  border-radius: 18px;
+  box-shadow: 10px 40px 8px rgba(16, 86, 217, 0.1);
+}
+
+.prijavljivanje-title {
+  font-size: 30px;
+  color: #000000;
+  margin-bottom: 20px;
+  font-family: 'Helvetica';
+  font-weight: bold;
+}
+
+.prijavljivanje-input {
+  width: 72%;
+  margin: 10px 0;
+  margin-right: 6px;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: 'Helvetica';
+}
+
+.prijavljivanje-input:focus {
+  outline: none;
+  border-color: #000000;
+}
+
+.prijavljivanje-link {
+  text-decoration: none;
+  color: rgb(22, 63, 187);
+}
+
+.prijavljivanje-button {
+  width: 72%;
+  padding: 12px;
+  font-size: 16px;
+  margin-right: 6px;
+  color: #fff;
+  background-color: #000000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+  font-family: 'Helvetica';
+}
+
+.prijavljivanje-button:hover {
+  background-color: #000000;
+}
+
+.error-message {
+  color: red;
+  background-color: transparent;
+  font-size: 25px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.input-error {
+  border: 2px solid red !important;
+}
+
+.input-error::placeholder {
+  color: red !important;
+  font-style: italic;
+}
+
+.error-border {
+  border: 2px solid red !important;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.8em;
+  display: block; /* Postavlja grešku ispod polja */
+  margin-top: -14px; /* Dodaje malo prostora između inputa i teksta greške */
+  margin-right: 18px;
+  margin-left: -50px;
+}
+
+.error-container {
+  min-height: 20px; /* Ostavlja mesta za grešku čak i kada ne postoji */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-container.show .error-message {
+  visibility: visible; /* Prikazuje poruku */
+}

@@ -1,0 +1,444 @@
+2025-07-19 23:32:54.499  WARN 16752 --- [main] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Zarko/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Zarko/.m2/repository/org/json/json/20250107/json-20250107.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-19 23:32:54.562  INFO 16752 --- [main] gistrovaniKorisnikServiceConcurrencyTest : Starting RegistrovaniKorisnikServiceConcurrencyTest using Java 17.0.13 on DESKTOP-UOVFG2R with PID 16752 (started by Zarko in C:\Users\Zarko\Documents\TijanaFaks\IsaOnlyBuns\OnlyBunsApplication)
+2025-07-19 23:32:54.564  INFO 16752 --- [main] gistrovaniKorisnikServiceConcurrencyTest : The following profiles are active: test
+2025-07-19 23:32:56.184  INFO 16752 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-19 23:32:56.408  INFO 16752 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 205 ms. Found 9 JPA repository interfaces.
+2025-07-19 23:32:57.886  INFO 16752 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'onlyBunsApplication' of type [com.developer.onlybuns.OnlyBunsApplication$$EnhancerBySpringCGLIB$$61cbb6f6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:32:58.382  INFO 16752 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@5b47731f' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:32:58.435  INFO 16752 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:32:59.627 DEBUG 16752 --- [main] org.ehcache.core.spi.ServiceLocator      : Starting 18 Services...
+2025-07-19 23:32:59.642 DEBUG 16752 --- [main] o.e.c.i.s.DefaultStatisticsService       : Starting service
+2025-07-19 23:32:59.644 DEBUG 16752 --- [main] org.ehcache.core.spi.ServiceLocator      : All Services successfully started, 18 Services in 17ms
+2025-07-19 23:32:59.646 DEBUG 16752 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaAdresaCache' in EhcacheManager.
+2025-07-19 23:32:59.650 DEBUG 16752 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@307cf964
+2025-07-19 23:32:59.654 DEBUG 16752 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@1b7554d4
+2025-07-19 23:32:59.674 DEBUG 16752 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@7cd5fcf4
+2025-07-19 23:32:59.675 DEBUG 16752 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@19cdc217
+2025-07-19 23:32:59.718 DEBUG 16752 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-19 23:32:59.884  INFO 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-19 23:32:59.891 DEBUG 16752 --- [pool-2-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-19 23:32:59.892 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 8 ms to create off-heap storage of 10.0MB.
+2025-07-19 23:32:59.943 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-19 23:32:59.944 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-19 23:32:59.944 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-19 23:32:59.945 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-19 23:32:59.945 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-19 23:32:59.946 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-19 23:32:59.946 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-19 23:32:59.946 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-19 23:32:59.947 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-19 23:32:59.947 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-19 23:32:59.948 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-19 23:32:59.948 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-19 23:32:59.948 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-19 23:32:59.949 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-19 23:32:59.950 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-19 23:32:59.950 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-19 23:32:59.951  INFO 16752 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaAdresaCache' created in EhcacheManager.
+2025-07-19 23:32:59.951 DEBUG 16752 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaCache' in EhcacheManager.
+2025-07-19 23:32:59.952 DEBUG 16752 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.Integer> : org.ehcache.impl.serialization.IntegerSerializer@6734ff92
+2025-07-19 23:32:59.952 DEBUG 16752 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.serialization.PlainJavaSerializer@51eb0e84
+2025-07-19 23:32:59.953 DEBUG 16752 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.Integer> : org.ehcache.impl.copy.IdentityCopier@4ce267cc
+2025-07-19 23:32:59.954 DEBUG 16752 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.copy.IdentityCopier@2eebce87
+2025-07-19 23:32:59.954 DEBUG 16752 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-19 23:32:59.969  INFO 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-19 23:32:59.973 DEBUG 16752 --- [pool-3-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-19 23:32:59.974 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 4 ms to create off-heap storage of 10.0MB.
+2025-07-19 23:32:59.974 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-19 23:32:59.975 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-19 23:32:59.975 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-19 23:32:59.976 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-19 23:32:59.977 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-19 23:32:59.978 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-19 23:32:59.978 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-19 23:32:59.979 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-19 23:32:59.980 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-19 23:32:59.980 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-19 23:32:59.981 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-19 23:32:59.981 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-19 23:32:59.982 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-19 23:32:59.983 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-19 23:32:59.983 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-19 23:32:59.984 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-19 23:32:59.984  INFO 16752 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaCache' created in EhcacheManager.
+2025-07-19 23:32:59.984 DEBUG 16752 --- [main] o.e.c.i.s.DefaultStatisticsService       : Moving from UNINITIALIZED to AVAILABLE
+2025-07-19 23:32:59.985 DEBUG 16752 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaAdresaCache
+2025-07-19 23:33:00.014 DEBUG 16752 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaCache
+2025-07-19 23:33:00.023 DEBUG 16752 --- [main] org.ehcache.core.EhcacheManager          : Initialize successful.
+2025-07-19 23:33:00.163  INFO 16752 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaAdresaCache
+2025-07-19 23:33:00.166  INFO 16752 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaCache
+2025-07-19 23:33:00.196  INFO 16752 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaAdresaCache
+2025-07-19 23:33:00.197  INFO 16752 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaCache
+2025-07-19 23:33:00.601  INFO 16752 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-19 23:33:00.743  INFO 16752 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2025-07-19 23:33:01.155  INFO 16752 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-07-19 23:33:01.504  INFO 16752 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-19 23:33:01.993  INFO 16752 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-19 23:33:02.038  INFO 16752 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2025-07-19 23:33:04.556  INFO 16752 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-07-19 23:33:04.579  INFO 16752 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 23:33:07.924  WARN 16752 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-19 23:33:09.783  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@71c77042, org.springframework.security.web.context.SecurityContextPersistenceFilter@5aa0d535, org.springframework.security.web.header.HeaderWriterFilter@1082883b, org.springframework.web.filter.CorsFilter@665fb1d8, org.springframework.security.web.authentication.logout.LogoutFilter@18a9762, com.developer.onlybuns.securityauth.TokenAuthenticationFilter@142ac60e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5e59844f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@28cfbcc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@43376a03, org.springframework.security.web.session.SessionManagementFilter@27d9a016, org.springframework.security.web.access.ExceptionTranslationFilter@65018381, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1ca876b7]
+2025-07-19 23:33:09.795  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/auth/login', POST] with []
+2025-07-19 23:33:09.796  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/', GET] with []
+2025-07-19 23:33:09.797  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**', GET] with []
+2025-07-19 23:33:09.797  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/*.html', GET] with []
+2025-07-19 23:33:09.798  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='favicon.ico', GET] with []
+2025-07-19 23:33:09.798  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.html', GET] with []
+2025-07-19 23:33:09.799  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.css', GET] with []
+2025-07-19 23:33:09.799  INFO 16752 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.js', GET] with []
+2025-07-19 23:33:10.955  INFO 16752 --- [main] gistrovaniKorisnikServiceConcurrencyTest : Started RegistrovaniKorisnikServiceConcurrencyTest in 17.171 seconds (JVM running for 19.812)
+2025-07-19 23:33:11.039  INFO 16752 --- [main] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@6f19ac19 testClass = RegistrovaniKorisnikServiceConcurrencyTest, testInstance = com.developer.onlybuns.RegistrovaniKorisnikServiceConcurrencyTest@1dc47df3, testMethod = testConcurrentRegistrationWithSameUsername@RegistrovaniKorisnikServiceConcurrencyTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@119cbf96 testClass = RegistrovaniKorisnikServiceConcurrencyTest, locations = '{}', classes = '{class com.developer.onlybuns.OnlyBunsApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{spring.cache.jcache.config=classpath:ehcache-nopersist.xml, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@71c3b41, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6bf0219d, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@2cdd0d4b, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4e268090, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@26275bef, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe3c938], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@222e9ace]; rollback [true]
+2025-07-19 23:33:17.171  WARN 16752 --- [pool-5-thread-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2025-07-19 23:33:17.171  WARN 16752 --- [pool-5-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2025-07-19 23:33:17.172 ERROR 16752 --- [pool-5-thread-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "uk_g77s6vv0ql6kiqdqk084f3fxi"
+  Detail: Key (korisnicko_ime)=(duplikatKorisnik) already exists.
+2025-07-19 23:33:17.172 ERROR 16752 --- [pool-5-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "uk_87tbhltaua2a6k6jrdfl1kqap"
+  Detail: Key (email)=(korisnik1@example.com) already exists.
+2025-07-19 23:33:17.218  INFO 16752 --- [main] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@6f19ac19 testClass = RegistrovaniKorisnikServiceConcurrencyTest, testInstance = com.developer.onlybuns.RegistrovaniKorisnikServiceConcurrencyTest@1dc47df3, testMethod = testConcurrentRegistrationWithSameUsername@RegistrovaniKorisnikServiceConcurrencyTest, testException = org.opentest4j.AssertionFailedError: Samo jedan korisnik sme da bude uspešno registrovan! ==> expected: <1> but was: <0>, mergedContextConfiguration = [WebMergedContextConfiguration@119cbf96 testClass = RegistrovaniKorisnikServiceConcurrencyTest, locations = '{}', classes = '{class com.developer.onlybuns.OnlyBunsApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{spring.cache.jcache.config=classpath:ehcache-nopersist.xml, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@71c3b41, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6bf0219d, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@2cdd0d4b, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4e268090, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@26275bef, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe3c938], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]
+2025-07-19 23:33:17.257  INFO 16752 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 23:33:17.263  INFO 16752 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-19 23:33:17.270  INFO 16752 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-07-19 23:33:17.280 DEBUG 16752 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache removed lokacijaAdresaCache
+2025-07-19 23:33:17.290 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &0
+2025-07-19 23:33:17.291 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &512
+2025-07-19 23:33:17.291 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1024
+2025-07-19 23:33:17.292 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1536
+2025-07-19 23:33:17.292 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2048
+2025-07-19 23:33:17.295 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2560
+2025-07-19 23:33:17.296 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3072
+2025-07-19 23:33:17.296 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3584
+2025-07-19 23:33:17.298 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4096
+2025-07-19 23:33:17.299 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4608
+2025-07-19 23:33:17.300 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5120
+2025-07-19 23:33:17.301 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5632
+2025-07-19 23:33:17.301 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6144
+2025-07-19 23:33:17.304 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6656
+2025-07-19 23:33:17.304 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7168
+2025-07-19 23:33:17.308 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7680
+2025-07-19 23:33:17.311  INFO 16752 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaAdresaCache' removed from EhcacheManager.
+2025-07-19 23:33:17.312 DEBUG 16752 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache removed lokacijaCache
+2025-07-19 23:33:17.313 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &0
+2025-07-19 23:33:17.317 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &512
+2025-07-19 23:33:17.318 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1024
+2025-07-19 23:33:17.319 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1536
+2025-07-19 23:33:17.319 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2048
+2025-07-19 23:33:17.319 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2560
+2025-07-19 23:33:17.320 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3072
+2025-07-19 23:33:17.320 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3584
+2025-07-19 23:33:17.321 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4096
+2025-07-19 23:33:17.321 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4608
+2025-07-19 23:33:17.321 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5120
+2025-07-19 23:33:17.323 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5632
+2025-07-19 23:33:17.323 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6144
+2025-07-19 23:33:17.323 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6656
+2025-07-19 23:33:17.324 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7168
+2025-07-19 23:33:17.324 DEBUG 16752 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7680
+2025-07-19 23:33:17.325  INFO 16752 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaCache' removed from EhcacheManager.
+2025-07-19 23:33:17.326 DEBUG 16752 --- [main] org.ehcache.core.spi.ServiceLocator      : Stopping 18 Services...
+2025-07-19 23:33:17.343 DEBUG 16752 --- [main] o.e.c.i.s.DefaultStatisticsService       : Stopping service
+2025-07-19 23:33:17.344 DEBUG 16752 --- [main] org.ehcache.core.spi.ServiceLocator      : All Services successfully stopped, 18 Services in 18ms
+2025-07-19 23:33:17.344 DEBUG 16752 --- [main] org.ehcache.core.EhcacheManager          : Close successful.
+2025-07-19 23:33:52.055  WARN 14316 --- [main] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Zarko/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Zarko/.m2/repository/org/json/json/20250107/json-20250107.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-19 23:33:52.085  INFO 14316 --- [main] gistrovaniKorisnikServiceConcurrencyTest : Starting RegistrovaniKorisnikServiceConcurrencyTest using Java 17.0.13 on DESKTOP-UOVFG2R with PID 14316 (started by Zarko in C:\Users\Zarko\Documents\TijanaFaks\IsaOnlyBuns\OnlyBunsApplication)
+2025-07-19 23:33:52.085  INFO 14316 --- [main] gistrovaniKorisnikServiceConcurrencyTest : The following profiles are active: test
+2025-07-19 23:33:53.697  INFO 14316 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-19 23:33:53.912  INFO 14316 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 198 ms. Found 9 JPA repository interfaces.
+2025-07-19 23:33:55.601  INFO 14316 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'onlyBunsApplication' of type [com.developer.onlybuns.OnlyBunsApplication$$EnhancerBySpringCGLIB$$2deb278d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:33:56.187  INFO 14316 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@1b410308' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:33:56.240  INFO 14316 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:33:57.475 DEBUG 14316 --- [main] org.ehcache.core.spi.ServiceLocator      : Starting 18 Services...
+2025-07-19 23:33:57.489 DEBUG 14316 --- [main] o.e.c.i.s.DefaultStatisticsService       : Starting service
+2025-07-19 23:33:57.493 DEBUG 14316 --- [main] org.ehcache.core.spi.ServiceLocator      : All Services successfully started, 18 Services in 18ms
+2025-07-19 23:33:57.495 DEBUG 14316 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaAdresaCache' in EhcacheManager.
+2025-07-19 23:33:57.500 DEBUG 14316 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@7f22687e
+2025-07-19 23:33:57.504 DEBUG 14316 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@16e1219f
+2025-07-19 23:33:57.524 DEBUG 14316 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@6ce26986
+2025-07-19 23:33:57.525 DEBUG 14316 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@2bf2d6eb
+2025-07-19 23:33:57.575 DEBUG 14316 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-19 23:33:57.757  INFO 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-19 23:33:57.767 DEBUG 14316 --- [pool-1-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-19 23:33:57.768 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 10 ms to create off-heap storage of 10.0MB.
+2025-07-19 23:33:57.824 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-19 23:33:57.826 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-19 23:33:57.826 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-19 23:33:57.827 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-19 23:33:57.828 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-19 23:33:57.828 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-19 23:33:57.829 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-19 23:33:57.830 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-19 23:33:57.830 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-19 23:33:57.831 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-19 23:33:57.831 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-19 23:33:57.832 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-19 23:33:57.833 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-19 23:33:57.834 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-19 23:33:57.835 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-19 23:33:57.835 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-19 23:33:57.836  INFO 14316 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaAdresaCache' created in EhcacheManager.
+2025-07-19 23:33:57.836 DEBUG 14316 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaCache' in EhcacheManager.
+2025-07-19 23:33:57.837 DEBUG 14316 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.Integer> : org.ehcache.impl.serialization.IntegerSerializer@1c6e3ff9
+2025-07-19 23:33:57.838 DEBUG 14316 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.serialization.PlainJavaSerializer@76e6c070
+2025-07-19 23:33:57.839 DEBUG 14316 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.Integer> : org.ehcache.impl.copy.IdentityCopier@184afb78
+2025-07-19 23:33:57.840 DEBUG 14316 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.copy.IdentityCopier@22da200e
+2025-07-19 23:33:57.841 DEBUG 14316 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-19 23:33:57.851  INFO 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-19 23:33:57.855 DEBUG 14316 --- [pool-2-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-19 23:33:57.855 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 4 ms to create off-heap storage of 10.0MB.
+2025-07-19 23:33:57.856 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-19 23:33:57.856 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-19 23:33:57.857 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-19 23:33:57.858 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-19 23:33:57.858 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-19 23:33:57.858 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-19 23:33:57.859 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-19 23:33:57.859 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-19 23:33:57.859 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-19 23:33:57.860 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-19 23:33:57.860 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-19 23:33:57.860 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-19 23:33:57.861 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-19 23:33:57.861 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-19 23:33:57.861 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-19 23:33:57.862 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-19 23:33:57.862  INFO 14316 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaCache' created in EhcacheManager.
+2025-07-19 23:33:57.862 DEBUG 14316 --- [main] o.e.c.i.s.DefaultStatisticsService       : Moving from UNINITIALIZED to AVAILABLE
+2025-07-19 23:33:57.863 DEBUG 14316 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaAdresaCache
+2025-07-19 23:33:57.886 DEBUG 14316 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaCache
+2025-07-19 23:33:57.897 DEBUG 14316 --- [main] org.ehcache.core.EhcacheManager          : Initialize successful.
+2025-07-19 23:33:58.030  INFO 14316 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaAdresaCache
+2025-07-19 23:33:58.034  INFO 14316 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaCache
+2025-07-19 23:33:58.065  INFO 14316 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaAdresaCache
+2025-07-19 23:33:58.067  INFO 14316 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaCache
+2025-07-19 23:33:58.574  INFO 14316 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-19 23:33:58.720  INFO 14316 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2025-07-19 23:33:59.059  INFO 14316 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-07-19 23:33:59.449  INFO 14316 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-19 23:33:59.881  INFO 14316 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-19 23:33:59.937  INFO 14316 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2025-07-19 23:34:02.378  INFO 14316 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-07-19 23:34:02.401  INFO 14316 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 23:34:05.595  WARN 14316 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-19 23:34:07.608  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@663d59ed, org.springframework.security.web.context.SecurityContextPersistenceFilter@628721ba, org.springframework.security.web.header.HeaderWriterFilter@736de3b6, org.springframework.web.filter.CorsFilter@64d49e35, org.springframework.security.web.authentication.logout.LogoutFilter@5ac3c6cd, com.developer.onlybuns.securityauth.TokenAuthenticationFilter@665902eb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3c67b7a9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@67b6cb6e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60580e42, org.springframework.security.web.session.SessionManagementFilter@67bf393c, org.springframework.security.web.access.ExceptionTranslationFilter@75a0e0c2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@43e7ca6f]
+2025-07-19 23:34:07.622  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/auth/login', POST] with []
+2025-07-19 23:34:07.622  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/', GET] with []
+2025-07-19 23:34:07.623  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**', GET] with []
+2025-07-19 23:34:07.624  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/*.html', GET] with []
+2025-07-19 23:34:07.625  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='favicon.ico', GET] with []
+2025-07-19 23:34:07.625  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.html', GET] with []
+2025-07-19 23:34:07.626  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.css', GET] with []
+2025-07-19 23:34:07.627  INFO 14316 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.js', GET] with []
+2025-07-19 23:34:08.833  INFO 14316 --- [main] gistrovaniKorisnikServiceConcurrencyTest : Started RegistrovaniKorisnikServiceConcurrencyTest in 17.486 seconds (JVM running for 20.12)
+2025-07-19 23:34:08.916  INFO 14316 --- [main] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@119cbf96 testClass = RegistrovaniKorisnikServiceConcurrencyTest, testInstance = com.developer.onlybuns.RegistrovaniKorisnikServiceConcurrencyTest@3c6c87fa, testMethod = testConcurrentRegistrationWithSameUsername@RegistrovaniKorisnikServiceConcurrencyTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@71329995 testClass = RegistrovaniKorisnikServiceConcurrencyTest, locations = '{}', classes = '{class com.developer.onlybuns.OnlyBunsApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{spring.cache.jcache.config=classpath:ehcache-nopersist.xml, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@236e3f4e, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@dd0c991, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@7e9131d5, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@1bb266b3, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@7690781, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe3c938], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@75daa568]; rollback [true]
+2025-07-19 23:34:14.963  WARN 14316 --- [pool-4-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2025-07-19 23:34:14.964 ERROR 14316 --- [pool-4-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "uk_87tbhltaua2a6k6jrdfl1kqap"
+  Detail: Key (email)=(korisnik1@example.com) already exists.
+2025-07-19 23:34:14.963  WARN 14316 --- [pool-4-thread-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2025-07-19 23:34:14.966 ERROR 14316 --- [pool-4-thread-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "uk_g77s6vv0ql6kiqdqk084f3fxi"
+  Detail: Key (korisnicko_ime)=(duplikatKorisnik) already exists.
+2025-07-19 23:34:15.005  INFO 14316 --- [main] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@119cbf96 testClass = RegistrovaniKorisnikServiceConcurrencyTest, testInstance = com.developer.onlybuns.RegistrovaniKorisnikServiceConcurrencyTest@3c6c87fa, testMethod = testConcurrentRegistrationWithSameUsername@RegistrovaniKorisnikServiceConcurrencyTest, testException = org.opentest4j.AssertionFailedError: Samo jedan korisnik sme da bude uspešno registrovan! ==> expected: <1> but was: <0>, mergedContextConfiguration = [WebMergedContextConfiguration@71329995 testClass = RegistrovaniKorisnikServiceConcurrencyTest, locations = '{}', classes = '{class com.developer.onlybuns.OnlyBunsApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{spring.cache.jcache.config=classpath:ehcache-nopersist.xml, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@236e3f4e, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@dd0c991, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@7e9131d5, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@1bb266b3, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@7690781, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe3c938], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]
+2025-07-19 23:34:15.039  INFO 14316 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 23:34:15.044  INFO 14316 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-19 23:34:15.051  INFO 14316 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-07-19 23:34:15.060 DEBUG 14316 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache removed lokacijaAdresaCache
+2025-07-19 23:34:15.074 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &0
+2025-07-19 23:34:15.074 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &512
+2025-07-19 23:34:15.075 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1024
+2025-07-19 23:34:15.076 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1536
+2025-07-19 23:34:15.077 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2048
+2025-07-19 23:34:15.078 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2560
+2025-07-19 23:34:15.079 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3072
+2025-07-19 23:34:15.080 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3584
+2025-07-19 23:34:15.081 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4096
+2025-07-19 23:34:15.082 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4608
+2025-07-19 23:34:15.083 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5120
+2025-07-19 23:34:15.083 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5632
+2025-07-19 23:34:15.086 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6144
+2025-07-19 23:34:15.087 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6656
+2025-07-19 23:34:15.088 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7168
+2025-07-19 23:34:15.089 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7680
+2025-07-19 23:34:15.092  INFO 14316 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaAdresaCache' removed from EhcacheManager.
+2025-07-19 23:34:15.092 DEBUG 14316 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache removed lokacijaCache
+2025-07-19 23:34:15.094 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &0
+2025-07-19 23:34:15.094 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &512
+2025-07-19 23:34:15.095 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1024
+2025-07-19 23:34:15.096 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1536
+2025-07-19 23:34:15.096 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2048
+2025-07-19 23:34:15.097 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2560
+2025-07-19 23:34:15.098 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3072
+2025-07-19 23:34:15.099 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3584
+2025-07-19 23:34:15.100 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4096
+2025-07-19 23:34:15.101 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4608
+2025-07-19 23:34:15.102 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5120
+2025-07-19 23:34:15.103 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5632
+2025-07-19 23:34:15.104 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6144
+2025-07-19 23:34:15.104 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6656
+2025-07-19 23:34:15.105 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7168
+2025-07-19 23:34:15.106 DEBUG 14316 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7680
+2025-07-19 23:34:15.114  INFO 14316 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaCache' removed from EhcacheManager.
+2025-07-19 23:34:15.116 DEBUG 14316 --- [main] org.ehcache.core.spi.ServiceLocator      : Stopping 18 Services...
+2025-07-19 23:34:15.138 DEBUG 14316 --- [main] o.e.c.i.s.DefaultStatisticsService       : Stopping service
+2025-07-19 23:34:15.139 DEBUG 14316 --- [main] org.ehcache.core.spi.ServiceLocator      : All Services successfully stopped, 18 Services in 23ms
+2025-07-19 23:34:15.139 DEBUG 14316 --- [main] org.ehcache.core.EhcacheManager          : Close successful.
+2025-07-19 23:36:20.273  WARN 660 --- [main] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/Zarko/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/Zarko/.m2/repository/org/json/json/20250107/json-20250107.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-07-19 23:36:20.313  INFO 660 --- [main] gistrovaniKorisnikServiceConcurrencyTest : Starting RegistrovaniKorisnikServiceConcurrencyTest using Java 17.0.13 on DESKTOP-UOVFG2R with PID 660 (started by Zarko in C:\Users\Zarko\Documents\TijanaFaks\IsaOnlyBuns\OnlyBunsApplication)
+2025-07-19 23:36:20.314  INFO 660 --- [main] gistrovaniKorisnikServiceConcurrencyTest : The following profiles are active: test
+2025-07-19 23:36:21.950  INFO 660 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-19 23:36:22.173  INFO 660 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 204 ms. Found 9 JPA repository interfaces.
+2025-07-19 23:36:23.648  INFO 660 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'onlyBunsApplication' of type [com.developer.onlybuns.OnlyBunsApplication$$EnhancerBySpringCGLIB$$2deb278d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:36:24.097  INFO 660 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@1b410308' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:36:24.155  INFO 660 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-19 23:36:25.451 DEBUG 660 --- [main] org.ehcache.core.spi.ServiceLocator      : Starting 18 Services...
+2025-07-19 23:36:25.465 DEBUG 660 --- [main] o.e.c.i.s.DefaultStatisticsService       : Starting service
+2025-07-19 23:36:25.468 DEBUG 660 --- [main] org.ehcache.core.spi.ServiceLocator      : All Services successfully started, 18 Services in 17ms
+2025-07-19 23:36:25.470 DEBUG 660 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaAdresaCache' in EhcacheManager.
+2025-07-19 23:36:25.475 DEBUG 660 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@7f22687e
+2025-07-19 23:36:25.478 DEBUG 660 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@16e1219f
+2025-07-19 23:36:25.496 DEBUG 660 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@6ce26986
+2025-07-19 23:36:25.497 DEBUG 660 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@2bf2d6eb
+2025-07-19 23:36:25.540 DEBUG 660 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-19 23:36:25.710  INFO 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-19 23:36:25.717 DEBUG 660 --- [pool-1-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-19 23:36:25.718 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 8 ms to create off-heap storage of 10.0MB.
+2025-07-19 23:36:25.773 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-19 23:36:25.774 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-19 23:36:25.775 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-19 23:36:25.775 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-19 23:36:25.776 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-19 23:36:25.777 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-19 23:36:25.778 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-19 23:36:25.778 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-19 23:36:25.779 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-19 23:36:25.779 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-19 23:36:25.780 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-19 23:36:25.780 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-19 23:36:25.781 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-19 23:36:25.782 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-19 23:36:25.782 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-19 23:36:25.783 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-19 23:36:25.783  INFO 660 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaAdresaCache' created in EhcacheManager.
+2025-07-19 23:36:25.784 DEBUG 660 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaCache' in EhcacheManager.
+2025-07-19 23:36:25.784 DEBUG 660 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.Integer> : org.ehcache.impl.serialization.IntegerSerializer@1c6e3ff9
+2025-07-19 23:36:25.785 DEBUG 660 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.serialization.PlainJavaSerializer@76e6c070
+2025-07-19 23:36:25.786 DEBUG 660 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.Integer> : org.ehcache.impl.copy.IdentityCopier@184afb78
+2025-07-19 23:36:25.786 DEBUG 660 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.copy.IdentityCopier@22da200e
+2025-07-19 23:36:25.787 DEBUG 660 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-19 23:36:25.797  INFO 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-19 23:36:25.800 DEBUG 660 --- [pool-2-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-19 23:36:25.801 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 4 ms to create off-heap storage of 10.0MB.
+2025-07-19 23:36:25.802 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-19 23:36:25.803 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-19 23:36:25.803 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-19 23:36:25.804 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-19 23:36:25.805 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-19 23:36:25.805 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-19 23:36:25.805 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-19 23:36:25.806 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-19 23:36:25.806 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-19 23:36:25.807 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-19 23:36:25.807 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-19 23:36:25.808 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-19 23:36:25.808 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-19 23:36:25.809 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-19 23:36:25.809 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-19 23:36:25.809 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-19 23:36:25.810  INFO 660 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaCache' created in EhcacheManager.
+2025-07-19 23:36:25.810 DEBUG 660 --- [main] o.e.c.i.s.DefaultStatisticsService       : Moving from UNINITIALIZED to AVAILABLE
+2025-07-19 23:36:25.811 DEBUG 660 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaAdresaCache
+2025-07-19 23:36:25.842 DEBUG 660 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaCache
+2025-07-19 23:36:25.851 DEBUG 660 --- [main] org.ehcache.core.EhcacheManager          : Initialize successful.
+2025-07-19 23:36:25.998  INFO 660 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaAdresaCache
+2025-07-19 23:36:26.002  INFO 660 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaCache
+2025-07-19 23:36:26.041  INFO 660 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaAdresaCache
+2025-07-19 23:36:26.043  INFO 660 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-nopersist.xml,Cache=lokacijaCache
+2025-07-19 23:36:26.527  INFO 660 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-19 23:36:26.657  INFO 660 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2025-07-19 23:36:27.032  INFO 660 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-07-19 23:36:27.413  INFO 660 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-19 23:36:27.878  INFO 660 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-19 23:36:27.933  INFO 660 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2025-07-19 23:36:30.362  INFO 660 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-07-19 23:36:30.385  INFO 660 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 23:36:33.508  WARN 660 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-19 23:36:35.491  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a7b42db, org.springframework.security.web.context.SecurityContextPersistenceFilter@642ebd4c, org.springframework.security.web.header.HeaderWriterFilter@5146ae5e, org.springframework.web.filter.CorsFilter@6e6bb211, org.springframework.security.web.authentication.logout.LogoutFilter@6070990b, com.developer.onlybuns.securityauth.TokenAuthenticationFilter@5926f291, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@73e21fb5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@62371858, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5f0c04d2, org.springframework.security.web.session.SessionManagementFilter@786125a6, org.springframework.security.web.access.ExceptionTranslationFilter@6a4bd9e4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3a5922ec]
+2025-07-19 23:36:35.503  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/auth/login', POST] with []
+2025-07-19 23:36:35.504  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/', GET] with []
+2025-07-19 23:36:35.505  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**', GET] with []
+2025-07-19 23:36:35.505  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/*.html', GET] with []
+2025-07-19 23:36:35.506  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='favicon.ico', GET] with []
+2025-07-19 23:36:35.506  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.html', GET] with []
+2025-07-19 23:36:35.506  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.css', GET] with []
+2025-07-19 23:36:35.507  INFO 660 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.js', GET] with []
+2025-07-19 23:36:36.664  INFO 660 --- [main] gistrovaniKorisnikServiceConcurrencyTest : Started RegistrovaniKorisnikServiceConcurrencyTest in 17.067 seconds (JVM running for 19.579)
+2025-07-19 23:36:36.732  INFO 660 --- [main] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@6f19ac19 testClass = RegistrovaniKorisnikServiceConcurrencyTest, testInstance = com.developer.onlybuns.RegistrovaniKorisnikServiceConcurrencyTest@1ef6977b, testMethod = testConcurrentRegistrationWithSameUsername@RegistrovaniKorisnikServiceConcurrencyTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@119cbf96 testClass = RegistrovaniKorisnikServiceConcurrencyTest, locations = '{}', classes = '{class com.developer.onlybuns.OnlyBunsApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{spring.cache.jcache.config=classpath:ehcache-nopersist.xml, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@71c3b41, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6bf0219d, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@2cdd0d4b, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4e268090, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@26275bef, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe3c938], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@21f41593]; rollback [true]
+2025-07-19 23:36:42.771  WARN 660 --- [pool-4-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2025-07-19 23:36:42.772 ERROR 660 --- [pool-4-thread-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "uk_g77s6vv0ql6kiqdqk084f3fxi"
+  Detail: Key (korisnicko_ime)=(duplikatKorisnik) already exists.
+2025-07-19 23:36:42.798  INFO 660 --- [main] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@6f19ac19 testClass = RegistrovaniKorisnikServiceConcurrencyTest, testInstance = com.developer.onlybuns.RegistrovaniKorisnikServiceConcurrencyTest@1ef6977b, testMethod = testConcurrentRegistrationWithSameUsername@RegistrovaniKorisnikServiceConcurrencyTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@119cbf96 testClass = RegistrovaniKorisnikServiceConcurrencyTest, locations = '{}', classes = '{class com.developer.onlybuns.OnlyBunsApplication}', contextInitializerClasses = '[]', activeProfiles = '{test}', propertySourceLocations = '{}', propertySourceProperties = '{spring.cache.jcache.config=classpath:ehcache-nopersist.xml, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@71c3b41, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6bf0219d, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@2cdd0d4b, org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4e268090, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@26275bef, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@4fe3c938], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -> true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -> true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -> false]]
+2025-07-19 23:36:42.827  INFO 660 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 23:36:42.832  INFO 660 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-19 23:36:42.848  INFO 660 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-07-19 23:36:42.855 DEBUG 660 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache removed lokacijaAdresaCache
+2025-07-19 23:36:42.869 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &0
+2025-07-19 23:36:42.869 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &512
+2025-07-19 23:36:42.869 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1024
+2025-07-19 23:36:42.870 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1536
+2025-07-19 23:36:42.870 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2048
+2025-07-19 23:36:42.870 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2560
+2025-07-19 23:36:42.872 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3072
+2025-07-19 23:36:42.873 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3584
+2025-07-19 23:36:42.874 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4096
+2025-07-19 23:36:42.874 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4608
+2025-07-19 23:36:42.875 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5120
+2025-07-19 23:36:42.875 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5632
+2025-07-19 23:36:42.877 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6144
+2025-07-19 23:36:42.877 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6656
+2025-07-19 23:36:42.880 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7168
+2025-07-19 23:36:42.881 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7680
+2025-07-19 23:36:42.883  INFO 660 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaAdresaCache' removed from EhcacheManager.
+2025-07-19 23:36:42.884 DEBUG 660 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache removed lokacijaCache
+2025-07-19 23:36:42.885 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &0
+2025-07-19 23:36:42.886 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &512
+2025-07-19 23:36:42.886 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1024
+2025-07-19 23:36:42.886 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &1536
+2025-07-19 23:36:42.886 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2048
+2025-07-19 23:36:42.887 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &2560
+2025-07-19 23:36:42.887 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3072
+2025-07-19 23:36:42.887 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &3584
+2025-07-19 23:36:42.887 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4096
+2025-07-19 23:36:42.888 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &4608
+2025-07-19 23:36:42.888 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5120
+2025-07-19 23:36:42.888 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &5632
+2025-07-19 23:36:42.889 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6144
+2025-07-19 23:36:42.890 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &6656
+2025-07-19 23:36:42.891 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7168
+2025-07-19 23:36:42.893 DEBUG 660 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Freeing a 512B buffer from chunk 0 &7680
+2025-07-19 23:36:42.894  INFO 660 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaCache' removed from EhcacheManager.
+2025-07-19 23:36:42.895 DEBUG 660 --- [main] org.ehcache.core.spi.ServiceLocator      : Stopping 18 Services...
+2025-07-19 23:36:42.918 DEBUG 660 --- [main] o.e.c.i.s.DefaultStatisticsService       : Stopping service
+2025-07-19 23:36:42.919 DEBUG 660 --- [main] org.ehcache.core.spi.ServiceLocator      : All Services successfully stopped, 18 Services in 24ms
+2025-07-19 23:36:42.920 DEBUG 660 --- [main] org.ehcache.core.EhcacheManager          : Close successful.

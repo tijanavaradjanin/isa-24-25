@@ -1,35 +1,65 @@
 package com.developer.onlybuns.service.impl;
 
 import com.developer.onlybuns.entity.RegistrovaniKorisnik;
+import com.developer.onlybuns.entity.Uloga;
 import com.developer.onlybuns.repository.RegistrovaniKorisnikRepository;
+import com.developer.onlybuns.repository.UlogaRepository;
 import com.developer.onlybuns.service.RegistrovaniKorisnikService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
     private final RegistrovaniKorisnikRepository registrovaniKorisnikRepository;
 
-    public RegistrovaniKorisnikImpl(RegistrovaniKorisnikRepository registrovaniKorisnikRepository) {
+    @Autowired
+    private final UlogaRepository ulogaRepository;
+
+    public RegistrovaniKorisnikImpl(RegistrovaniKorisnikRepository registrovaniKorisnikRepository, UlogaRepository ulogaRepository) {
         this.registrovaniKorisnikRepository = registrovaniKorisnikRepository;
+        this.ulogaRepository=ulogaRepository;
     }
 
     @Override
-    public List<RegistrovaniKorisnik> findAllRegistrovaniKorisnik() {
-        return registrovaniKorisnikRepository.findAll();
+    public Optional<RegistrovaniKorisnik> findByEmail(String email) {
+        return registrovaniKorisnikRepository.findByEmail(email);
     }
 
     @Override
-    public Optional<RegistrovaniKorisnik> findById(Integer id) {
-        return registrovaniKorisnikRepository.findById(id);
+    public RegistrovaniKorisnik findByKorisnickoIme(String korisnickoIme) {
+        return registrovaniKorisnikRepository.findByKorisnickoIme(korisnickoIme);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public RegistrovaniKorisnik saveRegistrovaniKorisnik(RegistrovaniKorisnik registrovaniKorisnikEntity) {
-        return registrovaniKorisnikRepository.save(registrovaniKorisnikEntity);
+        try {
+            // Simulacija sporog rada (npr. da drugi thread upadne u isto vreme)
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+            Timestamp now = new Timestamp(new Date().getTime());
+            registrovaniKorisnikEntity.setLastPasswordResetDate(now);
+            registrovaniKorisnikEntity.setEnabled(true);
+            Uloga korisnikUloga = ulogaRepository.findByNaziv("KORISNIK");
+            registrovaniKorisnikEntity.setUloga(korisnikUloga);
+            registrovaniKorisnikEntity.setPassword(passwordEncoder.encode(registrovaniKorisnikEntity.getPassword()));
+            return registrovaniKorisnikRepository.save(registrovaniKorisnikEntity);
     }
 
     @Override
@@ -38,40 +68,8 @@ public class RegistrovaniKorisnikImpl implements RegistrovaniKorisnikService {
     }
 
     @Override
-    public void deleteRegistrovaniKorisnik(Integer id) {
-        registrovaniKorisnikRepository.deleteById(id);
-    }
-
-    @Override
     public List<String> getAllEmails() {
         return registrovaniKorisnikRepository.findAllEmails();
     }
-
-    @Override
-    public RegistrovaniKorisnik proveriKorisnika(String email, String password) {
-        RegistrovaniKorisnik korisnik = registrovaniKorisnikRepository.findByEmailAndPassword(email, password);
-        return korisnik;
-    }
-/*   Using Request and Response with save and update registrovaniKorisnik
-
-    @Override
-    public RegistrovaniKorisnikResponse saveRegistrovaniKorisnik(RegistrovaniKorisnikRequest registrovaniKorisnikRequest) {
-        RegistrovaniKorisnik registrovaniKorisnikEntity = RegistrovaniKorisnikMapper.MAPPER.fromRequestToEntity(registrovaniKorisnikRequest);
-        registrovaniKorisnikRepository.save(registrovaniKorisnikEntity);
-        return RegistrovaniKorisnikMapper.MAPPER.fromEntityToResponse(registrovaniKorisnikEntity);
-    }
-
-    @Override
-    public RegistrovaniKorisnikResponse updateRegistrovaniKorisnik(RegistrovaniKorisnikRequest registrovaniKorisnikRequest, Integer id) {
-
-        Optional<RegistrovaniKorisnik> checkExistingRegistrovaniKorisnik = findById(id);
-        if (! checkExistingRegistrovaniKorisnik.isPresent())
-            throw new RuntimeException("RegistrovaniKorisnik Id "+ id + " Not Found!");
-
-        RegistrovaniKorisnik registrovaniKorisnikEntity = RegistrovaniKorisnikMapper.MAPPER.fromRequestToEntity(registrovaniKorisnikRequest);
-        registrovaniKorisnikEntity.setId(id);
-        registrovaniKorisnikRepository.save(registrovaniKorisnikEntity);
-        return RegistrovaniKorisnikMapper.MAPPER.fromEntityToResponse(registrovaniKorisnikEntity);
-    }
-*/
+    
 }

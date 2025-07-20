@@ -1,265 +1,199 @@
-import * as React from 'react';
-import{ useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
-
-const defaultTheme = createTheme();
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import '../css/Prijavljivanje.css'; 
+import '../css/Registrovanje.css';
+import { Typography} from '@mui/material';
 
 export default function Registrovanje() {
-  const[ime,setIme]=useState('')
-  const[prezime,setPrezime]=useState('')
-  const[grad,setGrad]=useState('')
-  const[drzava,setDrzava]=useState('')
-  const[broj,setBroj]=useState('')
-  const [brojError, setBrojError] = useState(false);
-  const[info,setInfo]=useState('')
-  const[email,setEmail]=useState('')
-  const [emailError, setEmailError] = useState(false);
-  const[password,setPassword]=useState('')
-  const [repeatPassword, setRepeatPassword] = useState(''); // Dodato stanje za ponovljenu lozinku
-  const [passwordMismatch, setPasswordMismatch] = useState(false); // Dodato stanje za praćenje neuspešnog podudaranja
-  const [errorMessage, setErrorMessage] = useState('');
+  const [ime, setIme] = useState("");
+  const [prezime, setPrezime] = useState("");
+  const [korisnickoIme, setKorisnickoIme] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [potvrdaLozinke, setPotvrdaLozinke] = useState("");
+  const [grad, setGrad] = useState(""); 
+  const [ulica, setUlica] = useState("");
+  const [brojKuce, setBrojKuce] = useState("");
+  const [drzava, setDrzava] = useState("");
+  const [broj, setBroj] = useState("");
+  const [info, setInfo] = useState("");
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-  const validateBroj = (inputBroj) => {
-    const brojRegex = /^\d{10}$/; // Regex za desetocifren broj
-    return brojRegex.test(inputBroj);
-  };
-  const handleBrojChange = (e) => {
-    const newBroj = e.target.value;
-    setBroj(newBroj);
-  
-    // Provera formata broja telefona
-    setBrojError(!validateBroj(newBroj));
-  };
-
-  // Funkcija za proveru formata e-mail adrese
-  const validateEmail = (inputEmail) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex za proveru formata e-mail adrese
-    return emailRegex.test(inputEmail);
-  };
-  // Event handler za promenu vrednosti e-mail adrese
-  const handleEmailChange = (e) => {
-    const newEmail = e.target.value;
-    setEmail(newEmail);
-  
-    // Provera formata e-mail adrese
-    setEmailError(!validateEmail(newEmail));
-  };  
-
-  const checkEmailExists = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/registrovaniKorisnik/emails");
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      return data.includes(email);
-    } catch (error) {
-      console.error("Error checking email:", error);
-      return false;
-    }
-  };
-
-  
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    // Provera podudaranja lozinki
-    if (password !== repeatPassword) {
-      setPasswordMismatch(true);
-      return;
-    }
-
-    if (!validateBroj(broj)) {
-      setErrorMessage('Unesite ispravan broj telefona.');
-      return;
-    }
-
-    if (!ime || !prezime || !grad || !drzava || !broj || !info || !email || !password || !repeatPassword) {
-      setErrorMessage('Podaci nisu dobro popunjeni.');
-      return;
-    }
-
-    const emailExists = await checkEmailExists();
-    if (emailExists) {
-      setErrorMessage('Email adresa već postoji.');
-      return;
-    }
-    const korisnik = {ime, prezime, grad, drzava, broj, email, password, info}
-    console.log(korisnik);
-    
-    setErrorMessage('');
-
-
-    fetch("http://localhost:8080/registrovaniKorisnik/add",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(korisnik)
-
-     }).then(()=>{
-        console.log("Novi korisnik dodat")
-     })
-};
-
+    const korisnik = { ime, prezime, korisnickoIme, email, password, potvrdaLozinke, grad, drzava, ulica, brojKuce, broj, info };
+  
+    fetch("http://localhost:8080/registrovaniKorisnik/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(korisnik),
+    })
+      .then((response) => {
+        return response.text().then((text) => {
+          if (!response.ok) {
+            throw new Error(text);
+          }
+          return JSON.parse(text);
+        });
+      })
+      .then(() => {
+        alert("Registracija uspešna! Preusmeravamo vas na prijavu...");
+        navigate("/prijava");
+      })
+      .catch((error) => {
+        try {
+          const errorData = JSON.parse(error.message);
+          setErrors(errorData);
+        } catch {
+          setErrors({ global: error.message });
+        }
+      });
+  };
+  
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Registruj se
+    <div className="registrovanje-container">
+      <form className="prijavljivanje-form" onSubmit={handleSubmit}>
+        <h1 className="registrovanje-title">Kreiraj nalog</h1>
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Ime"
+            className={`registrovanje-input ${errors.ime ? "error-border" : ""}`}
+            value={ime}
+            onChange={(e) => setIme(e.target.value)}
+          />
+          {errors.ime && <span className="error-text">{errors.ime}</span>}
+        </div>
+        
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Prezime"
+            className={`registrovanje-input ${errors.prezime ? "error-border" : ""}`}
+            value={prezime}
+            onChange={(e) => setPrezime(e.target.value)}
+          />
+          {errors.prezime && <span className="error-text">{errors.prezime}</span>}
+        </div>
+        
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Korisnicko ime"
+            className={`registrovanje-input ${errors.korisnickoIme ? "error-border" : ""}`}
+            value={korisnickoIme}
+            onChange={(e) => setKorisnickoIme(e.target.value)}
+          />
+          {errors.korisnickoIme && <span className="error-text">{errors.korisnickoIme}</span>}
+        </div>
+        
+        <div className="input-group">
+          <input
+            type="email"
+            placeholder="E-mail"
+            className={`registrovanje-input ${errors.email ? "error-border" : ""}`}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {errors.email && <span className="error-text">{errors.email}</span>}
+        </div>
+        
+        <div className="input-group">
+          <input
+            type="password"
+            placeholder="Lozinka"
+            className={`registrovanje-input ${errors.password ? "error-border" : ""}`}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {errors.password && <span className="error-text">{errors.password}</span>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="password"
+            placeholder="Potvrda lozinke"
+            className={`registrovanje-input ${errors.potvrdaLozinke ? "error-border" : ""}`}
+            value={potvrdaLozinke}
+            onChange={(e) => setPotvrdaLozinke(e.target.value)}
+          />
+          {errors.potvrdaLozinke && <span className="error-text">{errors.potvrdaLozinke}</span>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Ulica"
+            className={`registrovanje-input ${errors.ulica ? "error-border" : ""}`}
+            value={ulica}
+            onChange={(e) => setUlica(e.target.value)}
+          />
+          {errors.ulica && <span className="error-text">{errors.ulica}</span>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Broj kuce/stana:"
+            className={`registrovanje-input ${errors.brojKuce ? "error-border" : ""}`}
+            value={brojKuce}
+            onChange={(e) => setBrojKuce(e.target.value)}
+          />
+          {errors.brojKuce && <span className="error-text">{errors.brojKuce}</span>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Grad"
+            className={`registrovanje-input ${errors.grad ? "error-border" : ""}`}
+            value={grad}
+            onChange={(e) => setGrad(e.target.value)}
+          />
+          {errors.grad && <span className="error-text">{errors.grad}</span>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Drzava"
+            className={`registrovanje-input ${errors.drzava ? "error-border" : ""}`}
+            value={drzava}
+            onChange={(e) => setDrzava(e.target.value)}
+          />
+          {errors.drzava && <span className="error-text">{errors.drzava}</span>}
+        </div>
+
+        <div className="input-group">
+          {errors.broj && <p className="error-message">{errors.broj}</p>}
+          <input type="text" placeholder="Broj telefona" className="registrovanje-input" value={broj} onChange={(e) => setBroj(e.target.value)} />
+        </div>
+
+        <div className="input-group">
+          {errors.info && <p className="error-message">{errors.info}</p>}
+          <input type="text" placeholder="Dodatne informacije" className="registrovanje-input" value={info} onChange={(e) => setInfo(e.target.value)} />
+        </div>
+        
+        <button type="submit" className="prijavljivanje-button">Registruj se</button>
+        {errors.global && (
+            <p style={{ 
+              color: "red", 
+              textAlign: "center", 
+              marginTop: "20px", 
+              fontWeight: "bold", 
+              fontSize: "1rem" 
+            }}>
+              {errors.global}
+            </p>
+          )}
+          <Typography component="div" style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
+            <span>Već imaš nalog?</span>
+              <Link to="/prijava" className="prijavljivanje-link" style={{ marginLeft: "5px" }}>
+                Prijavi se
+              </Link>
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="ime"
-              label="Ime"
-              name="ime"
-              autoComplete="ime"
-              autoFocus
-              value={ime}
-              onChange={(e)=>setIme(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="prezime"
-              label="Prezime"
-              name="prezime"
-              autoComplete="prezime"
-              value={prezime}
-              onChange={(e)=>setPrezime(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={handleEmailChange}
-              error={emailError}
-              helperText={emailError ? 'Unesite validnu e-mail adresu' : ''}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Lozinka"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="repeatPassword"
-              label="Ponovi Lozinku"
-             type="password"
-             id="repeatPassword"
-             autoComplete="current-password"
-             value={repeatPassword}
-             onChange={(e) => {
-              setRepeatPassword(e.target.value);
-              setPasswordMismatch(false); // Resetujte stanje neuspešnog podudaranja kada korisnik menja ponovljenu lozinku
-              }}
-            />
-            {passwordMismatch && (
-              <Typography color="error" variant="body2" gutterBottom>
-                Lozinke se ne podudaraju.
-              </Typography>
-            )}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="grad"
-              label="Grad"
-              name="grad"
-              autoComplete="grad"
-              value={grad}
-              onChange={(e)=>setGrad(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="drzava"
-              label="Drzava"
-              name="drzava"
-              autoComplete="drzava"
-              value={drzava}
-              onChange={(e)=>setDrzava(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="broj"
-              label="Broj Telefona"
-              name="broj"
-              autoComplete="broj"
-              value={broj}
-              onChange={handleBrojChange}
-              error={brojError}
-              helperText={brojError ? 'Unesite desetocifren broj' : ''}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="info"
-              label="Dodatne infomracije"
-              name="info"
-              autoComplete="info"
-              value={info}
-              onChange={(e)=>setInfo(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Registruj se
-            </Button>
-            {errorMessage && (
-              <Typography color="error" variant="body2" gutterBottom>
-                {errorMessage}
-              </Typography>
-            )}
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+      </form>
+    </div>
   );
 }
