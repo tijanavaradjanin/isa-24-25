@@ -3475,3 +3475,110 @@ java.lang.ClassCastException: class com.developer.onlybuns.entity.Korisnik canno
 2025-07-20 23:01:44.743 DEBUG 15320 --- [SpringApplicationShutdownHook] o.e.i.p.DefaultLocalPersistenceService   : RootDirectory Unlocked
 2025-07-20 23:01:44.743 DEBUG 15320 --- [SpringApplicationShutdownHook] org.ehcache.core.spi.ServiceLocator      : All Services successfully stopped, 21 Services in 134ms
 2025-07-20 23:01:44.743 DEBUG 15320 --- [SpringApplicationShutdownHook] org.ehcache.core.EhcacheManager          : Close successful.
+2025-07-20 23:15:56.397  INFO 21360 --- [main] c.d.onlybuns.OnlyBunsApplication         : Starting OnlyBunsApplication using Java 17.0.13 on DESKTOP-UOVFG2R with PID 21360 (C:\Users\Zarko\Documents\TijanaFaks\IsaOnlyBuns\OnlyBunsApplication\target\classes started by Zarko in C:\Users\Zarko\Documents\TijanaFaks\IsaOnlyBuns)
+2025-07-20 23:15:56.402  INFO 21360 --- [main] c.d.onlybuns.OnlyBunsApplication         : No active profile set, falling back to default profiles: default
+2025-07-20 23:15:57.817  INFO 21360 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-20 23:15:57.977  INFO 21360 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 141 ms. Found 9 JPA repository interfaces.
+2025-07-20 23:15:59.085  INFO 21360 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'onlyBunsApplication' of type [com.developer.onlybuns.OnlyBunsApplication$$EnhancerBySpringCGLIB$$a2507528] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-20 23:15:59.325  INFO 21360 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@35f3a22c' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-20 23:15:59.347  INFO 21360 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-07-20 23:16:00.043  INFO 21360 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2025-07-20 23:16:00.066  INFO 21360 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-20 23:16:00.067  INFO 21360 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.48]
+2025-07-20 23:16:00.341  INFO 21360 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-07-20 23:16:00.341  INFO 21360 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3818 ms
+2025-07-20 23:16:01.656 DEBUG 21360 --- [main] org.ehcache.core.spi.ServiceLocator      : Starting 21 Services...
+2025-07-20 23:16:01.677 DEBUG 21360 --- [main] o.e.i.p.DefaultLocalPersistenceService   : RootDirectory Locked
+2025-07-20 23:16:01.680 DEBUG 21360 --- [main] o.e.c.i.s.DefaultStatisticsService       : Starting service
+2025-07-20 23:16:01.683 DEBUG 21360 --- [main] org.ehcache.core.spi.ServiceLocator      : All Services successfully started, 21 Services in 27ms
+2025-07-20 23:16:01.686 DEBUG 21360 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaAdresaCache' in EhcacheManager.
+2025-07-20 23:16:01.696 DEBUG 21360 --- [main] org.ehcache.impl.persistence.FileUtils   : Reusing C:\Users\Zarko\AppData\Local\Temp\onlybuns-test-cache\file
+2025-07-20 23:16:01.697 DEBUG 21360 --- [main] org.ehcache.impl.persistence.FileUtils   : Reusing C:\Users\Zarko\AppData\Local\Temp\onlybuns-test-cache\file\lokacijaAdresaCache_5bdd21a260379035791d75e2ee2b296f5f52bce1
+2025-07-20 23:16:01.703 DEBUG 21360 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@5b332439
+2025-07-20 23:16:01.707 DEBUG 21360 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.String> : org.ehcache.impl.serialization.StringSerializer@45b7c97f
+2025-07-20 23:16:01.728 DEBUG 21360 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@40dd552c
+2025-07-20 23:16:01.729 DEBUG 21360 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.String> : org.ehcache.impl.copy.IdentityCopier@33f4c769
+2025-07-20 23:16:01.753 DEBUG 21360 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-20 23:16:01.868 DEBUG 21360 --- [main] org.ehcache.impl.persistence.FileUtils   : Reusing C:\Users\Zarko\AppData\Local\Temp\onlybuns-test-cache\file\lokacijaAdresaCache_5bdd21a260379035791d75e2ee2b296f5f52bce1\offheap-disk-store
+2025-07-20 23:16:01.944  INFO 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-20 23:16:01.952 DEBUG 21360 --- [pool-1-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-20 23:16:01.952 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 7 ms to create off-heap storage of 10.0MB.
+2025-07-20 23:16:01.995 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-20 23:16:01.996 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-20 23:16:01.997 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-20 23:16:01.997 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-20 23:16:01.998 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-20 23:16:01.999 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-20 23:16:01.999 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-20 23:16:02.000 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-20 23:16:02.000 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-20 23:16:02.001 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-20 23:16:02.002 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-20 23:16:02.002 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-20 23:16:02.003 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-20 23:16:02.004 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-20 23:16:02.004 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-20 23:16:02.004 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-20 23:16:02.008  INFO 21360 --- [main] o.e.i.i.store.disk.OffHeapDiskStore      : The index for data file ehcache-disk-store.data is more recent than the data file itself by 27ms : this is harmless.
+2025-07-20 23:16:02.064  INFO 21360 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaAdresaCache' created in EhcacheManager.
+2025-07-20 23:16:02.064 DEBUG 21360 --- [main] org.ehcache.core.EhcacheManager          : Creating Cache 'lokacijaCache' in EhcacheManager.
+2025-07-20 23:16:02.065 DEBUG 21360 --- [main] org.ehcache.impl.persistence.FileUtils   : Reusing C:\Users\Zarko\AppData\Local\Temp\onlybuns-test-cache\file
+2025-07-20 23:16:02.065 DEBUG 21360 --- [main] org.ehcache.impl.persistence.FileUtils   : Reusing C:\Users\Zarko\AppData\Local\Temp\onlybuns-test-cache\file\lokacijaCache_0eca4ff098eeda006f1e887b682d61b98a4fe21c
+2025-07-20 23:16:02.066 DEBUG 21360 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <java.lang.Integer> : org.ehcache.impl.serialization.IntegerSerializer@44abdb1f
+2025-07-20 23:16:02.066 DEBUG 21360 --- [main] o.e.i.i.s.s.DefaultSerializationProvider : Serializer for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.serialization.PlainJavaSerializer@62108cd3
+2025-07-20 23:16:02.067 DEBUG 21360 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <java.lang.Integer> : org.ehcache.impl.copy.IdentityCopier@7cd1ec54
+2025-07-20 23:16:02.067 DEBUG 21360 --- [main] o.e.i.i.spi.copy.DefaultCopyProvider     : Copier for <com.developer.onlybuns.entity.Lokacija> : org.ehcache.impl.copy.IdentityCopier@77ab5214
+2025-07-20 23:16:02.067 DEBUG 21360 --- [main] o.e.i.internal.store.heap.OnHeapStore    : TTL expiration strategy detected
+2025-07-20 23:16:02.076 DEBUG 21360 --- [main] org.ehcache.impl.persistence.FileUtils   : Reusing C:\Users\Zarko\AppData\Local\Temp\onlybuns-test-cache\file\lokacijaCache_0eca4ff098eeda006f1e887b682d61b98a4fe21c\offheap-disk-store
+2025-07-20 23:16:02.080  INFO 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating 10.0MB in chunks
+2025-07-20 23:16:02.084 DEBUG 21360 --- [pool-2-thread-1] .e.s.o.t.o.p.UpfrontAllocatingPageSource : 10.0MB chunk allocated
+2025-07-20 23:16:02.085 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Took 4 ms to create off-heap storage of 10.0MB.
+2025-07-20 23:16:02.085 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &0
+2025-07-20 23:16:02.085 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &512
+2025-07-20 23:16:02.086 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1024
+2025-07-20 23:16:02.086 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &1536
+2025-07-20 23:16:02.086 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2048
+2025-07-20 23:16:02.086 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &2560
+2025-07-20 23:16:02.087 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3072
+2025-07-20 23:16:02.088 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &3584
+2025-07-20 23:16:02.088 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4096
+2025-07-20 23:16:02.089 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &4608
+2025-07-20 23:16:02.089 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5120
+2025-07-20 23:16:02.089 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &5632
+2025-07-20 23:16:02.089 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6144
+2025-07-20 23:16:02.090 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &6656
+2025-07-20 23:16:02.091 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7168
+2025-07-20 23:16:02.091 DEBUG 21360 --- [main] .e.s.o.t.o.p.UpfrontAllocatingPageSource : Allocating a 512B buffer from chunk 0 &7680
+2025-07-20 23:16:02.094  INFO 21360 --- [main] o.e.i.i.store.disk.OffHeapDiskStore      : The index for data file ehcache-disk-store.data is more recent than the data file itself by 6926037ms : this is harmless.
+2025-07-20 23:16:02.124  INFO 21360 --- [main] org.ehcache.core.EhcacheManager          : Cache 'lokacijaCache' created in EhcacheManager.
+2025-07-20 23:16:02.124 DEBUG 21360 --- [main] o.e.c.i.s.DefaultStatisticsService       : Moving from UNINITIALIZED to AVAILABLE
+2025-07-20 23:16:02.125 DEBUG 21360 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaAdresaCache
+2025-07-20 23:16:02.152 DEBUG 21360 --- [main] o.e.c.i.s.DefaultStatisticsService       : Cache added lokacijaCache
+2025-07-20 23:16:02.171 DEBUG 21360 --- [main] org.ehcache.core.EhcacheManager          : Initialize successful.
+2025-07-20 23:16:02.206  INFO 21360 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-test.xml,Cache=lokacijaAdresaCache
+2025-07-20 23:16:02.209  INFO 21360 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-test.xml,Cache=lokacijaCache
+2025-07-20 23:16:02.216  INFO 21360 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-test.xml,Cache=lokacijaAdresaCache
+2025-07-20 23:16:02.217  INFO 21360 --- [main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=file./C./Users/Zarko/Documents/TijanaFaks/IsaOnlyBuns/OnlyBunsApplication/target/classes/ehcache-test.xml,Cache=lokacijaCache
+2025-07-20 23:16:02.502  INFO 21360 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-20 23:16:02.632  INFO 21360 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2025-07-20 23:16:02.982  INFO 21360 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-07-20 23:16:03.214  INFO 21360 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-20 23:16:03.568  INFO 21360 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-20 23:16:03.611  INFO 21360 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2025-07-20 23:16:05.904  INFO 21360 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-07-20 23:16:05.927  INFO 21360 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-20 23:16:08.645  WARN 21360 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-20 23:16:09.833  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6b334a1, org.springframework.security.web.context.SecurityContextPersistenceFilter@49d658bf, org.springframework.security.web.header.HeaderWriterFilter@182ce25e, org.springframework.web.filter.CorsFilter@57ab5033, org.springframework.security.web.authentication.logout.LogoutFilter@71ed3bc8, com.developer.onlybuns.securityauth.TokenAuthenticationFilter@64df3f4b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@68893394, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3a89f2a0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@54a98439, org.springframework.security.web.session.SessionManagementFilter@7fdf32a4, org.springframework.security.web.access.ExceptionTranslationFilter@4ed7fb78, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2b1f0667]
+2025-07-20 23:16:09.860  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/auth/login', POST] with []
+2025-07-20 23:16:09.860  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/', GET] with []
+2025-07-20 23:16:09.861  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**', GET] with []
+2025-07-20 23:16:09.861  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/*.html', GET] with []
+2025-07-20 23:16:09.861  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='favicon.ico', GET] with []
+2025-07-20 23:16:09.861  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.html', GET] with []
+2025-07-20 23:16:09.862  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.css', GET] with []
+2025-07-20 23:16:09.862  INFO 21360 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/**/*.js', GET] with []
+2025-07-20 23:16:10.655  INFO 21360 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2025-07-20 23:16:10.685  INFO 21360 --- [main] c.d.onlybuns.OnlyBunsApplication         : Started OnlyBunsApplication in 15.068 seconds (JVM running for 16.484)
+2025-07-20 23:16:16.795  INFO 21360 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-20 23:16:16.796  INFO 21360 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-07-20 23:16:16.799  INFO 21360 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
